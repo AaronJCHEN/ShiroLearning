@@ -42,6 +42,7 @@
   <logger name="org.junit" level="DEBUG"/>
   <logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG"/>
   <logger name="java.sql.Connection" level="DEBUG"/>
+  <logger name="com.apache.shiro" level="DEBUG"></logger>
   <root level="INFO">
     <appender-ref ref="stdout"/>
     <appender-ref ref="file"/>

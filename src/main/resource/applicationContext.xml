@@ -68,7 +68,7 @@
         <property name="filterChainDefinitions">  
             <value>  
                 /auth/*=anon  
-                /index=authc  
+                /index/*=authc  
             </value>  
         </property>  
     </bean>  

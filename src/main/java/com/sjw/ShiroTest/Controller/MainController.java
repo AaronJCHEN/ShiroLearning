@@ -6,12 +6,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/auth")
-public class AuthController {
-	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView loginUser(){
-		System.out.println("Login");
+@RequestMapping("/index")
+public class MainController {
+	@RequestMapping(value="/init" , method = RequestMethod.GET)
+	public ModelAndView indexInit(){
+		System.out.println("aaa");
 		return null;
 	}
 
