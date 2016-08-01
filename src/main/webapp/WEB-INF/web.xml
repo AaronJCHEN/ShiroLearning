@@ -55,12 +55,12 @@
 	
 	<servlet-mapping>
 		<servlet-name>defaultDispatcher</servlet-name>
-		<url-pattern>/loginInit</url-pattern>
+		<url-pattern>/login/init</url-pattern>
 	</servlet-mapping>
 	
 	
 	<welcome-file-list>
-		<welcome-file>loginInit</welcome-file>
+		<welcome-file>login/init</welcome-file>
 	</welcome-file-list>
 	
 </web-app>
