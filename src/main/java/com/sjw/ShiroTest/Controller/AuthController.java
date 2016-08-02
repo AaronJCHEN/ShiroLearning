@@ -11,8 +11,11 @@ public class AuthController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView loginUser(){
-		System.out.println("Login");
-		return null;
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("login.definition");
+		return mv;
 	}
+	
+	
 
 }

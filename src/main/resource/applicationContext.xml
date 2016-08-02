@@ -22,7 +22,7 @@
     </bean>
     
     <!-- enable transaction demarcation with annotations -->
-    <tx:annotation-driven></tx:annotation-driven>
+    <tx:annotation-driven />
     <context:annotation-config />
     
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -67,7 +67,7 @@
         <property name="unauthorizedUrl" value="/"></property>  
         <property name="filterChainDefinitions">  
             <value>  
-                /auth/*=anon  
+                /auth/*=anon
                 /index/*=authc  
             </value>  
         </property>  
@@ -83,6 +83,15 @@
         class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">  
         <property name="securityManager" ref="securityManager"></property>  
     </bean>
+    
+    <!-- Tiles part -->
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+    	<property name="definitions">
+       		<list>
+            	<value>/WEB-INF/tiles-defs.xml</value>
+        	</list>
+    	</property>
+	</bean>
     
     <!--  Dao part -->
     
