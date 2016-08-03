@@ -17,7 +17,7 @@
     <link href="/ShiroTest/css/signin.css" rel="stylesheet">
     <script type="text/javascript" src="/ShiroTest/js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="/ShiroTest/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/ShiroTest/js/init.js"></script>
+    <script type="text/javascript" src="/ShiroTest/js/loginInit.js"></script>
   </head>
   <body>
     <div class="container">
@@ -43,7 +43,7 @@
               <h4 id="gridSystemModalLabel" class="modal-title">Please Input information</h4>
             </div>
             <div class="modal-body">
-              <form id="register" method="post" action="register" class="form-group">
+              <form id="register" method="post" action="auth/register" class="form-group">
                 <div class="form-group">
                   <label for="regName">Username</label>
                   <input id="regName" type="text" placeholder="Username" required="" autofocus="" name="username" class="form-control">
@@ -56,7 +56,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
-              <button id="rgstsbmt" type="button" class="btn btn-primary">submit</button>
+              <button id="rgstsbmt" type="button" class="btn btn-primary">Submit</button>
             </div>
           </div>
           <!-- /.modal-content-->

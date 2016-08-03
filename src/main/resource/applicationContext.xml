@@ -94,5 +94,7 @@
 	</bean>
     
     <!--  Dao part -->
-    
+    <bean id="authDao" class="com.sjw.ShiroTest.DaoImpl.AuthDaoImpl">
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
 </beans>

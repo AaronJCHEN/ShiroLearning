@@ -1,5 +1,7 @@
 package com.sjw.ShiroTest.Service;
 
-public interface AuthService {
+import com.sjw.ShiroTest.Pojo.UserPojo;
 
+public interface AuthService {
+	public void registerService(UserPojo user);
 }

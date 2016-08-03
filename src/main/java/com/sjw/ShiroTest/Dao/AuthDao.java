@@ -1,5 +1,7 @@
 package com.sjw.ShiroTest.Dao;
 
-public interface AuthDao {
+import com.sjw.ShiroTest.Pojo.UserPojo;
 
+public interface AuthDao {
+	public void registerUserDao(UserPojo user);
 }

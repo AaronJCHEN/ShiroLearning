@@ -9,7 +9,8 @@ public class UserPojo {
 	private boolean access;
 	private Date create_date;
 	private Date modified_date;
-	private String[] roles;
+	private String role;
+	private int access_level;
 	
 	public int getId() {
 		return id;
@@ -47,11 +48,17 @@ public class UserPojo {
 	public void setModified_date(Date modified_date) {
 		this.modified_date = modified_date;
 	}
-	public String[] getRoles() {
-		return roles;
+	public String getRole() {
+		return role;
 	}
-	public void setRoles(String[] roles) {
-		this.roles = roles;
+	public void setRole(String role) {
+		this.role = role;
+	}
+	public int getAccess_level() {
+		return access_level;
+	}
+	public void setAccess_level(int access_level) {
+		this.access_level = access_level;
 	}
 	
 }
