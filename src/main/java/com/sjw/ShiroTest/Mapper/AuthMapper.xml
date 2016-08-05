@@ -8,7 +8,5 @@
 			#{access_level,jdbcType=INTEGER},#{create_date,jdbcType=DATE},
 			#{modified_date,jdbcType=DATE}
 		);
-		INSERT INTO USER_ROLE(USER_ID,ROLE_ID) VALUES((SELECT ID FROM USER WHERE USERNAME=#{username,jdbcType=VARCHAR}),
-		(SELECT ID FROM ROLE WHERE NAME=#{role,jdbcType=VARCHAR}))
 	</insert>	
 </mapper>

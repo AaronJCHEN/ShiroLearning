@@ -30,6 +30,10 @@
         <property name="configLocation" value="classpath:sqlMapConfig.xml" />
     </bean>
     
+    <bean id="sqlsession" class="org.mybatis.spring.SqlSessionTemplate">
+    	<constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+    
     <!-- Shiro Part -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.Md5CredentialsMatcher"></bean>
@@ -94,7 +98,7 @@
 	</bean>
     
     <!--  Dao part -->
-    <bean id="authDao" class="com.sjw.ShiroTest.DaoImpl.AuthDaoImpl">
+    <!-- <bean id="authDao" class="com.sjw.ShiroTest.DaoImpl.AuthDaoImpl">
     	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
-    </bean>
+    </bean> -->
 </beans>
