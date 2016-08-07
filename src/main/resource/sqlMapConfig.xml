@@ -6,6 +6,6 @@
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="com/sjw/ShiroTest/Mapper/AuthMapper.xml"/>
+		<mapper resource="Mapper/AuthMapper.xml"/>
 	</mappers>
 </configuration>
