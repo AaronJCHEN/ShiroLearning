@@ -3,3 +3,4 @@
 /src/main/resource/database.properties
 .idea/
 ShiroTest.iml
+.DS_Store

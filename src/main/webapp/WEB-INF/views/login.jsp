@@ -17,7 +17,14 @@
     <link href="/ShiroTest/css/signin.css" rel="stylesheet">
     <script type="text/javascript" src="/ShiroTest/js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="/ShiroTest/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/ShiroTest/js/loginInit.js"></script>
+    <%--<script type="text/javascript" src="/ShiroTest/js/loginInit.js"></script>--%>
+    <script type="text/javascript">
+      $(function(){
+        $("#rgstsbmt").click(function(){
+          alert("aaa");
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="container">
