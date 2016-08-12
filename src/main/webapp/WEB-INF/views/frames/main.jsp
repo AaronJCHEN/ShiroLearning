@@ -7,10 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<script type="text/javascript" src="js/tools/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="js/tools/bootstrap.min.js"></script>
-<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+<script type="text/javascript" src="/ShiroTest/js/tools/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/ShiroTest/js/tools/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/ShiroTest/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/ShiroTest/css/font-awesome.min.css" />
 <title>System</title>
 </head>
 <body>

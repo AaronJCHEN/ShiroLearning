@@ -17,18 +17,11 @@
     <link href="/ShiroTest/css/signin.css" rel="stylesheet">
     <script type="text/javascript" src="/ShiroTest/js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="/ShiroTest/js/bootstrap.min.js"></script>
-    <%--<script type="text/javascript" src="/ShiroTest/js/loginInit.js"></script>--%>
-    <script type="text/javascript">
-      $(function(){
-        $("#rgstsbmt").click(function(){
-          alert("aaa");
-        });
-      });
-    </script>
+    <script type="text/javascript" src="/ShiroTest/js/loginInit.js"></script>
   </head>
   <body>
     <div class="container">
-      <form id="login" method="post" action="submit" class="form-signin">
+      <form id="login" method="post" action="auth/login" class="form-signin">
         <h2 class="form-signin-heading">Please sign in</h2>
         <label for="inputEmail" class="sr-only">Username</label>
         <input id="inputEmail" type="text" placeholder="Username" required="" autofocus="" name="username" class="form-control">
