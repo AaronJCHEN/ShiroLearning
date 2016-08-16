@@ -15,6 +15,12 @@ public class AuthDaoImpl implements AuthDao {
 	@Override
 	public void registerUserDao(UserPojo user) {
 		this.sqlSession.insert("createUser",user);
+		
+	}
+	@Override
+	public void registerRolesDao(UserPojo user) {
+		this.sqlSession.insert("createUserRole", user);
+		
 	}
 
 }

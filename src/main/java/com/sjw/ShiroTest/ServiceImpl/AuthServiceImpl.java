@@ -13,8 +13,13 @@ public class AuthServiceImpl implements AuthService {
 	AuthDao authDao;
 
 	@Override
-	public void registerService(UserPojo user) {
+	public void registerUserService(UserPojo user) {
 		authDao.registerUserDao(user);
+	}
+
+	@Override
+	public void registerRolesService(UserPojo user) {
+		authDao.registerRolesDao(user);
 	}
 
 }

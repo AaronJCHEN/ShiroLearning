@@ -4,4 +4,5 @@ import com.sjw.ShiroTest.Pojo.UserPojo;
 
 public interface AuthDao {
 	public void registerUserDao(UserPojo user);
+	public void registerRolesDao(UserPojo user);
 }

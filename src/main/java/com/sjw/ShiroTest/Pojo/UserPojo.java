@@ -1,6 +1,7 @@
 package com.sjw.ShiroTest.Pojo;
 
 import java.util.Date;
+import java.util.List;
 
 public class UserPojo {
 	private int id;
@@ -9,7 +10,7 @@ public class UserPojo {
 	private boolean access;
 	private Date create_date;
 	private Date modified_date;
-	private String role;
+	private List<String> roles;
 	private int access_level;
 	
 	public int getId() {
@@ -48,11 +49,11 @@ public class UserPojo {
 	public void setModified_date(Date modified_date) {
 		this.modified_date = modified_date;
 	}
-	public String getRole() {
-		return role;
+	public List<String> getRoles() {
+		return roles;
 	}
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
 	}
 	public int getAccess_level() {
 		return access_level;

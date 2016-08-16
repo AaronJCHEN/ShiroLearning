@@ -1,6 +1,8 @@
 package com.sjw.ShiroTest.Controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -36,8 +38,18 @@ public class AuthController {
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
 		Subject subject = SecurityUtils.getSubject();
 		subject.login(token);
-		if(subject.isAuthenticated())
+		if(subject.isAuthenticated()){
+			if(subject.hasRole("USER")){
+				System.out.println("Has Role User");
+			}
+			if(subject.isPermitted("QUERY")){
+				System.out.println("Has Query Permisson");
+			}
+			else{
+				System.out.println("Hasn't Query Permission");
+			}
 			mv.setViewName("index.definition");
+		}
 		else
 			mv.setViewName("login.definition");
 		return mv;
@@ -48,10 +60,14 @@ public class AuthController {
 		ModelAndView mv = new ModelAndView();
 		user.setPassword(new Md5Hash(user.getPassword()).toHex());
 		user.setAccess_level(RoleType.USER.getRole());
-		user.setRole("USER");
+		List<String> roles = new ArrayList<String>();
+		roles.add("USER");
+		user.setRoles(roles);
 		user.setCreate_date(new Date());
 		user.setModified_date(new Date());
-		authService.registerService(user);
+		authService.registerUserService(user);
+		authService.registerRolesService(user);
+		mv.setViewName("index.definition");
 		return mv;
 	}
 	

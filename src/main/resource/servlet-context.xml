@@ -37,5 +37,6 @@
 	<context:component-scan base-package="com.sjw.ShiroTest.ServiceImpl" />
 	<context:component-scan base-package="com.sjw.ShiroTest.DaoImpl" />
 	<context:component-scan base-package="com.sjw.ShiroTest.Utils" />
+	<context:component-scan base-package="com.sjw.ShiroTest.Pojo" />
 	
 </beans:beans>
