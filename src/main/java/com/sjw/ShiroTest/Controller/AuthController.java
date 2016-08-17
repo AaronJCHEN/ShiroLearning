@@ -35,23 +35,20 @@ public class AuthController {
 	@RequestMapping(value="/login", method = RequestMethod.POST)
 	public ModelAndView loginUserForm(@ModelAttribute UserPojo user){
 		ModelAndView mv = new ModelAndView();
-		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
 		Subject subject = SecurityUtils.getSubject();
-		subject.login(token);
-		if(subject.isAuthenticated()){
-			if(subject.hasRole("USER")){
-				System.out.println("Has Role User");
+		if(!subject.isAuthenticated()){
+			UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
+			subject.login(token);
+			if(subject.isAuthenticated()){
+				mv.addObject("username", user.getUsername());
+				mv.setViewName("index.definition");
 			}
-			if(subject.isPermitted("QUERY")){
-				System.out.println("Has Query Permisson");
-			}
-			else{
-				System.out.println("Hasn't Query Permission");
-			}
-			mv.setViewName("index.definition");
+			else
+				mv.setViewName("login.definition");
 		}
-		else
-			mv.setViewName("login.definition");
+		else{
+			System.out.print("Has accessed");
+		}
 		return mv;
 	}
 	
@@ -59,7 +56,6 @@ public class AuthController {
 	public ModelAndView registerUserForm(@ModelAttribute UserPojo user){
 		ModelAndView mv = new ModelAndView();
 		user.setPassword(new Md5Hash(user.getPassword()).toHex());
-		user.setAccess_level(RoleType.USER.getRole());
 		List<String> roles = new ArrayList<String>();
 		roles.add("USER");
 		user.setRoles(roles);
@@ -68,6 +64,15 @@ public class AuthController {
 		authService.registerUserService(user);
 		authService.registerRolesService(user);
 		mv.setViewName("index.definition");
+		return mv;
+	}
+	
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	public ModelAndView logoutUser(){
+		ModelAndView mv = new ModelAndView();
+		Subject subject = SecurityUtils.getSubject();
+		subject.logout();
+		mv.setViewName("login.definition");
 		return mv;
 	}
 	

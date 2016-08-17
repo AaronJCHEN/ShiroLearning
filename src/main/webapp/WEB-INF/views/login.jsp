@@ -21,7 +21,7 @@
   </head>
   <body>
     <div class="container">
-      <form id="login" method="post" action="auth/login" class="form-signin">
+      <form id="login" method="post" action="/ShiroTest/auth/login" class="form-signin">
         <h2 class="form-signin-heading">Please sign in</h2>
         <label for="inputEmail" class="sr-only">Username</label>
         <input id="inputEmail" type="text" placeholder="Username" required="" autofocus="" name="username" class="form-control">
@@ -43,7 +43,7 @@
               <h4 id="gridSystemModalLabel" class="modal-title">Please Input information</h4>
             </div>
             <div class="modal-body">
-              <form id="register" method="post" action="auth/register" class="form-group">
+              <form id="register" method="post" action="/ShiroTest/auth/register" class="form-group">
                 <div class="form-group">
                   <label for="regName">Username</label>
                   <input id="regName" type="text" placeholder="Username" required="" autofocus="" name="username" class="form-control">

@@ -73,7 +73,7 @@
         <property name="userRolesQuery"  
             value="SELECT R.NAME FROM USER AS U LEFT JOIN USER_ROLE AS UR ON U.ID = UR.USER_ID LEFT JOIN ROLE AS R ON UR.ROLE_ID = R.ID WHERE U.USERNAME= ?"></property>  
         <property name="permissionsQuery" 
-        	value="SELECT P.PERMISSION FROM PERMISSION AS P WHERE ACCESS_LEVEL &lt;= (SELECT ACCESS_LEVEL FROM USER WHERE USERNAME=?)"></property>
+        	value="SELECT P.PERMISSION FROM PERMISSION AS P WHERE P.ACCESS_LEVEL &lt;= (SELECT R.ACCESS_LEVEL FROM ROLE AS R WHERE R.NAME=?)"></property>
     </bean>
     
     <!-- Shiro安全管理器 -->

@@ -5,8 +5,7 @@
 	<insert id="createUser" parameterType="User">
 		INSERT INTO USER(USERNAME,PASSWORD,ACCESS,CREATE_DATE,MODIFIED_DATE) VALUES(
 			#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},
-			#{access_level,jdbcType=INTEGER},#{create_date,jdbcType=DATE},
-			#{modified_date,jdbcType=DATE}
+			#{create_date,jdbcType=DATE},#{modified_date,jdbcType=DATE}
 		);
 	</insert>
 	
