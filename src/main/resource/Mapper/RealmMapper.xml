@@ -5,4 +5,13 @@
 	<select id="getPswd4User" parameterType = "string">
 		SELECT PASSWORD FROM USER WHERE USERNAME = #{username}
 	</select>
+
+	<select id="getPmion4User" parameterType="string">
+		SELECT
+			P.PERMISSION
+		FROM
+			PERMISSION AS P
+		WHERE
+			P.ACCESS_LEVEL &lt;= (SELECT R.ACCESS_LEVEL FROM ROLE AS R WHERE R.NAME=?)
+	</select>
 </mapper>

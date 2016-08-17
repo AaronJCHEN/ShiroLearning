@@ -2,9 +2,7 @@ package com.sjw.ShiroTest.Utils;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.shiro.authc.AccountException;
@@ -14,10 +12,15 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.config.ConfigurationException;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -29,6 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class RealmForShiro extends JdbcRealm {
 	@Autowired
 	SqlSession sqlSession;
+
+    private static final Logger log = LoggerFactory.getLogger(RealmForShiro.class);
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
@@ -64,18 +69,53 @@ public class RealmForShiro extends JdbcRealm {
             if (password == null) {
                 throw new UnknownAccountException("No account found for user [" + username + "]");
             }
+
+            info = new SimpleAuthenticationInfo(username, password.toCharArray(), getName());
+            if (salt != null) {
+                info.setCredentialsSalt(ByteSource.Util.bytes(salt));
+            }
         }
-        catch(AuthenticationException e){
-        	e.printStackTrace();
+        catch(Exception e){
+            final String message = "There was a SQL error while authenticating user [" + username + "]";
+            if (log.isErrorEnabled()) {
+                log.error(message, e);
+            }
+
+            // Rethrow any SQL errors as an authentication exception
+            throw new AuthenticationException(message, e);
         }
-        
-		return null;
+
+        return info;
 	}
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		// TODO Auto-generated method stub
-		return null;
+        if (principals == null){
+            throw new AuthorizationException("PrincipalCollection method argument cannot be null.");
+        }
+
+        String username = (String) getAvailablePrincipal(principals);
+
+        Set<String> roleNames = null;
+        Set<String> permissions = null;
+        try{
+            roleNames = getRoleNamesForUser(username);
+            if (permissionsLookupEnabled) {
+                permissions = getPermissions(username, roleNames);
+            }
+        }
+        catch (Exception e){
+            final String message = "There was a SQL error while authorizing user [" + username + "]";
+            if (log.isErrorEnabled()) {
+                log.error(message, e);
+            }
+
+            // Rethrow any SQL errors as an authorization exception
+            throw new AuthorizationException(message, e);
+        }
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roleNames);
+        info.setStringPermissions(permissions);
+        return info;
 	}
 
 	protected Set<String> getRoleNamesForUser(String username) throws SQLException {
@@ -85,13 +125,23 @@ public class RealmForShiro extends JdbcRealm {
 
 	protected Set<String> getPermissions(String username, Collection<String> roleNames)
 			throws SQLException {
-		// TODO Auto-generated method stub
+        Set<String> permissions = new LinkedHashSet<String>();
+        for (String roleName : roleNames) {
+            // TODO Auto-generated method stub
+        }
 		return null;
 	}
 	
 	private String[] getPasswordForUser(String username){
 		List<String> rl = this.sqlSession.selectList("getPswd4User",username);
-		return (String[]) rl.stream().toArray();
+		String[] result = new String[rl.size()];
+        int times = 0;
+        Iterator i = rl.iterator();
+        while (i.hasNext()){
+            result[times] = i.next().toString();
+            times++;
+        }
+        return result;
 	}
 
 }
