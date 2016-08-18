@@ -44,10 +44,10 @@
   <logger name="java.sql.Connection" level="DEBUG"/>
   <logger name="com.apache.shiro" level="DEBUG"></logger>
   <logger name="com.apache.tiles" level="DEBUG"></logger>
-  <logger name="druid.sql.DataSource" level="DEBUG"></logger>
+  <!-- <logger name="druid.sql.DataSource" level="DEBUG"></logger>
   <logger name="druid.sql.Connection" level="DEBUG"></logger>
   <logger name="druid.sql.Statement" level="DEBUG"></logger>
-  <logger name="druid.sql.ResultSet" level="DEBUG"></logger>
+  <logger name="druid.sql.ResultSet" level="DEBUG"></logger> -->
   <root level="INFO">
     <appender-ref ref="stdout"/>
     <appender-ref ref="file"/>

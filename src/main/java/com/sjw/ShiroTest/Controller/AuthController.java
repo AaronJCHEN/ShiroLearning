@@ -34,7 +34,7 @@ public class AuthController {
 	
 	@RequestMapping(value="/login", method = RequestMethod.POST)
 	public ModelAndView loginUserForm(@ModelAttribute UserPojo user){
-		ModelAndView mv = new ModelAndView();
+		/*ModelAndView mv = new ModelAndView();
 		Subject subject = SecurityUtils.getSubject();
 		if(!subject.isAuthenticated()){
 			UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
@@ -48,7 +48,25 @@ public class AuthController {
 		}
 		else{
 			System.out.print("Has accessed");
+		}*/
+		ModelAndView mv = new ModelAndView();
+		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
+		Subject subject = SecurityUtils.getSubject();
+		subject.login(token);
+		if(subject.isAuthenticated()){
+			if(subject.hasRole("USER")){
+				System.out.println("Has Role User");
+				if(subject.isPermitted("QUERY")){
+					System.out.println("Has Query Permisson");
+				}
+				else{
+					System.out.println("Hasn't Query Permission");
+				}
+				mv.setViewName("index.definition");
+			}
 		}
+		else
+			mv.setViewName("login.definition");
 		return mv;
 	}
 	

@@ -119,24 +119,42 @@ public class RealmForShiro extends JdbcRealm {
 	}
 
 	protected Set<String> getRoleNamesForUser(String username) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Set<String> roleNames = new LinkedHashSet<String>();
+		List<String> role_list = this.sqlSession.selectList("getRoles4User", username);
+		if(!role_list.isEmpty()){
+			Iterator<String> i = role_list.iterator();
+			while(i.hasNext()){
+				String roleName = i.next();
+				if (roleName != null) {
+                    roleNames.add(roleName);
+                } else {
+                    if (log.isWarnEnabled()) {
+                        log.warn("Null role name found while retrieving role names for user [" + username + "]");
+                    }
+                }
+			}
+		}
+		return roleNames;
 	}
 
 	protected Set<String> getPermissions(String username, Collection<String> roleNames)
 			throws SQLException {
         Set<String> permissions = new LinkedHashSet<String>();
         for (String roleName : roleNames) {
-            // TODO Auto-generated method stub
+            List<String> permisson_list = this.sqlSession.selectList("getPmion4User", roleName);
+            Iterator<String> i = permisson_list.iterator();
+            while(i.hasNext()){
+            	permissions.add(i.next());
+            }
         }
-		return null;
+		return permissions;
 	}
 	
 	private String[] getPasswordForUser(String username){
 		List<String> rl = this.sqlSession.selectList("getPswd4User",username);
 		String[] result = new String[rl.size()];
         int times = 0;
-        Iterator i = rl.iterator();
+        Iterator<String> i = rl.iterator();
         while (i.hasNext()){
             result[times] = i.next().toString();
             times++;

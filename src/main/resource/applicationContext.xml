@@ -64,7 +64,7 @@
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.Md5CredentialsMatcher"></bean>
     <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"></bean>
-    <bean id="jdbcRealm" class="org.apache.shiro.realm.jdbc.JdbcRealm">  
+    <!-- <bean id="jdbcRealm" class="org.apache.shiro.realm.jdbc.JdbcRealm">  
         <property name="credentialsMatcher" ref="credentialsMatcher"></property>  
         <property name="permissionsLookupEnabled" value="true"></property>  
         <property name="dataSource" ref="dataSource"></property>  
@@ -74,11 +74,16 @@
             value="SELECT R.NAME FROM USER AS U LEFT JOIN USER_ROLE AS UR ON U.ID = UR.USER_ID LEFT JOIN ROLE AS R ON UR.ROLE_ID = R.ID WHERE U.USERNAME= ?"></property>  
         <property name="permissionsQuery" 
         	value="SELECT P.PERMISSION FROM PERMISSION AS P WHERE P.ACCESS_LEVEL &lt;= (SELECT R.ACCESS_LEVEL FROM ROLE AS R WHERE R.NAME=?)"></property>
+    </bean> -->
+    <bean id="myJdbcRealm" class="com.sjw.ShiroTest.Utils.RealmForShiro">
+    	<property name="credentialsMatcher" ref="credentialsMatcher"></property>  
+        <property name="permissionsLookupEnabled" value="true"></property>  
+        <property name="dataSource" ref="dataSource"></property>
     </bean>
     
     <!-- Shiro安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
-        <property name="realm" ref="jdbcRealm"></property>  
+        <property name="realm" ref="myJdbcRealm"></property>  
         <property name="cacheManager" ref="cacheManager"></property>  
     </bean>
     
@@ -90,7 +95,7 @@
         <!-- Shiro的核心安全接口，这个属性是必须的 -->  
         <property name="securityManager" ref="securityManager"></property>  
         <!-- 要求登录时的链接(登录页面地址)，非必须的属性，默认会自动寻找Web工程根目录下的"/login.jsp"页面 -->  
-        <property name="loginUrl" value="/auth/login"></property>  
+        <property name="loginUrl" value="/shiroTest/auth/login"></property>  
         <!-- 登录成功后要跳转的连接(本例中此属性用不到，因为登录成功后的处理逻辑在LoginController里硬编码) -->  
         <!-- <property name="successUrl" value="/" ></property> -->  
         <!-- 用户访问未对其授权的资源时，所显示的连接 -->  
@@ -98,7 +103,7 @@
         <property name="filterChainDefinitions">  
             <value>  
                 /auth/*=anon
-                /index/*=authc  
+                /druid/*=authc,roles[MANAGER]
             </value>  
         </property>  
     </bean>  

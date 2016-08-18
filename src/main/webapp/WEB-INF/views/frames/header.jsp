@@ -19,7 +19,7 @@
     <ul class="nav navbar-nav navbar-right">
       <li><a id="loginname">${username }</a></li>
       <shiro:hasRole name="MANAGER">
-      	<li><a id="backend">Backend</a></li>
+      	<li><a id="backend" href="/ShiroTest/druid">Backend</a></li>
       </shiro:hasRole>
       <li><a href="logout">Logout</a></li>
     </ul>

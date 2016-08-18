@@ -7,5 +7,6 @@
 	
 	<mappers>
 		<mapper resource="Mapper/AuthMapper.xml"/>
+		<mapper resource="Mapper/RealmMapper.xml"/>
 	</mappers>
 </configuration>
