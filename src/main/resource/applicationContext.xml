@@ -60,10 +60,22 @@
     	<constructor-arg index="0" ref="sqlSessionFactory"/>
     </bean>
     
+    <!-- ehcache part -->
+	<bean id="ehCacheManager"  
+        class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">  
+        <property name="configLocation" value="classpath:ehcache.xml" />  
+        <property name="shared" value="true"></property> <!-- 这里是关键！！！没有必错  -->  
+    </bean>  
+
+    <!-- 缓存管理器 使用Ehcache实现 -->  
+    <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">  
+        <property name="cacheManager" ref="ehCacheManager" />  
+    </bean>
+    
     <!-- Shiro Part -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.Md5CredentialsMatcher"></bean>
-    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"></bean>
+    <!-- <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"></bean> -->
     <!-- <bean id="jdbcRealm" class="org.apache.shiro.realm.jdbc.JdbcRealm">  
         <property name="credentialsMatcher" ref="credentialsMatcher"></property>  
         <property name="permissionsLookupEnabled" value="true"></property>  
@@ -84,7 +96,7 @@
     <!-- Shiro安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
         <property name="realm" ref="myJdbcRealm"></property>  
-        <property name="cacheManager" ref="cacheManager"></property>  
+        <property name="cacheManager" ref="ehCacheManager"></property>  
     </bean>
     
         <!--   
@@ -127,7 +139,7 @@
         	</list>
     	</property>
 	</bean>
-    
+	
     <!--  Dao part -->
     <!-- <bean id="authDao" class="com.sjw.ShiroTest.DaoImpl.AuthDaoImpl">
     	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
