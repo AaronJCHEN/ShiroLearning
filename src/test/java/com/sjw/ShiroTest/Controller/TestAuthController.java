@@ -5,6 +5,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.sjw.ShiroTest.Pojo.UserPojo;
+
 import static org.junit.Assert.*;
 
 /**
@@ -15,7 +17,7 @@ import static org.junit.Assert.*;
 public class TestAuthController {
     @Test
     public void loginUser() throws Exception {
-
+    	UserPojo user = new UserPojo();
     }
 
 }

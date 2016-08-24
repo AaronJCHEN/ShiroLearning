@@ -1,4 +1,4 @@
-package com.sjw.ShiroTest.Utils;
+package com.sjw.ShiroTest.Settings;
 
 import java.sql.Connection;
 import java.sql.SQLException;

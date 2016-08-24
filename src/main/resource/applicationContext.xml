@@ -12,11 +12,6 @@
     	<property name="location" value="classpath:database.properties"/>
     </bean>  
 	
-	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.sqlite.JDBC" />
-        <property name="url" value="${jdbc.location}" />
-    </bean> -->
-    
     <!-- Druid connection pool -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
 	    <property name="url" value="${jdbc.location}" />
@@ -33,7 +28,7 @@
 	    <property name="timeBetweenEvictionRunsMillis" value="60000" />
 	    <property name="minEvictableIdleTimeMillis" value="300000" />
 	
-	    <property name="testWhileIdle" value="true" />
+	    <property name="testWhileIdle" value="false" />
 	    <property name="testOnBorrow" value="false" />
 	    <property name="testOnReturn" value="false" />
 		
@@ -61,33 +56,24 @@
     </bean>
     
     <!-- ehcache part -->
-	<bean id="ehCacheManager"  
-        class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">  
-        <property name="configLocation" value="classpath:ehcache.xml" />  
-        <property name="shared" value="true"></property> <!-- 这里是关键！！！没有必错  -->  
-    </bean>  
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache.xml" />
+	</bean>
+	
+	<!-- redis part -->
+	<bean id="jedisConnFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<property name="usePool" value="true"></property>
+	</bean>
 
-    <!-- 缓存管理器 使用Ehcache实现 -->  
-    <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">  
-        <property name="cacheManager" ref="ehCacheManager" />  
-    </bean>
-    
+	<!-- redis template definition -->
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="jedisConnFactory"></property>
+	</bean>
+	
     <!-- Shiro Part -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.Md5CredentialsMatcher"></bean>
-    <!-- <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"></bean> -->
-    <!-- <bean id="jdbcRealm" class="org.apache.shiro.realm.jdbc.JdbcRealm">  
-        <property name="credentialsMatcher" ref="credentialsMatcher"></property>  
-        <property name="permissionsLookupEnabled" value="true"></property>  
-        <property name="dataSource" ref="dataSource"></property>  
-        <property name="authenticationQuery"  
-            value="SELECT PASSWORD FROM USER WHERE USERNAME = ?"></property>  
-        <property name="userRolesQuery"  
-            value="SELECT R.NAME FROM USER AS U LEFT JOIN USER_ROLE AS UR ON U.ID = UR.USER_ID LEFT JOIN ROLE AS R ON UR.ROLE_ID = R.ID WHERE U.USERNAME= ?"></property>  
-        <property name="permissionsQuery" 
-        	value="SELECT P.PERMISSION FROM PERMISSION AS P WHERE P.ACCESS_LEVEL &lt;= (SELECT R.ACCESS_LEVEL FROM ROLE AS R WHERE R.NAME=?)"></property>
-    </bean> -->
-    <bean id="myJdbcRealm" class="com.sjw.ShiroTest.Utils.RealmForShiro">
+    <bean id="myJdbcRealm" class="com.sjw.ShiroTest.Settings.RealmForShiro">
     	<property name="credentialsMatcher" ref="credentialsMatcher"></property>  
         <property name="permissionsLookupEnabled" value="true"></property>  
         <property name="dataSource" ref="dataSource"></property>
@@ -96,7 +82,7 @@
     <!-- Shiro安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
         <property name="realm" ref="myJdbcRealm"></property>  
-        <property name="cacheManager" ref="ehCacheManager"></property>  
+        <property name="cacheManager" ref="cacheManager"></property>
     </bean>
     
         <!--   
@@ -139,9 +125,4 @@
         	</list>
     	</property>
 	</bean>
-	
-    <!--  Dao part -->
-    <!-- <bean id="authDao" class="com.sjw.ShiroTest.DaoImpl.AuthDaoImpl">
-    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
-    </bean> -->
 </beans>
