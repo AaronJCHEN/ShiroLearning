@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
  * Created by sjw on 16/8/13.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:applicationContext.xml","classpath:servlet-context.xml"})
+@ContextConfiguration(locations={"classpath:testApplicationContext.xml","classpath:testServlet-context.xml"})
 public class TestAuthController {
     @Test
     public void loginUser() throws Exception {

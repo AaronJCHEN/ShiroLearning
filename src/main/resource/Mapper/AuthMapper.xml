@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sjw.ShiroTest.pojo.UserPojo">
+<mapper namespace="com.sjw.ShiroTest.Pojo.UserPojo">
 	<insert id="createUser" parameterType="User">
 		INSERT INTO USER(USERNAME,PASSWORD,ACCESS,CREATE_DATE,MODIFIED_DATE) VALUES(
 			#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},

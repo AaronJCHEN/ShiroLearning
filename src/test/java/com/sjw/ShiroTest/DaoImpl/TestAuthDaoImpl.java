@@ -14,7 +14,7 @@ import com.sjw.ShiroTest.Pojo.UserPojo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:applicationContext.xml","classpath:servlet-context.xml"})
-public class testAuthDaoImpl {
+public class TestAuthDaoImpl {
 	@Autowired
 	AuthDao authDao;
 	
