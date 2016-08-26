@@ -1,16 +1,16 @@
 package com.sjw.ShiroTest.Utils;
 
 public enum RoleType {
-	USER(1),MANAGER(2),ADMIN(3);
+	USER("USER"),MANAGER("MANAGER"),ADMIN("ADMIN");
 	
-	private int role_id;
+	private String role_name;
 	
-	private RoleType(int role_id){
-		this.role_id = role_id;
+	private RoleType(String role_name){
+		this.role_name = role_name;
 	}
 	
-	public int getRole(){
-		return this.role_id;
+	public String getRole(){
+		return this.role_name;
 	}
 	
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.sjw.ShiroTest.Pojo.UserPojo;
 import com.sjw.ShiroTest.Service.AuthService;
-import com.sjw.ShiroTest.Utils.RoleType;
 
 @Controller
 @RequestMapping("/auth")
@@ -34,21 +34,6 @@ public class AuthController {
 	
 	@RequestMapping(value="/login", method = RequestMethod.POST)
 	public ModelAndView loginUserForm(@ModelAttribute UserPojo user){
-		/*ModelAndView mv = new ModelAndView();
-		Subject subject = SecurityUtils.getSubject();
-		if(!subject.isAuthenticated()){
-			UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
-			subject.login(token);
-			if(subject.isAuthenticated()){
-				mv.addObject("username", user.getUsername());
-				mv.setViewName("index.definition");
-			}
-			else
-				mv.setViewName("login.definition");
-		}
-		else{
-			System.out.print("Has accessed");
-		}*/
 		ModelAndView mv = new ModelAndView();
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
 		Subject subject = SecurityUtils.getSubject();
@@ -62,6 +47,8 @@ public class AuthController {
 				else{
 					System.out.println("Hasn't Query Permission");
 				}
+				Session session = subject.getSession();
+				session.setAttribute("username", user.getUsername());
 				mv.setViewName("index.definition");
 			}
 		}

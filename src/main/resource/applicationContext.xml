@@ -102,6 +102,7 @@
             <value>  
                 /auth/*=anon
                 /druid/*=authc,roles[MANAGER]
+                /index/*=authc
             </value>  
         </property>  
     </bean>  
@@ -110,6 +111,7 @@
        开启Shiro的注解(如@RequiresRoles，@RequiresPermissions)，需借助SpringAOP扫描使用Shiro注解的类，  
        并在必要时进行安全逻辑验证  
     -->
+    <aop:config proxy-target-class="true"></aop:config>
     <bean  
         class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"></bean>  
     <bean  
