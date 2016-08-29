@@ -56,9 +56,13 @@
     </bean>
     
     <!-- ehcache part -->
+    <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:ehcache.xml" />
+        <property name="shared" value="true" />
+    </bean>
     <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-		<property name="cacheManagerConfigFile" value="classpath:ehcache.xml" />
-	</bean>
+        <property name="cacheManager" ref="ehCacheManager" />
+    </bean>
 	
 	<!-- redis part -->
 	<bean id="jedisConnFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">

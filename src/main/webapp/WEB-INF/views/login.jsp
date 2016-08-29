@@ -12,12 +12,12 @@
     <meta name="author" content="">
     <title>Signin Template for Bootstrap</title>
     <!-- Bootstrap core CSS-->
-    <link href="/ShiroTest/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/ShiroTest/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/ShiroTest/css/signin.css" rel="stylesheet">
-    <script type="text/javascript" src="/ShiroTest/js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="/ShiroTest/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/ShiroTest/js/loginInit.js"></script>
+    <link href="/ShiroTest/css/tools/bootstrap.min.css" rel="stylesheet">
+    <link href="/ShiroTest/css/tools/font-awesome.min.css" rel="stylesheet">
+    <link href="/ShiroTest/css/operations/signin.css" rel="stylesheet">
+    <script type="text/javascript" src="/ShiroTest/js/tools/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="/ShiroTest/js/tools/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/ShiroTest/js/operations/loginInit.js"></script>
   </head>
   <body>
     <div class="container">

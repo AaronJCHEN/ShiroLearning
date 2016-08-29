@@ -39,18 +39,10 @@ public class AuthController {
 		Subject subject = SecurityUtils.getSubject();
 		subject.login(token);
 		if(subject.isAuthenticated()){
-			if(subject.hasRole("USER")){
-				System.out.println("Has Role User");
-				if(subject.isPermitted("QUERY")){
-					System.out.println("Has Query Permisson");
-				}
-				else{
-					System.out.println("Hasn't Query Permission");
-				}
-				Session session = subject.getSession();
-				session.setAttribute("username", user.getUsername());
-				mv.setViewName("index.definition");
-			}
+			Session session = subject.getSession();
+			session.setAttribute("username", user.getUsername());
+			mv.setViewName("index.definition");
+
 		}
 		else
 			mv.setViewName("login.definition");
@@ -60,7 +52,8 @@ public class AuthController {
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public ModelAndView registerUserForm(@ModelAttribute UserPojo user){
 		ModelAndView mv = new ModelAndView();
-		user.setPassword(new Md5Hash(user.getPassword()).toHex());
+		String original_password = user.getPassword();
+		user.setPassword(new Md5Hash(original_password).toHex());
 		List<String> roles = new ArrayList<String>();
 		roles.add("USER");
 		user.setRoles(roles);
@@ -68,7 +61,19 @@ public class AuthController {
 		user.setModified_date(new Date());
 		authService.registerUserService(user);
 		authService.registerRolesService(user);
-		mv.setViewName("index.definition");
+		//Get Authentication
+		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),original_password);
+		Subject subject = SecurityUtils.getSubject();
+		subject.login(token);
+		if(subject.isAuthenticated()){
+			Session session = subject.getSession();
+			session.setAttribute("username", user.getUsername());
+			mv.setViewName("index.definition");
+		}
+		else{
+			mv.setViewName("login.definition");
+		}
+
 		return mv;
 	}
 	
