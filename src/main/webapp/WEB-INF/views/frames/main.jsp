@@ -15,12 +15,17 @@
 </head>
 <body>
 <tiles:insertAttribute name="header" />  
-<div id="maincontainer">
-	<div class="col-xs-2">
-		<tiles:insertAttribute name="navi" />
-	</div>
-	<div class="col-xs-10">
-		<tiles:insertAttribute name="body" />
+<div id="container-fluid">
+	<div class="row">
+		<div class="col-sm-2">
+			<tiles:insertAttribute name="navi" />
+		</div>
+		<div class="col-sm-8">
+			<tiles:insertAttribute name="body" />
+		</div>
+		<div class="col-sm-2">
+			<tiles:insertAttribute name="rightNavi" />
+		</div>
 	</div>
 </div>
 </body>

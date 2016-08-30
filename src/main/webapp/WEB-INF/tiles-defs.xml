@@ -6,6 +6,7 @@
         <put-attribute name="header" value="/WEB-INF/views/frames/header.jsp" /> 
         <put-attribute name="navi" value="/WEB-INF/views/frames/navi.jsp" />
         <put-attribute name="body" value="/WEB-INF/views/operations/index.jsp" />
+        <put-attribute name="rightNavi" value="/WEB-INF/views/frames/rightNavi.jsp" />
     </definition>
 	<definition name="login.definition" template="/WEB-INF/views/login.jsp"></definition>
 	<definition name="profile.definition" template="/WEB-INF/views/frames/profile.jsp">
