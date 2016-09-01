@@ -1,28 +1,24 @@
 package com.sjw.ShiroTest.DaoImpl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sjw.ShiroTest.Dao.AuthDao;
-import com.sjw.ShiroTest.Pojo.UserPojo;
+import com.sjw.ShiroTest.Dao.ProductDao;
+import com.sjw.ShiroTest.Pojo.ProductPojo;
 
 @Repository
 @Transactional
-public class AuthDaoImpl implements AuthDao {
+public class ProductDaoImpl implements ProductDao {
 	@Autowired
 	SqlSession sqlSession;
-	
+
 	@Override
-	public void registerUserDao(UserPojo user) {
-		this.sqlSession.insert("createUser",user);
-		
-	}
-	@Override
-	public void registerRolesDao(UserPojo user) {
-		this.sqlSession.insert("createUserRole", user);
-		
+	public List<ProductPojo> getRecommendedProductsDao() {
+		return this.sqlSession.selectList("getPdctRcmd");
 	}
 
 }

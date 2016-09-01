@@ -1,6 +1,5 @@
 package com.sjw.ShiroTest.Settings;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -22,6 +21,8 @@ import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Extends from the JdbcRealm to use the mybatis instead of pure jdbc function.
@@ -29,6 +30,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Also can change the authorizing part by access_level if needed
  * version 1.0
  */
+
+@Transactional
 public class RealmForShiro extends JdbcRealm {
 	@Autowired
 	SqlSession sqlSession;

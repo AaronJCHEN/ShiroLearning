@@ -6,10 +6,12 @@
 	</settings>
 	<typeAliases>
 		<typeAlias type="com.sjw.ShiroTest.Pojo.UserPojo" alias="User"/>
+		<typeAlias type="com.sjw.ShiroTest.Pojo.ProductPojo" alias="Product"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="Mapper/AuthMapper.xml"/>
 		<mapper resource="Mapper/RealmMapper.xml"/>
+		<mapper resource="Mapper/ProductMapper.xml"/>
 	</mappers>
 </configuration>

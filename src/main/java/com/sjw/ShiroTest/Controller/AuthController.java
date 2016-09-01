@@ -11,19 +11,25 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sjw.ShiroTest.Pojo.ProductPojo;
 import com.sjw.ShiroTest.Pojo.UserPojo;
 import com.sjw.ShiroTest.Service.AuthService;
+import com.sjw.ShiroTest.Service.ProductService;
 
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
 	@Autowired
 	AuthService authService;
+	
+	@Autowired
+	ProductService productService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView loginUser(){
@@ -41,8 +47,9 @@ public class AuthController {
 		if(subject.isAuthenticated()){
 			Session session = subject.getSession();
 			session.setAttribute("username", user.getUsername());
+			List<ProductPojo> rproducts = productService.getRecommendedProductsService();
+			mv.addObject("rproducts", rproducts);
 			mv.setViewName("index.definition");
-
 		}
 		else
 			mv.setViewName("login.definition");
