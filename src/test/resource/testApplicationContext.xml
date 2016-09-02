@@ -42,9 +42,12 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
     
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"></bean>
+    
     <!-- enable transaction demarcation with annotations -->
-    <tx:annotation-driven />
+    <tx:annotation-driven transaction-manager="transactionManager"/>
     <context:annotation-config />
+    <aop:config proxy-target-class="true" />
     
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
@@ -75,32 +78,32 @@
 	</bean>
 	
     <!-- Shiro Part -->
-    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
+    <!-- <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.Md5CredentialsMatcher"></bean>
     <bean id="myJdbcRealm" class="com.sjw.ShiroTest.Settings.RealmForShiro">
     	<property name="credentialsMatcher" ref="credentialsMatcher"></property>  
         <property name="permissionsLookupEnabled" value="true"></property>  
         <property name="dataSource" ref="dataSource"></property>
-    </bean>
+    </bean> -->
     
     <!-- Shiro安全管理器 -->
-    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
+    <!-- <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
         <property name="realm" ref="myJdbcRealm"></property>  
         <property name="cacheManager" ref="cacheManager"></property>
-    </bean>
+    </bean> -->
     
         <!--   
        Shiro主过滤器本身功能十分强大，其强大之处就在于它支持任何基于URL路径表达式的、自定义的过滤器的执行  
        Web应用中，Shiro可控制的Web请求必须经过Shiro主过滤器的拦截，Shiro对基于Spring的Web应用提供了完美的支持   
     -->  
-    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">  
-        <!-- Shiro的核心安全接口，这个属性是必须的 -->  
+    <!-- <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">  
+        Shiro的核心安全接口，这个属性是必须的  
         <property name="securityManager" ref="securityManager"></property>  
-        <!-- 要求登录时的链接(登录页面地址)，非必须的属性，默认会自动寻找Web工程根目录下的"/login.jsp"页面 -->  
+        要求登录时的链接(登录页面地址)，非必须的属性，默认会自动寻找Web工程根目录下的"/login.jsp"页面  
         <property name="loginUrl" value="/shiroTest/auth/login"></property>  
-        <!-- 登录成功后要跳转的连接(本例中此属性用不到，因为登录成功后的处理逻辑在LoginController里硬编码) -->  
-        <!-- <property name="successUrl" value="/" ></property> -->  
-        <!-- 用户访问未对其授权的资源时，所显示的连接 -->  
+        登录成功后要跳转的连接(本例中此属性用不到，因为登录成功后的处理逻辑在LoginController里硬编码)  
+        <property name="successUrl" value="/" ></property>  
+        用户访问未对其授权的资源时，所显示的连接  
         <property name="unauthorizedUrl" value="/"></property>  
         <property name="filterChainDefinitions">  
             <value>  
@@ -108,17 +111,25 @@
                 /druid/*=authc,roles[MANAGER]
             </value>  
         </property>  
-    </bean>  
+    </bean>   -->
   
     <!--   
        开启Shiro的注解(如@RequiresRoles，@RequiresPermissions)，需借助SpringAOP扫描使用Shiro注解的类，  
        并在必要时进行安全逻辑验证  
     -->
-    <bean  
-        class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"></bean>  
-    <bean  
+    <!-- <bean  
         class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">  
         <property name="securityManager" ref="securityManager"></property>  
+    </bean> -->
+    
+    <bean id="productDao" class="com.sjw.ShiroTest.DaoImpl.ProductDaoImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<bean id="authDao" class="com.sjw.ShiroTest.DaoImpl.AuthDaoImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<bean id="realmForShiroDao" class="com.sjw.ShiroTest.Settings.RealmForShiroDaoImpl">
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
     
 </beans>

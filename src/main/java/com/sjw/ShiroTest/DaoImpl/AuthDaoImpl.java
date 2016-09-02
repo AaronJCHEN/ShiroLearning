@@ -1,27 +1,22 @@
 package com.sjw.ShiroTest.DaoImpl;
 
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sjw.ShiroTest.Dao.AuthDao;
 import com.sjw.ShiroTest.Pojo.UserPojo;
 
-@Repository
 @Transactional
-public class AuthDaoImpl implements AuthDao {
-	@Autowired
-	SqlSession sqlSession;
+public class AuthDaoImpl extends SqlSessionDaoSupport implements AuthDao{
 	
 	@Override
 	public void registerUserDao(UserPojo user) {
-		this.sqlSession.insert("createUser",user);
+		this.getSqlSession().insert("createUser",user);
 		
 	}
 	@Override
 	public void registerRolesDao(UserPojo user) {
-		this.sqlSession.insert("createUserRole", user);
+		this.getSqlSession().insert("createUserRole", user);
 		
 	}
 

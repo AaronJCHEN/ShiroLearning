@@ -44,17 +44,20 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
     
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+    
     <!-- enable transaction demarcation with annotations -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <context:annotation-config />
     <mvc:annotation-driven />
+    <aop:config proxy-target-class="true" />
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="configLocation" value="classpath:sqlMapConfig.xml" />
     </bean>
 
-    <bean id="sqlsession" class="org.mybatis.spring.SqlSessionTemplate">
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
     	<constructor-arg index="0" ref="sqlSessionFactory"/>
     </bean>
 
@@ -80,7 +83,7 @@
     <!-- Shiro Part -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.Md5CredentialsMatcher" />
-    <bean id="myJdbcRealm" class="com.sjw.ShiroTest.Settings.RealmForShiro">
+    <bean id="realmForShiro" class="com.sjw.ShiroTest.Settings.RealmForShiro">
     	<property name="credentialsMatcher" ref="credentialsMatcher" />
         <property name="permissionsLookupEnabled" value="true" />
         <property name="dataSource" ref="dataSource" />
@@ -88,7 +91,7 @@
     
     <!-- Shiro安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="myJdbcRealm" />
+        <property name="realm" ref="realmForShiro" />
         <property name="cacheManager" ref="cacheManager"/>
     </bean>
     
@@ -118,9 +121,6 @@
        开启Shiro的注解(如@RequiresRoles，@RequiresPermissions)，需借助SpringAOP扫描使用Shiro注解的类，  
        并在必要时进行安全逻辑验证  
     -->
-    <aop:config proxy-target-class="true" />
-    <bean  
-        class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
     <bean  
         class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">  
         <property name="securityManager" ref="securityManager" />
@@ -135,11 +135,13 @@
     	</property>
 	</bean>
 	
-	<context:component-scan base-package="com.sjw.ShiroTest.DaoImpl" />
-	<context:component-scan base-package="com.sjw.ShiroTest.Settings" />
-	<!-- <context:component-scan base-package="com.sjw.ShiroTest.Controller" />
-	<context:component-scan base-package="com.sjw.ShiroTest.ServiceImpl" />
-	<context:component-scan base-package="com.sjw.ShiroTest.Utils" />
-	<context:component-scan base-package="com.sjw.ShiroTest.Pojo" />
-	<context:component-scan base-package="com.sjw.ShiroTest.Settings" /> -->
+	<bean id="productDao" class="com.sjw.ShiroTest.DaoImpl.ProductDaoImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<bean id="authDao" class="com.sjw.ShiroTest.DaoImpl.AuthDaoImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<bean id="realmForShiroDao" class="com.sjw.ShiroTest.Settings.RealmForShiroDaoImpl">
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
 </beans>

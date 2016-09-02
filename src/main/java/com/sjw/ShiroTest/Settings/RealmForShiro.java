@@ -31,10 +31,9 @@ import org.springframework.transaction.annotation.Transactional;
  * version 1.0
  */
 
-@Transactional
 public class RealmForShiro extends JdbcRealm {
 	@Autowired
-	SqlSession sqlSession;
+	RealmForShiroDao realmForShiroDao;
 
     private static final Logger log = LoggerFactory.getLogger(RealmForShiro.class);
 
@@ -123,7 +122,7 @@ public class RealmForShiro extends JdbcRealm {
 
 	protected Set<String> getRoleNamesForUser(String username) throws SQLException {
 		Set<String> roleNames = new LinkedHashSet<String>();
-		List<String> role_list = this.sqlSession.selectList("getRoles4User", username);
+		List<String> role_list = realmForShiroDao.getRoleList(username);
 		if(!role_list.isEmpty()){
 			Iterator<String> i = role_list.iterator();
 			while(i.hasNext()){
@@ -144,7 +143,7 @@ public class RealmForShiro extends JdbcRealm {
 			throws SQLException {
         Set<String> permissions = new LinkedHashSet<String>();
         for (String roleName : roleNames) {
-            List<String> permisson_list = this.sqlSession.selectList("getPmion4User", roleName);
+            List<String> permisson_list = realmForShiroDao.getPermissionList(roleName);
             Iterator<String> i = permisson_list.iterator();
             while(i.hasNext()){
             	permissions.add(i.next());
@@ -154,7 +153,7 @@ public class RealmForShiro extends JdbcRealm {
 	}
 	
 	private String[] getPasswordForUser(String username){
-		List<String> rl = this.sqlSession.selectList("getPswd4User",username);
+		List<String> rl = realmForShiroDao.getPassword(username);
 		String[] result = new String[rl.size()];
         int times = 0;
         Iterator<String> i = rl.iterator();
