@@ -1,17 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<style type="text/css">
-	#title{
-		border-bottom:1px solid #ccc;
-	}
-	
-	body{
-		background-color:#eee;
-	}
-	
-	.container{
-		background-color:#fff;
-	}
-</style>
+<script type="text/javascript" src="/ShiroTest/js/operations/myprofile.js"></script>
+<link rel="stylesheet" href="/ShiroTest/css/operations/myprofile.css" />
 <div class="col-sm-12">
 	<h1 id="title">Personal Profile</h1>
 	<form class="form-horizontal">
@@ -31,9 +20,9 @@
 	  	<label for="roles" class="col-sm-2 control-label">Roles</label>
 	    <div class="col-sm-10">
 	    <c:forEach var="i" items="${roleType }" varStatus="status">
-	      <div class="checkbox" id="roles">
+	      <div class="checkbox">
 	          <label>
-	          	<input type="checkbox"> ${i }
+	          	<input type="checkbox" name="${i }" id="roles"> ${i }
 	          </label>
 	      </div>
 	    </c:forEach>
@@ -45,4 +34,5 @@
 	    </div>
 	  </div>
 	</form>
+	<input type="hidden" value="${roles}" id="myRoles">
 </div>
