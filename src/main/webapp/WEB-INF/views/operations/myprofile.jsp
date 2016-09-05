@@ -1,6 +1,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script type="text/javascript" src="/ShiroTest/js/operations/myprofile.js"></script>
 <link rel="stylesheet" href="/ShiroTest/css/operations/myprofile.css" />
+<script type="text/javascript">
+$(function(){
+	var myRoles = ${myRoles};
+	for(r in myRoles){
+		$("[name='"+myRoles[r]+"']").prop("checked","checked");
+	}
+});
+</script>
 <div class="col-sm-12">
 	<h1 id="title">Personal Profile</h1>
 	<form class="form-horizontal">
@@ -34,5 +42,4 @@
 	    </div>
 	  </div>
 	</form>
-	<input type="hidden" value="${roles}" id="myRoles">
 </div>
