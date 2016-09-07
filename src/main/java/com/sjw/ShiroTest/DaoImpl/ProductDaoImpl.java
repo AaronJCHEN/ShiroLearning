@@ -23,4 +23,15 @@ public class ProductDaoImpl extends SqlSessionDaoSupport implements ProductDao{
 		return this.getSqlSession().selectList("getPdctRcmd");
 	}
 
+	@Override
+	public ProductPojo getProductDetailDao(int id) {
+		return this.getSqlSession().selectOne("getPdctDetail", id);
+	}
+
+	@Override
+	public void updateBrowseNumDao(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

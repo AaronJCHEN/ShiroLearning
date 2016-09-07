@@ -6,4 +6,13 @@
 	<select id="getPdctRcmd" resultType = "Product">
 		SELECT * FROM PRODUCT WHERE RECOMMENDED = 1
 	</select>
+	
+	<select id="getPdctDetail" parameterType="integer" resultType = "Product">
+		SELECT * FROM PRODUCT WHERE ID = #{id, jdbcType=INTEGER}
+	</select>
+	
+	<select id="getPdctComments" parameterType="string" resultType = "map">
+		SELECT COMMENTS FROM PRODUCT_COMMENTS AS PC LEFT JOIN PRODUCT AS P ON P.ID = PC.PRODUCT_ID WHERE P.ID = #{id, jdbcType=INTEGER)
+	</select>
+	
 </mapper>

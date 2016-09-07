@@ -7,6 +7,7 @@ public class ProductPojo implements Serializable{
 
 	public static final String OBJECT_KEY = "PRODUCT";
 	
+	private int id;
 	private String name;
 	private float price;
 	private String category;
@@ -15,6 +16,13 @@ public class ProductPojo implements Serializable{
 	private double remains;
 	private String img;
 	private boolean recommended;
+	private double browse_num;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
@@ -69,5 +77,11 @@ public class ProductPojo implements Serializable{
 	}
 	public void setRecommanded(boolean recommended) {
 		this.recommended = recommended;
+	}
+	public double getBrowse_num() {
+		return browse_num;
+	}
+	public void setBrowse_num(double browse_num) {
+		this.browse_num = browse_num;
 	}
 }

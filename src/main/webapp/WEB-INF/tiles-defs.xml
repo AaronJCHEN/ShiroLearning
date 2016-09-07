@@ -6,11 +6,15 @@
         <put-attribute name="header" value="/WEB-INF/views/frames/header.jsp" /> 
         <put-attribute name="navi" value="/WEB-INF/views/frames/navi.jsp" />
         <put-attribute name="body" value="/WEB-INF/views/operations/index.jsp" />
-        <put-attribute name="rightNavi" value="/WEB-INF/views/frames/rightNavi.jsp" />
+        <put-attribute name="right" value="/WEB-INF/views/operations/recent.jsp" />
     </definition>
-	<definition name="login.definition" template="/WEB-INF/views/login.jsp"></definition>
 	<definition name="profile.definition" template="/WEB-INF/views/frames/profile.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/frames/header.jsp" />
 		<put-attribute name="content" value="/WEB-INF/views/operations/myprofile.jsp"/>
+	</definition>
+	<definition name="product.definition" template="/WEB-INF/views/frames/no_navi.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/frames/header.jsp" />
+		<put-attribute name="content" value="/WEB-INF/views/operations/product.jsp"/>
+		<put-attribute name="right" value="/WEB-INF/views/operations/recent.jsp"/>
 	</definition>
 </tiles-definitions>

@@ -48,5 +48,8 @@ public class TestSpringData {
 		user.setModified_date(new Date());
 		hashOps.put(user.getObjectKey(), user.getUsername(), user);
     	logger.debug(hashOps.get(user.getObjectKey(), user.getUsername()).toString());
+    	user.setUsername("qyqy");
+    	hashOps.put(user.getObjectKey(), user.getUsername(), user);
+    	logger.debug(hashOps.get(user.getObjectKey(), user.getUsername()).toString());
     }
 }

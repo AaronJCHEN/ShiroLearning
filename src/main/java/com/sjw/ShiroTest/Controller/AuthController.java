@@ -34,7 +34,7 @@ public class AuthController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView loginUser(){
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("login.definition");
+		mv.setViewName("login");
 		return mv;
 	}
 	
@@ -52,7 +52,7 @@ public class AuthController {
 			mv.setViewName("index.definition");
 		}
 		else
-			mv.setViewName("login.definition");
+			mv.setViewName("login");
 		return mv;
 	}
 	
@@ -78,7 +78,7 @@ public class AuthController {
 			mv.setViewName("index.definition");
 		}
 		else{
-			mv.setViewName("login.definition");
+			mv.setViewName("login");
 		}
 
 		return mv;
@@ -89,7 +89,7 @@ public class AuthController {
 		ModelAndView mv = new ModelAndView();
 		Subject subject = SecurityUtils.getSubject();
 		subject.logout();
-		mv.setViewName("login.definition");
+		mv.setViewName("login");
 		return mv;
 	}
 	

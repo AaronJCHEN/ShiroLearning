@@ -21,4 +21,14 @@ public class ProductServiceImpl implements ProductService {
 		return productDao.getRecommendedProductsDao();
 	}
 
+	@Override
+	public ProductPojo getProductDetailService(int id) {
+		return productDao.getProductDetailDao(id);
+	}
+
+	@Override
+	public void updateBrowseNumService(int id) {
+		productDao.updateBrowseNumDao(id);
+	}
+
 }
