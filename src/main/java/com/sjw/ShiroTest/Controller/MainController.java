@@ -20,6 +20,11 @@ import java.util.List;
 public class MainController {
 	@Autowired
 	RealmForShiroDao realmForShiroDao;
+
+	public ModelAndView initIndex(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("index.definition");
+		return mv;
+	}
 	
 	@RequestMapping(value="/editRole")
 	public ModelAndView manageRoles(HttpServletRequest request) throws JsonProcessingException{
