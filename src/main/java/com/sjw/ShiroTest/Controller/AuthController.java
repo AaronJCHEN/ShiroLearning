@@ -56,7 +56,7 @@ public class AuthController {
 	public ModelAndView loginUserForm(@ModelAttribute UserPojo user){
 		ModelAndView mv = new ModelAndView();
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
-        if(user.getRememberMe())
+        if(user.getRememberMe()!=null && user.getRememberMe())
             token.setRememberMe(true);
         else
             token.setRememberMe(false);
@@ -82,7 +82,7 @@ public class AuthController {
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public ModelAndView registerUserForm(@ModelAttribute UserPojo user){
+	public ModelAndView registerUserForm(@ModelAttribute UserPojo user) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		String original_password = user.getPassword();
 		user.setPassword(new Md5Hash(original_password).toHex());

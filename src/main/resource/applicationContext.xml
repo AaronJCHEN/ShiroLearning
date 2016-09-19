@@ -57,10 +57,6 @@
         <property name="configLocation" value="classpath:sqlMapConfig.xml" />
     </bean>
 
-    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-    	<constructor-arg index="0" ref="sqlSessionFactory"/>
-    </bean>
-
     <!-- ehcache part -->
     <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
         <property name="configLocation" value="classpath:ehcache.xml" />

@@ -15,9 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sjw.ShiroTest.Dao.ProductDao;
 import com.sjw.ShiroTest.Pojo.ProductPojo;
 
-@Transactional
 public class ProductDaoImpl extends SqlSessionDaoSupport implements ProductDao{
-	
+
 	@Override
 	public List<ProductPojo> getRecommendedProductsDao() {
 		return this.getSqlSession().selectList("getPdctRcmd");
