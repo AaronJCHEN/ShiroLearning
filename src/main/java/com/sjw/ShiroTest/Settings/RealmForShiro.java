@@ -24,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sjw.ShiroTest.Service.AuthService;
+
 /**
  * Extends from the JdbcRealm to use the mybatis instead of pure jdbc function.
  * Pure JDBC function has conflicts on logging when using Druid
@@ -32,8 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 public class RealmForShiro extends JdbcRealm {
-	@Autowired
-	RealmForShiroDao realmForShiroDao;
+	
+	AuthService authService;
 
     private static final Logger log = LoggerFactory.getLogger(RealmForShiro.class);
 
@@ -122,7 +124,7 @@ public class RealmForShiro extends JdbcRealm {
 
 	protected Set<String> getRoleNamesForUser(String username) throws SQLException {
 		Set<String> roleNames = new LinkedHashSet<String>();
-		List<String> role_list = realmForShiroDao.getRoleList(username);
+		List<String> role_list = authService.getRoleListService(username);
 		if(!role_list.isEmpty()){
 			Iterator<String> i = role_list.iterator();
 			while(i.hasNext()){
@@ -143,7 +145,7 @@ public class RealmForShiro extends JdbcRealm {
 			throws SQLException {
         Set<String> permissions = new LinkedHashSet<String>();
         for (String roleName : roleNames) {
-            List<String> permisson_list = realmForShiroDao.getPermissionList(roleName);
+            List<String> permisson_list = authService.getPermissionListService(roleName);
             Iterator<String> i = permisson_list.iterator();
             while(i.hasNext()){
             	permissions.add(i.next());
@@ -153,7 +155,7 @@ public class RealmForShiro extends JdbcRealm {
 	}
 	
 	private String[] getPasswordForUser(String username){
-		List<String> rl = realmForShiroDao.getPassword(username);
+		List<String> rl = authService.getPasswordService(username);
 		String[] result = new String[rl.size()];
         int times = 0;
         Iterator<String> i = rl.iterator();
@@ -164,4 +166,12 @@ public class RealmForShiro extends JdbcRealm {
         return result;
 	}
 
+	public AuthService getAuthService() {
+		return authService;
+	}
+
+	public void setAuthService(AuthService authService) {
+		this.authService = authService;
+	}
+	
 }

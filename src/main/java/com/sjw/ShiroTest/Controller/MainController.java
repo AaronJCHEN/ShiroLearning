@@ -3,7 +3,7 @@ package com.sjw.ShiroTest.Controller;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sjw.ShiroTest.Settings.RealmForShiroDao;
+import com.sjw.ShiroTest.Service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/index")
 public class MainController {
 	@Autowired
-	RealmForShiroDao realmForShiroDao;
+	AuthService authService;
 
 	public ModelAndView initIndex(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("index.definition");
@@ -37,7 +37,7 @@ public class MainController {
 
 		//Search My roles
 		HttpSession session = request.getSession();
-		List<String> role_list = realmForShiroDao.getRoleList(session.getAttribute("username").toString());
+		List<String> role_list = authService.getRoleListService(session.getAttribute("username").toString());
 		ObjectMapper objMapper = new ObjectMapper();
 		mv.addObject("myRoles", objMapper.writeValueAsString(role_list));
 		

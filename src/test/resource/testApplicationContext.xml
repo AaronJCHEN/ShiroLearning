@@ -128,8 +128,5 @@
 	<bean id="authDao" class="com.sjw.ShiroTest.DaoImpl.AuthDaoImpl">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-	<bean id="realmForShiroDao" class="com.sjw.ShiroTest.Settings.RealmForShiroDaoImpl">
-    	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-    </bean>
     
 </beans>

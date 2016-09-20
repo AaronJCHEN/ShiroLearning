@@ -8,14 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.sjw.ShiroTest.Service.AuthService;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:testApplicationContext.xml","classpath:testServlet-context.xml"})
 public class TestRealmForShiro {
 	@Autowired
-	RealmForShiroDao realmForShiroDao;
+	AuthService authService;
 	
 	@Test
 	public void run() throws SQLException{
-		realmForShiroDao.getRoleList("aaa");
+		authService.getRoleListService("aaa");
 	}
 }
