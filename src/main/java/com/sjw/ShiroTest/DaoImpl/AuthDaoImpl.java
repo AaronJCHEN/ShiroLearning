@@ -11,11 +11,6 @@ public class AuthDaoImpl extends SqlSessionDaoSupport implements AuthDao{
 	@Override
 	public void registerUserDao(UserPojo user){
 		this.getSqlSession().insert("createUser",user);
-		String string  = null;
-	    if(string.equals("")) {
-	        int i = 0;
-	    }
-		
 	}
 	@Override
 	public void registerRolesDao(UserPojo user){

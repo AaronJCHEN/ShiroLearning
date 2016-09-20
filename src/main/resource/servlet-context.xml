@@ -33,6 +33,14 @@
 		<beans:property name="order" value="2" />
 	</beans:bean>
 	
+	<!--
+       开启Shiro的注解(如@RequiresRoles，@RequiresPermissions)，需借助SpringAOP扫描使用Shiro注解的类，
+       并在必要时进行安全逻辑验证，需要放在包扫描之后
+    -->
+	<beans:bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <beans:property name="securityManager" ref="securityManager" />
+    </beans:bean>
+	
 	<context:component-scan base-package="com.sjw.ShiroTest.Controller" />
 	<context:component-scan base-package="com.sjw.ShiroTest.ServiceImpl" />
 	<context:component-scan base-package="com.sjw.ShiroTest.DaoImpl" />
