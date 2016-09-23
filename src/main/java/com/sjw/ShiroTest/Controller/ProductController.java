@@ -22,7 +22,7 @@ import com.sjw.ShiroTest.Pojo.ProductPojo;
 import com.sjw.ShiroTest.Service.ProductService;
 
 @Controller
-@RequestMapping(value="product")
+@RequestMapping(value="/product")
 public class ProductController {
 	@Autowired
 	ProductService productService;

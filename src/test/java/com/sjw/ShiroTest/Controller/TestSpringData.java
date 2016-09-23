@@ -18,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.sjw.ShiroTest.Pojo.TestUserPojo;
+import com.sjw.ShiroTest.Pojo.UserPojo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:testApplicationContext.xml","classpath:testServlet-context.xml"})
@@ -26,7 +27,7 @@ public class TestSpringData {
 	
 	// inject the actual template
     @Autowired
-    private RedisTemplate<String, String> template;
+    private RedisTemplate<String, TestUserPojo> template;
 
     // inject the template as ListOperations
     // can also inject as Value, Set, ZSet, and HashOperations
@@ -46,10 +47,7 @@ public class TestSpringData {
 		user.setRoles(roles);
 		user.setCreate_date(new Date());
 		user.setModified_date(new Date());
-		hashOps.put(user.getObjectKey(), user.getUsername(), user);
-    	logger.debug(hashOps.get(user.getObjectKey(), user.getUsername()).toString());
-    	user.setUsername("qyqy");
-    	hashOps.put(user.getObjectKey(), user.getUsername(), user);
-    	logger.debug(hashOps.get(user.getObjectKey(), user.getUsername()).toString());
+    	template.opsForValue().set("aaa", user);
+    	template.opsForValue().get("aaa");
     }
 }

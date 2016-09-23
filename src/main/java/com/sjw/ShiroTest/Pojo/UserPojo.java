@@ -2,11 +2,14 @@ package com.sjw.ShiroTest.Pojo;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class UserPojo {
-    private int id;
+public class UserPojo implements Serializable {
+	private static final long serialVersionUID = 123L;
+	public static final String OBJECT_KEY = "USER";
+	private int id;
     private String username;
     private String password;
     private boolean access;
