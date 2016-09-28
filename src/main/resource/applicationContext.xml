@@ -48,9 +48,14 @@
     
     <!-- enable transaction demarcation with annotations -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    <context:annotation-config />
-    <mvc:annotation-driven />
     <aop:config proxy-target-class="true" />
+    
+    <!-- package scan for transaction -->
+    <context:component-scan base-package="com.sjw.ShiroTest.ServiceImpl" />
+	<context:component-scan base-package="com.sjw.ShiroTest.DaoImpl" />
+	<context:component-scan base-package="com.sjw.ShiroTest.Utils" />
+	<context:component-scan base-package="com.sjw.ShiroTest.Pojo" />
+	<context:component-scan base-package="com.sjw.ShiroTest.Settings" />
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
