@@ -15,16 +15,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sjw.ShiroTest.Dao.ProductDao;
 import com.sjw.ShiroTest.Pojo.ProductPojo;
 
-public class ProductDaoImpl extends SqlSessionDaoSupport implements ProductDao{
+@Repository
+public class ProductDaoImpl implements ProductDao{
+	@Autowired
+	SqlSession sqlSession;
 
 	@Override
 	public List<ProductPojo> getRecommendedProductsDao() {
-		return this.getSqlSession().selectList("getPdctRcmd");
+		return this.sqlSession.selectList("getPdctRcmd");
 	}
 
 	@Override
 	public ProductPojo getProductDetailDao(int id) {
-		return this.getSqlSession().selectOne("getPdctDetail", id);
+		return this.sqlSession.selectOne("getPdctDetail", id);
 	}
 
 	@Override

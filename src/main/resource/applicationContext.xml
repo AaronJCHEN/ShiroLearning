@@ -53,13 +53,15 @@
     <!-- package scan for transaction -->
     <context:component-scan base-package="com.sjw.ShiroTest.ServiceImpl" />
 	<context:component-scan base-package="com.sjw.ShiroTest.DaoImpl" />
-	<context:component-scan base-package="com.sjw.ShiroTest.Utils" />
-	<context:component-scan base-package="com.sjw.ShiroTest.Pojo" />
 	<context:component-scan base-package="com.sjw.ShiroTest.Settings" />
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="configLocation" value="classpath:sqlMapConfig.xml" />
+    </bean>
+    
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+    	<constructor-arg index="0" ref="sqlSessionFactory" />
     </bean>
 
 	<!-- redis part -->
@@ -79,14 +81,5 @@
             	<value>/WEB-INF/tiles-defs.xml</value>
         	</list>
     	</property>
-	</bean>
-	
-	<bean id="authService" class="com.sjw.ShiroTest.ServiceImpl.AuthServiceImpl" />
-	
-	<bean id="productDao" class="com.sjw.ShiroTest.DaoImpl.ProductDaoImpl">
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>
-	<bean id="authDao" class="com.sjw.ShiroTest.DaoImpl.AuthDaoImpl">
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 </beans>

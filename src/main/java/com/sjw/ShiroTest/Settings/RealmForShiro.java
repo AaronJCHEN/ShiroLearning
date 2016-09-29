@@ -35,6 +35,7 @@ import com.sjw.ShiroTest.Service.AuthService;
 
 public class RealmForShiro extends JdbcRealm {
 	
+	@Autowired
 	AuthService authService;
 
     private static final Logger log = LoggerFactory.getLogger(RealmForShiro.class);
@@ -164,14 +165,6 @@ public class RealmForShiro extends JdbcRealm {
             times++;
         }
         return result;
-	}
-
-	public AuthService getAuthService() {
-		return authService;
-	}
-
-	public void setAuthService(AuthService authService) {
-		this.authService = authService;
 	}
 	
 }
