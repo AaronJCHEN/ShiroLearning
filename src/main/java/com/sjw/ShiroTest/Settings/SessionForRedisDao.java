@@ -1,11 +1,13 @@
 package com.sjw.ShiroTest.Settings;
 
 import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
+import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.slf4j.Logger;
@@ -27,6 +29,8 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	
 	private final String key = "SessionList";
 	private Logger logger = LoggerFactory.getLogger(SessionForRedisDao.class);
+	private Boolean onlyEhCache = true;
+	private int seconds = 0;
 
 
 	@Override
@@ -34,21 +38,32 @@ public class SessionForRedisDao extends CachingSessionDAO {
 		// TODO Auto-generated method stub
 		Session cachedSession = null;
 		cachedSession = super.getCachedSession(sessionId);
-		if(cachedSession ==null || cachedSession.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY) == null){
-			cachedSession = this.doReadSession(sessionId);
-			if(cachedSession == null)
-				throw new UnknownSessionException();
-			else{
-				((SessionForRedis)cachedSession).setNeedUpdate(true);
-				super.update(cachedSession);
+		if(onlyEhCache)
+			return cachedSession;
+		else{
+			if(cachedSession ==null || cachedSession.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY) == null){
+				cachedSession = this.doReadSession(sessionId);
+				if(cachedSession == null)
+					throw new UnknownSessionException();
+				else{
+					((SessionForRedis)cachedSession).setNeedUpdate(true);
+					super.update(cachedSession);
+				}
 			}
+			return cachedSession;
 		}
-		return cachedSession;
 	}
 
 	@Override
 	protected void doUpdate(Session session) {
-		// TODO Auto-generated method stub
+		if (!(session instanceof ValidatingSession) && ((ValidatingSession) session).isValid() ){
+			if (!onlyEhCache){
+				template.multi();
+			}
+		}
+		else {
+			logger.warn("Validating Session error");
+		}
 
 	}
 
@@ -60,7 +75,19 @@ public class SessionForRedisDao extends CachingSessionDAO {
 
 	@Override
 	protected Serializable doCreate(Session session) {
-		// TODO Auto-generated method stub
+		Serializable sessionId = this.generateSessionId(session);
+		this.assignSessionId(session,sessionId);
+		if (onlyEhCache) {
+			return sessionId;
+		}
+		else{
+			if(session != null && session.getId() != null) {
+				session.setTimeout(seconds);
+				valOps.set(session.getId(), session);
+				valOps.getOperations().expire(session.getId(), session.getTimeout(), TimeUnit.MILLISECONDS);
+				setOps.add(key, session.getId());
+			}
+		}
 		return null;
 	}
 
@@ -76,4 +103,19 @@ public class SessionForRedisDao extends CachingSessionDAO {
         return session;  
 	}
 
+	public Boolean getOnlyEhCache() {
+		return onlyEhCache;
+	}
+
+	public void setOnlyEhCache(Boolean onlyEhCache) {
+		this.onlyEhCache = onlyEhCache;
+	}
+
+	public int getSeconds() {
+		return seconds;
+	}
+
+	public void setSeconds(int seconds) {
+		this.seconds = seconds;
+	}
 }
