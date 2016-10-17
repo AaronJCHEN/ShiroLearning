@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.sjw.ShiroTest.Pojo.TestUserPojo;
 import com.sjw.ShiroTest.Pojo.UserPojo;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:testApplicationContext.xml","classpath:testServlet-context.xml"})
@@ -26,8 +27,11 @@ public class TestSpringData {
 	private final Logger logger = LoggerFactory.getLogger(TestSpringData.class);
 	
 	// inject the actual template
-    @Autowired
+    @Resource(name="redisTemplate")
     private RedisTemplate<String, TestUserPojo> template;
+
+	@Resource(name = "txRedisTemplate")
+	private RedisTemplate<String, String> txTemplate;
 
     // inject the template as ListOperations
     // can also inject as Value, Set, ZSet, and HashOperations
@@ -38,8 +42,9 @@ public class TestSpringData {
     private HashOperations<String,String,TestUserPojo> hashOps;
     
     @Test
+	@Transactional
     public void run(){
-    	TestUserPojo user = new TestUserPojo();
+/*    	TestUserPojo user = new TestUserPojo();
     	user.setUsername("sjw");
     	user.setPassword("aaa");
     	List<String> roles = new ArrayList<String>();
@@ -48,6 +53,9 @@ public class TestSpringData {
 		user.setCreate_date(new Date());
 		user.setModified_date(new Date());
     	template.opsForValue().set("aaa", user);
-    	template.opsForValue().get("aaa");
+    	template.opsForValue().get("aaa");*/
+		txTemplate.opsForValue().set("val:1","aaa");
+		txTemplate.opsForValue().set("val:2","bbb");
+        System.out.println(txTemplate.opsForValue().get("val:1"));
     }
 }

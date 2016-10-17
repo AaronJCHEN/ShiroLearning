@@ -40,15 +40,23 @@
         <property name="cookie" ref="rememberMeCookie"/>
     </bean>
     
-    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
-	
+    <!--<bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+
 	<bean id="webShiroSessionDao" class="com.sjw.ShiroTest.Settings.WebShiroSessionDao">
 		<property name="sessionIdGenerator" ref="sessionIdGenerator"/>
-	</bean>
+	</bean>-->
+
+    <bean id="sessionFactory" class="com.sjw.ShiroTest.Settings.SessionForRedisFactory" />
+    
+    <bean id="sessionDao" class="com.sjw.ShiroTest.Settings.SessionForRedisDao">
+        <property name="onlyEhCache" value="false" />
+        <property name="seconds" value="1800" />
+    </bean>
     
     <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">  
     	<property name="globalSessionTimeout" value="1200000" />
-    	<property name="sessionDAO" ref="webShiroSessionDao" /> 
+        <property name="sessionFactory" ref="sessionFactory"/>
+    	<property name="sessionDAO" ref="sessionDao" />
 	</bean>
 	
     <!-- Shiro安全管理器 -->

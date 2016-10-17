@@ -8,8 +8,13 @@ public class SessionForRedisFactory extends SimpleSessionFactory {
 
 	@Override
 	public Session createSession(SessionContext initData) {
-		// TODO Auto-generated method stub
-		return super.createSession(initData);
+		if (initData != null) {
+			String host = initData.getHost();
+			if (host != null) {
+				return new SessionForRedis(host);
+			}
+		}
+		return new SessionForRedis();
 	}
 
 }
