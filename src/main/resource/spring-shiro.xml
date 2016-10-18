@@ -50,7 +50,7 @@
     
     <bean id="sessionDao" class="com.sjw.ShiroTest.Settings.SessionForRedisDao">
         <property name="onlyEhCache" value="false" />
-        <property name="seconds" value="1800" />
+        <property name="seconds" value="1200000" />
     </bean>
     
     <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">  

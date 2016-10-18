@@ -35,6 +35,12 @@ public class SessionForRedis extends SimpleSession {
 	}
 
 	@Override
+	public void setLastAccessTime(Date lastAccessTime) {
+		super.setLastAccessTime(lastAccessTime);
+		this.needUpdate = false;
+	}
+
+	@Override
 	public void setStartTimestamp(Date startTimestamp) {
 		super.setStartTimestamp(startTimestamp);
 		this.needUpdate = true;
@@ -47,15 +53,19 @@ public class SessionForRedis extends SimpleSession {
 	}
 
 	@Override
-	public void setLastAccessTime(Date lastAccessTime) {
-		super.setLastAccessTime(lastAccessTime);
-		this.needUpdate = false;
-	}
-
-	@Override
 	public void setExpired(boolean expired) {
 		super.setExpired(expired);
 		this.needUpdate = true;
+	}
+
+	@Override
+	public boolean isExpired() {
+		return super.isExpired();
+	}
+
+	@Override
+	protected boolean isStopped() {
+		return super.isStopped();
 	}
 
 	@Override

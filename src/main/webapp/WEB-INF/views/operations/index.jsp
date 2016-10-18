@@ -20,3 +20,6 @@
 	</div>
 	</c:if>
 </c:forEach>
+<div class="col-sm-12">
+	<a href="${url }/product/test">Test</a>
+</div>

@@ -7,6 +7,7 @@ import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
@@ -17,29 +18,26 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+@Transactional
 public class SessionForRedisDao extends CachingSessionDAO {
-	@Resource(name="redisTemplate")
-    private RedisTemplate<String, String> template;
-	
-	@Resource(name="redisTemplate")
-    private ValueOperations<Serializable,Session> valOps;
-	
-	@Resource(name="redisTemplate")
-	private SetOperations<String,Serializable> setOps;
 
-	@Resource(name="txRedisTemplate")
+	@Resource(name = "redisTemplate")
+    private ValueOperations<Serializable,Session> valOps;
+
+	@Qualifier("txRedisTemplate")
 	private RedisTemplate<String,String > txTemplate;
 
-	@Resource(name="txRedisTemplate")
+	@Resource(name = "txRedisTemplate")
 	private ValueOperations<Serializable,Session> txValOps;
 
-	@Resource(name="txRedisTemplate")
+	@Resource(name = "txRedisTemplate")
 	private SetOperations<String,Serializable> txSetOps;
 	
 	private final String key = "SessionList";
 	private Logger logger = LoggerFactory.getLogger(SessionForRedisDao.class);
 	private Boolean onlyEhCache = true;
 	private int seconds = 0;
+	private boolean isCreated = false;
 
 
 	@Override
@@ -51,7 +49,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 		else{
 			if(cachedSession ==null || cachedSession.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY) == null){
 				cachedSession = this.doReadSession(sessionId);
-				if(cachedSession == null)
+				if(cachedSession == null && isCreated)
 					throw new UnknownSessionException();
 				else{
 					((SessionForRedis)cachedSession).setNeedUpdate(true);
@@ -63,9 +61,8 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	}
 
 	@Override
-	@Transactional
 	protected void doUpdate(Session session) {
-		if (!(session instanceof ValidatingSession) && ((ValidatingSession) session).isValid() ){
+		if (session instanceof ValidatingSession || ((ValidatingSession) session).isValid() ){
 			if (!onlyEhCache){
 				if (session instanceof SessionForRedis){
 					SessionForRedis ss = (SessionForRedis) session;
@@ -96,7 +93,6 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	}
 
 	@Override
-	@Transactional
 	protected void doDelete(Session session) {
 		logger.info("Begin to delete a session");
 		txTemplate.delete((String) session.getId());
@@ -104,20 +100,21 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	}
 
 	@Override
-	@Transactional
 	protected Serializable doCreate(Session session) {
-		logger.info("Begin to create a new session");
 		Serializable sessionId = this.generateSessionId(session);
 		this.assignSessionId(session,sessionId);
 		if (onlyEhCache) {
+			isCreated = true;
 			return sessionId;
 		}
 		else{
 			if(session != null && session.getId() != null) {
+				logger.info("Begin to create a new session");
 				session.setTimeout(seconds);
-				txValOps.set(session.getId(), session);
 				txValOps.getOperations().expire(session.getId(), session.getTimeout(), TimeUnit.MILLISECONDS);
+				txValOps.set(session.getId(), session);
 				txSetOps.add(key, session.getId());
+				isCreated = true;
 			}
 		}
 		return sessionId;
@@ -128,10 +125,10 @@ public class SessionForRedisDao extends CachingSessionDAO {
 		Session session = null;
         try {
         	session = valOps.get(sessionId);
-        	logger.info("shiro session id {} 被读取", sessionId);
-        } catch (Exception e) {  
-            e.printStackTrace();
-        }
+			logger.info("shiro session id {} 被读取", sessionId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         return session;  
 	}
 
