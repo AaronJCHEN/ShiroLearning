@@ -49,13 +49,19 @@ public class SessionForRedisDao extends CachingSessionDAO {
 		else{
 			if(cachedSession ==null || cachedSession.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY) == null){
 				cachedSession = this.doReadSession(sessionId);
-				if(cachedSession == null && isCreated)
-					throw new UnknownSessionException();
+				if(cachedSession == null) {
+					if (isCreated)
+						throw new UnknownSessionException();
+				}
 				else{
+					logger.debug("没有取得授权信息");
 					((SessionForRedis)cachedSession).setNeedUpdate(true);
 					super.update(cachedSession);
+					((SessionForRedis)cachedSession).setNeedUpdate(false);  //TODO need to confirm if it's necessary
 				}
 			}
+			else if(cachedSession !=null)
+				logger.debug("从Ehcache读取session,ID为{}",cachedSession.getId());
 			return cachedSession;
 		}
 	}
@@ -65,6 +71,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 		if (session instanceof ValidatingSession || ((ValidatingSession) session).isValid() ){
 			if (!onlyEhCache){
 				if (session instanceof SessionForRedis){
+					logger.info("The session which id is {} is being updated",session.getId());
 					SessionForRedis ss = (SessionForRedis) session;
 					if(ss.isNeedUpdate()){
 						ss.setNeedUpdate(false);

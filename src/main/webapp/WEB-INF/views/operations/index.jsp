@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="url" value="/ShiroTest/"></c:set>
+<c:set var="url" value="/ShiroTest"></c:set>
 <c:forEach var="i" items="${rproducts }" varStatus="s">
 	<c:if test="${s.index % 3 == 0 }">
 	<div class="row">
@@ -20,6 +20,3 @@
 	</div>
 	</c:if>
 </c:forEach>
-<div class="col-sm-12">
-	<a href="${url }/product/test">Test</a>
-</div>
