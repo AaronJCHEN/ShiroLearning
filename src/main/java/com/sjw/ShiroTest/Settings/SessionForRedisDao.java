@@ -139,6 +139,11 @@ public class SessionForRedisDao extends CachingSessionDAO {
         return session;  
 	}
 
+	@Override
+	protected void cache(Session session, Serializable sessionId) {
+		super.cache(session, sessionId);
+	}
+
 	public Boolean getOnlyEhCache() {
 		return onlyEhCache;
 	}
