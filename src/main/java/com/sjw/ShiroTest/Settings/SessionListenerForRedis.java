@@ -1,6 +1,7 @@
 package com.sjw.ShiroTest.Settings;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.io.Serializable;
@@ -13,10 +14,10 @@ import java.util.Map;
  */
 public class SessionListenerForRedis {
     @Autowired
-    StringRedisSerializer strSerializer;
+    JdkSerializationRedisSerializer jdkSerializationRedisSerializer;
 
     public void handleMessage(Serializable message){
-        if(message == null){
+       /* if(message == null){
             System.out.println("null");
         } else if(message.getClass().isArray()){
             System.out.println(Arrays.toString((Object[])message));
@@ -26,6 +27,9 @@ public class SessionListenerForRedis {
             System.out.println(message);
         } else {
             System.out.println("Message is : "+message);
-        }
+        }*/
+       if(message!=null && "update session".equals(message)){
+           
+       }
     }
 }

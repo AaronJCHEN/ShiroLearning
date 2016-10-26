@@ -82,13 +82,13 @@
 	</bean>
 
 	<!--Serializable in redis-->
-	 <bean id="strSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+	 <bean id="jdkSerializer" class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
 
 	<!--Redis publish and subscribe function-->
 	<bean id="redisMsgListener" class="com.sjw.ShiroTest.Settings.SessionListenerForRedis" />
 
     <redis:listener-container>
-        <redis:listener ref="redisMsgListener" method="handleMessage" serializer="strSerializer" topic="ShiroSession" />
+        <redis:listener ref="redisMsgListener" method="handleMessage" serializer="jdkSerializer" topic="ShiroSession" />
 	</redis:listener-container>
 
     <!-- Tiles part -->
