@@ -8,13 +8,13 @@
         <property name="shared" value="true" />
     </bean>
     <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-		<property name="cacheManager" ref="ehCacheManager" />
-	</bean>
-    
+        <property name="cacheManager" ref="ehCacheManager" />
+    </bean>
+
     <!-- Shiro Part -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
-    	<constructor-arg index="0" value="MD5" />
+        <constructor-arg index="0" value="MD5" />
     </bean>
     <bean id="realmForShiro" class="com.sjw.ShiroTest.Settings.Shiro.RealmForShiro">
         <property name="credentialsMatcher" ref="credentialsMatcher" />
@@ -23,11 +23,11 @@
     </bean>
 
     <!-- 会话Cookie模板 -->
-<!--     <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-        <constructor-arg value="sid"/>
-        <property name="httpOnly" value="true"/>
-        <property name="maxAge" value="-1"/>
-    </bean> -->
+    <!--     <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+            <constructor-arg value="sid"/>
+            <property name="httpOnly" value="true"/>
+            <property name="maxAge" value="-1"/>
+        </bean> -->
     <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="rememberMe"/>
         <property name="httpOnly" value="true"/>
@@ -41,7 +41,7 @@
     </bean>
 
     <bean id="sessionFactory" class="com.sjw.ShiroTest.Settings.Shiro.SessionForRedisFactory" />
-    
+
     <bean id="sessionDao" class="com.sjw.ShiroTest.Settings.Shiro.SessionForRedisDao">
         <property name="onlyEhCache" value="false" />
         <property name="seconds" value="1200000" />
@@ -52,25 +52,17 @@
         <property name="key" value="SessionList" />
     </bean>
 
-    <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">  
-    	<property name="globalSessionTimeout" value="1200000" />
+    <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="globalSessionTimeout" value="1200000" />
         <property name="sessionFactory" ref="sessionFactory"/>
-    	<property name="sessionDAO" ref="sessionDao" />
+        <property name="sessionDAO" ref="sessionDao" />
         <property name="sessionListeners">
             <list>
                 <ref bean="sessionStsListener"/>
             </list>
         </property>
-	</bean>
-	
-    <!-- Shiro安全管理器 -->
-    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-    	<property name="sessionManager" ref="defaultWebSessionManager"/>
-        <property name="realm" ref="realmForShiro" />
-        <property name="cacheManager" ref="cacheManager"/>
-        <property name="rememberMeManager" ref="rememberMeManager" />
     </bean>
-    
+
     <!--
    Shiro主过滤器本身功能十分强大，其强大之处就在于它支持任何基于URL路径表达式的、自定义的过滤器的执行
    Web应用中，Shiro可控制的Web请求必须经过Shiro主过滤器的拦截，Shiro对基于Spring的Web应用提供了完美的支持

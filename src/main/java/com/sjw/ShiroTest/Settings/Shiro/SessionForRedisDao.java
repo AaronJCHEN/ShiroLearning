@@ -1,4 +1,4 @@
-package com.sjw.ShiroTest.Settings;
+package com.sjw.ShiroTest.Settings.Shiro;
 
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
@@ -33,7 +33,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	@Resource(name = "txRedisTemplate")
 	private SetOperations<String,Serializable> txSetOps;
 	
-	private final String key = "SessionList";
+	private String key;
 	private Logger logger = LoggerFactory.getLogger(SessionForRedisDao.class);
 	private Boolean onlyEhCache = true;
 	private int seconds = 0;
@@ -103,11 +103,13 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	protected void doDelete(Session session) {
 		logger.info("Begin to delete a session");
 		txTemplate.delete((String) session.getId());
-		txSetOps.remove(key,session.getId());
+		txSetOps.remove(key,session.getHost());
 	}
 
 	@Override
 	protected Serializable doCreate(Session session) {
+		//TODO if should add catch session by ip in this part or in the onStart part
+
 		Serializable sessionId = this.generateSessionId(session);
 		this.assignSessionId(session,sessionId);
 		if (onlyEhCache) {
@@ -120,7 +122,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 				session.setTimeout(seconds);
 				txValOps.getOperations().expire(session.getId(), session.getTimeout(), TimeUnit.MILLISECONDS);
 				txValOps.set(session.getId(), session);
-				txSetOps.add(key, session.getId());
+				txSetOps.add(key, session.getHost());
 				isCreated = true;
 			}
 		}
@@ -158,5 +160,13 @@ public class SessionForRedisDao extends CachingSessionDAO {
 
 	public void setSeconds(int seconds) {
 		this.seconds = seconds;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
 	}
 }

@@ -85,7 +85,7 @@
 	 <bean id="jdkSerializer" class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
 
 	<!--Redis publish and subscribe function-->
-	<bean id="redisMsgListener" class="com.sjw.ShiroTest.Settings.SessionListenerForRedis" />
+	<bean id="redisMsgListener" class="com.sjw.ShiroTest.Settings.Redis.SessionMsgListener" />
 
     <redis:listener-container>
         <redis:listener ref="redisMsgListener" method="handleMessage" serializer="jdkSerializer" topic="ShiroSession" />

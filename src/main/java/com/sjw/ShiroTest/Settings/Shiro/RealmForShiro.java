@@ -1,9 +1,8 @@
-package com.sjw.ShiroTest.Settings;
+package com.sjw.ShiroTest.Settings.Shiro;
 
 import java.sql.SQLException;
 import java.util.*;
 
-import org.apache.ibatis.session.SqlSession;
 import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -21,8 +20,6 @@ import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.sjw.ShiroTest.Service.AuthService;
 

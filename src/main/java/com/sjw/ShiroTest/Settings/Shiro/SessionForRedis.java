@@ -1,11 +1,9 @@
-package com.sjw.ShiroTest.Settings;
+package com.sjw.ShiroTest.Settings.Shiro;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
-import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.mgt.SimpleSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +14,7 @@ public class SessionForRedis extends SimpleSession {
 	private Logger logger = LoggerFactory.getLogger(SessionForRedis.class);
 	
 	private boolean needUpdate;
+	private boolean needNotified; //Prepared
 	private Date deadline;
 	
 	/*Add a logic. When current date is over the timeout, update the redis side and notified
@@ -25,12 +24,14 @@ public class SessionForRedis extends SimpleSession {
 		super();
 		logger.info("Session for Redis is created");
 		this.needUpdate = true;
+		this.needNotified = false;
 	}
 
 	public SessionForRedis(String host) {
 		super(host);
 		logger.info("Session for Redis is created by host");
 		this.needUpdate = true;
+		this.needNotified = false;
 	}
 	
 	@Override
@@ -38,12 +39,14 @@ public class SessionForRedis extends SimpleSession {
 		super.setId(id);
 		logger.info("Session id is set");
 		this.needUpdate = true;
+		this.needNotified = false;
 	}
 
 	@Override
 	public void setLastAccessTime(Date lastAccessTime) {
 		super.setLastAccessTime(lastAccessTime);
 		this.needUpdate = false;
+		this.needNotified = false;
 	}
 
 	@Override
@@ -51,6 +54,7 @@ public class SessionForRedis extends SimpleSession {
 		super.setStartTimestamp(startTimestamp);
 		logger.info("Session startTimestamp is set");
 		this.needUpdate = true;
+		this.needNotified = false;
 	}
 
 	@Override
@@ -58,6 +62,7 @@ public class SessionForRedis extends SimpleSession {
 		super.setStopTimestamp(stopTimestamp);
 		logger.info("Session stopTimestamp is set");
 		this.needUpdate = true;
+		this.needNotified = false;
 	}
 
 	@Override
@@ -65,6 +70,7 @@ public class SessionForRedis extends SimpleSession {
 		super.setExpired(expired);
 		logger.info("Session expired is set");
 		this.needUpdate = true;
+		this.needNotified = false;
 	}
 
 	@Override
@@ -82,6 +88,7 @@ public class SessionForRedis extends SimpleSession {
 		super.setTimeout(timeout);
 		logger.info("Session timeout is set");
 		this.needUpdate = true;
+		this.needNotified = false;
 	}
 
 	@Override
@@ -89,6 +96,7 @@ public class SessionForRedis extends SimpleSession {
 		super.setHost(host);
 		logger.info("Session host is set");
 		this.needUpdate = true;
+		this.needNotified = false;
 	}
 
 	@Override
@@ -96,12 +104,15 @@ public class SessionForRedis extends SimpleSession {
 		super.setAttributes(attributes);
 		logger.info("Session attributes is set");
 		this.needUpdate = true;
+		this.needNotified = false;
 	}
 	
 	@Override
 	public void touch() {
 		super.touch();
+		logger.info("Session is touched");
 		this.needUpdate = false;
+		this.needNotified = false;
 	}
 
 	@Override
@@ -109,6 +120,7 @@ public class SessionForRedis extends SimpleSession {
 		super.stop();
 		logger.info("Session stop is set");
 		this.needUpdate = true;
+		this.needNotified = false;
 	}
 
 	@Override
@@ -116,6 +128,7 @@ public class SessionForRedis extends SimpleSession {
 		super.expire();
 		logger.info("Session expire is set");
 		this.needUpdate = true;
+		this.needNotified = false;
 	}
 
 	@Override
@@ -123,11 +136,13 @@ public class SessionForRedis extends SimpleSession {
 		super.setAttribute(key, value);
 		logger.info("Session attribute is set");
 		this.needUpdate = true;
+		this.needNotified = false;
 	}
 
 	@Override
 	public Object removeAttribute(Object key) {
 		this.needUpdate = true;
+		this.needNotified = false;
 		logger.info("Session attribute is removed");
 		return super.removeAttribute(key);
 	}
@@ -171,7 +186,13 @@ public class SessionForRedis extends SimpleSession {
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
 	}
-	
-	
-	
+
+
+	public boolean isNeedNotified() {
+		return needNotified;
+	}
+
+	public void setNeedNotified(boolean needNotified) {
+		this.needNotified = needNotified;
+	}
 }
