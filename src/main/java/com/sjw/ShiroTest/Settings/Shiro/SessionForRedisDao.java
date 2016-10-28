@@ -22,16 +22,19 @@ import java.util.concurrent.TimeUnit;
 public class SessionForRedisDao extends CachingSessionDAO {
 
 	@Resource(name = "redisTemplate")
-    private ValueOperations<Serializable,Session> valOps;
+	private ValueOperations<String,Session> valOps;
+
+	@Resource(name = "redisTemplate")
+	private ValueOperations<String,Serializable> valOpsForStr;
 
 	@Qualifier("txRedisTemplate")
-	private RedisTemplate<String,String > txTemplate;
+	private RedisTemplate<String,Serializable> txTemplate;
 
 	@Resource(name = "txRedisTemplate")
-	private ValueOperations<Serializable,Session> txValOps;
+	private ValueOperations<String,Session> txValOps;
 
 	@Resource(name = "txRedisTemplate")
-	private SetOperations<String,Serializable> txSetOps;
+	private SetOperations<String,String> txSetOps;
 	
 	private String key;
 	private Logger logger = LoggerFactory.getLogger(SessionForRedisDao.class);
@@ -54,6 +57,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 						throw new UnknownSessionException();
 				}
 				else{
+					//TODO to see if this part is necessary
 					logger.debug("没有取得授权信息");
 					((SessionForRedis)cachedSession).setNeedUpdate(true);
 					super.update(cachedSession);
@@ -61,7 +65,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 				}
 			}
 			else if(cachedSession !=null)
-				logger.debug("从Ehcache读取session,ID为{}",cachedSession.getId());
+				logger.debug("从Ehcache读取session,IP为{}",cachedSession.getHost());
 			return cachedSession;
 		}
 	}
@@ -71,18 +75,18 @@ public class SessionForRedisDao extends CachingSessionDAO {
 		if (session instanceof ValidatingSession || ((ValidatingSession) session).isValid() ){
 			if (!onlyEhCache){
 				if (session instanceof SessionForRedis){
-					logger.info("The session which id is {} is being updated",session.getId());
 					SessionForRedis ss = (SessionForRedis) session;
+					logger.info("The session which ip is {} is being updated",ss.getHost());
 					if(ss.isNeedUpdate()){
 						ss.setNeedUpdate(false);
 						ss.setLastAccessTime(new Date());
-						txValOps.set(session.getId(), ss);
-						txValOps.getOperations().expire(ss.getId(), ss.getTimeout(), TimeUnit.MILLISECONDS);
+						txValOps.set(session.getHost(), ss);
+						txValOps.getOperations().expire(session.getHost(), ss.getTimeout(), TimeUnit.MILLISECONDS);
 					}
 				}
 				else if (session instanceof Serializable){
-					txValOps.set(session.getId(), session);
-					txValOps.getOperations().expire(session.getId(), session.getTimeout(), TimeUnit.MILLISECONDS);
+					txValOps.set(session.getHost(), session);
+					txValOps.getOperations().expire(session.getHost(), session.getTimeout(), TimeUnit.MILLISECONDS);
 					logger.info("A Session that doesn't fit for redis is recorded");
 				}
 				else{
@@ -102,14 +106,12 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	@Override
 	protected void doDelete(Session session) {
 		logger.info("Begin to delete a session");
-		txTemplate.delete((String) session.getId());
+		txTemplate.delete((String) session.getHost());
 		txSetOps.remove(key,session.getHost());
 	}
 
 	@Override
 	protected Serializable doCreate(Session session) {
-		//TODO if should add catch session by ip in this part or in the onStart part
-
 		Serializable sessionId = this.generateSessionId(session);
 		this.assignSessionId(session,sessionId);
 		if (onlyEhCache) {
@@ -117,15 +119,17 @@ public class SessionForRedisDao extends CachingSessionDAO {
 			return sessionId;
 		}
 		else{
-			if(session != null && session.getId() != null) {
+			if(session != null && session.getHost() != null) {
 				logger.info("Begin to create a new session");
 				session.setTimeout(seconds);
-				txValOps.getOperations().expire(session.getId(), session.getTimeout(), TimeUnit.MILLISECONDS);
-				txValOps.set(session.getId(), session);
+				txValOps.getOperations().expire(session.getHost(), session.getTimeout(), TimeUnit.MILLISECONDS);
+				txValOps.set(session.getHost(), session);
 				txSetOps.add(key, session.getHost());
+				valOpsForStr.set("SessionId:"+session.getId(),session.getHost());
 				isCreated = true;
 			}
 		}
+		logger.info("doCreate 完成,此时session id为{}",session.getId());
 		return sessionId;
 	}
 
@@ -133,8 +137,9 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	protected Session doReadSession(Serializable sessionId) {
 		Session session = null;
         try {
-        	session = valOps.get(sessionId);
-			logger.info("shiro session id {} 被读取", sessionId);
+			String ip = (String) valOpsForStr.get("SessionId:"+sessionId);
+        	session = valOps.get(ip);
+			logger.info("shiro session id {} 被读取", session.getHost());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

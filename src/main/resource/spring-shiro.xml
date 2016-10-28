@@ -40,7 +40,9 @@
         <property name="cookie" ref="rememberMeCookie"/>
     </bean>
 
-    <bean id="sessionFactory" class="com.sjw.ShiroTest.Settings.Shiro.SessionForRedisFactory" />
+    <bean id="sessionFactory" class="com.sjw.ShiroTest.Settings.Shiro.SessionForRedisFactory">
+        <property name="key" value="SessionList"/>
+    </bean>
     
     <bean id="sessionDao" class="com.sjw.ShiroTest.Settings.Shiro.SessionForRedisDao">
         <property name="onlyEhCache" value="false" />

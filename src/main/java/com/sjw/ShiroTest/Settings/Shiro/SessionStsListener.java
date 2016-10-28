@@ -16,8 +16,8 @@ public class SessionStsListener implements SessionListener {
     private Logger logger = LoggerFactory.getLogger(SessionStsListener.class);
     private String key;
 
-    @Resource
-    private SetOperations<String,Serializable> setOps;
+    @Resource(name="redisTemplate")
+    private SetOperations<String,String> setOps;
 
     @Override
     public void onStart(Session session) {
