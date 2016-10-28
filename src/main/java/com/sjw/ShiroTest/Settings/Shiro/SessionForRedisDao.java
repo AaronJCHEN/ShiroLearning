@@ -106,8 +106,9 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	@Override
 	protected void doDelete(Session session) {
 		logger.info("Begin to delete a session");
-		txTemplate.delete((String) session.getHost());
+		txTemplate.delete(session.getHost());
 		txSetOps.remove(key,session.getHost());
+		txTemplate.delete("SessionId:"+session.getId());
 	}
 
 	@Override

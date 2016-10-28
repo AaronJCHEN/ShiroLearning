@@ -52,6 +52,7 @@
 
     <bean id="sessionStsListener" class="com.sjw.ShiroTest.Settings.Shiro.SessionStsListener">
         <property name="key" value="SessionList" />
+        <property name="sessionForRedisDao" ref="sessionDao"/>
     </bean>
 
     <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">  

@@ -119,16 +119,18 @@ public class SessionForRedis extends SimpleSession {
 	public void stop() {
 		super.stop();
 		logger.info("Session stop is set");
-		this.needUpdate = true;
-		this.needNotified = false;
+		//Listener will do this part
+		//this.needUpdate = true;
+		//this.needNotified = false;
 	}
 
 	@Override
 	protected void expire() {
 		super.expire();
 		logger.info("Session expire is set");
-		this.needUpdate = true;
-		this.needNotified = false;
+		//Listener will do this part
+		//this.needUpdate = true;
+		//this.needNotified = false;
 	}
 
 	@Override
