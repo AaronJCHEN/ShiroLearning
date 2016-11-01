@@ -50,10 +50,7 @@
         <property name="key" value="SessionList" />
     </bean>
 
-    <bean id="sessionStsListener" class="com.sjw.ShiroTest.Settings.Shiro.SessionStsListener">
-        <property name="key" value="SessionList" />
-        <property name="sessionForRedisDao" ref="sessionDao"/>
-    </bean>
+    <bean id="sessionStsListener" class="com.sjw.ShiroTest.Settings.Shiro.SessionStsListener" />
 
     <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">  
     	<property name="globalSessionTimeout" value="1200000" />
