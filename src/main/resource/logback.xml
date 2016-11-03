@@ -16,7 +16,7 @@
         <MaxHistory>30</MaxHistory>
     </rollingPolicy>
     <encoder>
-      <pattern>%d %c%n%-5p: %m [%thread]%n</pattern>
+      <pattern>%d %c%n%-5p: %m%n</pattern>
     </encoder>
     <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
         <MaxFileSize>10MB</MaxFileSize>
@@ -25,13 +25,13 @@
   <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
     <withJansi>true</withJansi>
     <encoder>
-      <pattern>%d %c%n%highlight(%-5p:) %m [%thread]%n</pattern>
+      <pattern>%d %c%n%-5p: %m%n</pattern>
     </encoder>
   </appender>
   <appender name="mbtsOut" class="ch.qos.logback.core.ConsoleAppender">
     <withJansi>true</withJansi>
     <encoder>
-      <pattern>%magenta(%d %c%n%-5p: %m [%thread]%n)</pattern>
+      <pattern>%magenta(%d %c%n%-5p: %m%n)</pattern>
     </encoder>
   </appender>
   <!-- <logger name="com.sjw" level="DEBUG"/> -->

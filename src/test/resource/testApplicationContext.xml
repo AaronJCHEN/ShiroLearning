@@ -66,6 +66,7 @@
 	</bean>
 
 	<!-- redis part -->
+	<!--redisConnectionFactory's name can't be changed which is related to redis listener-->
 	<bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
 		<property name="usePool" value="true" />
 	</bean>

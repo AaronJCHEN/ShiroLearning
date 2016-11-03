@@ -26,7 +26,7 @@ import com.sjw.ShiroTest.Service.ProductService;
 
 @Controller
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController{
 	@Autowired
 	AuthService authService;
 	

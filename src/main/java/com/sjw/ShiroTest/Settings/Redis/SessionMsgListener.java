@@ -10,8 +10,6 @@ import java.io.Serializable;
  * Created by Watson on 10/21/2016.
  */
 public class SessionMsgListener {
-    @Autowired
-    DefaultWebSessionManager defaultWebSessionManager;
 
     public void handleMessage(Serializable message){
        if(message!=null && "update session".equals(message)){
