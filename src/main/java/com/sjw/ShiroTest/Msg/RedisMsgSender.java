@@ -1,4 +1,4 @@
-package com.sjw.ShiroTest.Utils;
+package com.sjw.ShiroTest.Msg;
 
 import org.omg.CORBA.Object;
 import org.slf4j.Logger;

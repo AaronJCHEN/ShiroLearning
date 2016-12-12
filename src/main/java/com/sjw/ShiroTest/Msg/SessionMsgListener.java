@@ -1,4 +1,4 @@
-package com.sjw.ShiroTest.Settings.Redis;
+package com.sjw.ShiroTest.Msg;
 
 
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;

@@ -1,10 +1,6 @@
 package com.sjw.ShiroTest.Utils;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.SimpleSession;
-import org.apache.shiro.subject.Subject;
+import com.sjw.ShiroTest.Msg.RedisMsgSender;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

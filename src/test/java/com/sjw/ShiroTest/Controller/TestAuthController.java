@@ -21,7 +21,8 @@ import java.util.List;
  * Created by sjw on 16/8/13.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:testApplicationContext.xml","classpath:testServlet-context.xml"})
+@ContextConfiguration(locations={"classpath:testApplicationContext.xml","classpath:testServlet-context.xml"
+		,"classpath:testSpring-shiro.xml"})
 public class TestAuthController {
 	
 	@Autowired

@@ -11,7 +11,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.sjw.ShiroTest.Service.AuthService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:testApplicationContext.xml","classpath:testServlet-context.xml"})
+@ContextConfiguration(locations={"classpath:testApplicationContext.xml","classpath:testServlet-context.xml"
+		,"classpath:testSpring-shiro.xml"})
 public class TestRealmForShiro {
 	@Autowired
 	AuthService authService;

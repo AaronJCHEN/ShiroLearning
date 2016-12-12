@@ -55,6 +55,7 @@
 	<context:component-scan base-package="com.sjw.ShiroTest.ServiceImpl" />
 	<context:component-scan base-package="com.sjw.ShiroTest.DaoImpl" />
 	<context:component-scan base-package="com.sjw.ShiroTest.Settings" />
+	<context:component-scan base-package="com.sjw.ShiroTest.Msg" />
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
@@ -85,10 +86,12 @@
 	<bean id="jdkSerializer" class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
 
 	<!--Redis publish and subscribe function-->
-	<bean id="redisMsgListener" class="com.sjw.ShiroTest.Settings.Redis.SessionMsgListener" />
+	<bean id="sessionMsgListener" class="com.sjw.ShiroTest.Msg.SessionMsgListener" />
+	<bean id="productMsgListener" class="com.sjw.ShiroTest.Msg.ProductMsgListener" />
 
 	<redis:listener-container>
-		<redis:listener ref="redisMsgListener" method="handleMessage" serializer="jdkSerializer" topic="ShiroSession" />
+		<redis:listener ref="sessionMsgListener" method="handleMessage" serializer="jdkSerializer" topic="session-update" />
+		<redis:listener ref="productMsgListener" method="handleMessage" serializer="jdkSerializer" topic="product-update" />
 	</redis:listener-container>
 
 </beans>

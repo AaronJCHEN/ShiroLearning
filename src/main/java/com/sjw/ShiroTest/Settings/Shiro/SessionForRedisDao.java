@@ -144,7 +144,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        return session;  
+        return session;
 	}
 
 	@Override
