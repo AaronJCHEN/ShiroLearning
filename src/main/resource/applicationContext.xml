@@ -9,47 +9,44 @@
     	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd  
     	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/redis http://www.springframework.org/schema/redis/spring-redis.xsd">
-	
+
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">       
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     	<property name="location" value="classpath:database.properties"/>
-    </bean>  
-	
+    </bean>
+
     <!-- Druid connection pool -->
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 	    <property name="url" value="${jdbc.location}" />
 	    <!-- <property name="username" value="${jdbc_user}" />
 	    <property name="password" value="${jdbc_password}" /> -->
-	
+
 	    <property name="filters" value="stat,slf4j" />
-	
+
 	    <property name="maxActive" value="20" />
 	    <property name="initialSize" value="1" />
 	    <property name="maxWait" value="60000" />
 	    <property name="minIdle" value="1" />
-	
+
 	    <property name="timeBetweenEvictionRunsMillis" value="60000" />
 	    <property name="minEvictableIdleTimeMillis" value="300000" />
-	
+
 	    <property name="testWhileIdle" value="false" />
 	    <property name="testOnBorrow" value="false" />
 	    <property name="testOnReturn" value="false" />
-		
+
 		<!-- comment for sqlite -->
 		<!-- <property name="testWhileIdle" value="true" />
 	    <property name="poolPreparedStatements" value="true" />
 	    <property name="maxOpenPreparedStatements" value="20" /> -->
 	</bean>
-    
+
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
-    
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
-    
+
     <!-- enable transaction demarcation with annotations -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    <aop:config proxy-target-class="true" />
 
     <!-- package scan for transaction -->
     <context:component-scan base-package="com.sjw.ShiroTest.ServiceImpl" />

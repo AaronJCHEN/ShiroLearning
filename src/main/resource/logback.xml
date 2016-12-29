@@ -22,6 +22,18 @@
         <MaxFileSize>10MB</MaxFileSize>
     </triggeringPolicy>
   </appender>
+  <appender name="mbtsFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>/log/ShiroTest.sql.%d{yyyy-MM-dd}.log</FileNamePattern>
+      <MaxHistory>30</MaxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d %c%n%-5p: %m%n</pattern>
+    </encoder>
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <MaxFileSize>10MB</MaxFileSize>
+    </triggeringPolicy>
+  </appender>
   <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
     <withJansi>true</withJansi>
     <encoder>
@@ -48,6 +60,7 @@
   <!--additivity means the appender won't transfer the info to the upper appender(root)-->
   <logger name="com.sjw.ShiroTest.Pojo" level="DEBUG" additivity="false">
   	<appender-ref ref="mbtsOut"/>
+    <appender-ref ref="mbtsFile"/>
   </logger>
 
   <logger name="org.junit" level="DEBUG"/>

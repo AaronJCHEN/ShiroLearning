@@ -27,7 +27,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	@Resource(name = "redisTemplate")
 	private ValueOperations<String,Serializable> valOpsForStr;
 
-	@Qualifier("txRedisTemplate")
+	@Resource(name = "txRedisTemplate")
 	private RedisTemplate<String,Serializable> txTemplate;
 
 	@Resource(name = "txRedisTemplate")
@@ -106,9 +106,12 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	@Override
 	protected void doDelete(Session session) {
 		logger.info("Begin to delete a session");
-		txTemplate.delete(session.getHost());
-		txSetOps.remove(key,session.getHost());
-		txTemplate.delete("SessionId:"+session.getId());
+		if (txValOps.get(session.getHost()) != null)
+			txTemplate.delete(session.getHost());
+		if (txSetOps.members(key).contains(session.getHost()))
+			txSetOps.remove(key,session.getHost());
+		if (txValOps.get("SessionId:"+session.getId()) != null)
+			txTemplate.delete("SessionId:"+session.getId());
 	}
 
 	@Override

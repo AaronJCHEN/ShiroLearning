@@ -4,8 +4,11 @@ import java.util.List;
 
 import com.sjw.ShiroTest.Pojo.ProductPojo;
 
+import javax.servlet.http.HttpSession;
+
 public interface ProductService {
 	public List<ProductPojo> getRecommendedProductsService();
 	public ProductPojo getProductDetailService(int id);
 	public void updateBrowseNumService(int id);
+	public void updateReadHistory(ProductPojo product, String username);
 }

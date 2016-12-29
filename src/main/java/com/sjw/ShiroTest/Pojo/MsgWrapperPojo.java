@@ -9,11 +9,15 @@ public class MsgWrapperPojo<T> implements Serializable {
 
     private static final long serialVersionUID = 4577280610296026013L;
     private String msg;
-    private T t;
+    private T obj;
+    private String username;
 
-    public MsgWrapperPojo(String msg, T t) {
+    public MsgWrapperPojo(){}
+
+    public MsgWrapperPojo(String msg, String username, T obj) {
         this.msg = msg;
-        this.t = t;
+        this.username = username;
+        this.obj = obj;
     }
 
     public String getMsg() {
@@ -24,11 +28,19 @@ public class MsgWrapperPojo<T> implements Serializable {
         this.msg = msg;
     }
 
-    public T getT() {
-        return t;
+    public T getObj() {
+        return obj;
     }
 
-    public void setT(T t) {
-        this.t = t;
+    public void setObj(T obj) {
+        this.obj = obj;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
