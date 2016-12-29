@@ -40,9 +40,11 @@ public class ProductController {
         }
 
 		//move the recent record from redis to local cache in order to release the burden on redis
-		productService.updateReadHistory(thisPdct,request.getSession().getAttribute("username").toString());
+		List<ProductPojo> his = productService.updateReadHistory(thisPdct,
+				request.getSession().getAttribute("username").toString());
 
 		mv.addObject("pdct",thisPdct);
+		mv.addObject("recent",his);
 		mv.setViewName("product.definition");
 		return mv;
 	}

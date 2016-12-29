@@ -10,5 +10,5 @@ public interface ProductService {
 	public List<ProductPojo> getRecommendedProductsService();
 	public ProductPojo getProductDetailService(int id);
 	public void updateBrowseNumService(int id);
-	public void updateReadHistory(ProductPojo product, String username);
+	public List<ProductPojo> updateReadHistory(ProductPojo product, String username);
 }

@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void updateReadHistory(ProductPojo product, String username) {
+	public List<ProductPojo> updateReadHistory(ProductPojo product, String username) {
 		Cache readHistory = cacheManager.getCache("read-history");
 		Element r = readHistory.get(username);
 
@@ -53,6 +53,7 @@ public class ProductServiceImpl implements ProductService {
 			historyList.add(product);
 			Element thisReadList = new Element(username,historyList);
 			readHistory.put(thisReadList);
+			return historyList;
 		}
 		else{
 			Object readList = r.getObjectValue();
@@ -65,6 +66,8 @@ public class ProductServiceImpl implements ProductService {
 						historyList.remove(0);
 
 					historyList.add(product);
+					//TODO update readHistory
+					return historyList;
 				}
 			}
 			else
