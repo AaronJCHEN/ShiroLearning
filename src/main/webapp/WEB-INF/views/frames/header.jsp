@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
+<c:set var="url" value="/ShiroTest"></c:set>
 <nav class="navbar navbar-default" role="navigation">
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
@@ -11,7 +12,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="#">System</a>
+    <a class="navbar-brand" href="${url}">System</a>
   </div>
 
   <!-- Collect the nav links, forms, and other content for toggling -->

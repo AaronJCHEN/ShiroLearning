@@ -62,7 +62,7 @@
     </cache>
 
     <!--Read History Cache-->
-    <cache name="read-history"
+    <cache name="pdctCache"
            maxEntriesLocalHeap="2000"
            eternal="false"
            timeToIdleSeconds="3600"

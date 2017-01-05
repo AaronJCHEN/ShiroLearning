@@ -4,12 +4,8 @@ import java.util.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import com.sjw.ShiroTest.Msg.RedisMsgSender;
-import com.sjw.ShiroTest.Pojo.MsgWrapperPojo;
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.stereotype.Controller;
@@ -31,20 +27,18 @@ public class ProductController {
     private HashOperations<String,String,List> hashOps;
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
-	public ModelAndView getProductDetail(@PathVariable int id,HttpServletRequest request){
+	public ModelAndView getProductDetail(@PathVariable int id,
+										 HttpServletRequest request, HttpServletResponse response){
 		ModelAndView mv = new ModelAndView();
 		ProductPojo thisPdct = productService.getProductDetailService(id);
 		//TODO Update browse num on database
-		synchronized (this){
-			Double browse_num = thisPdct.getBrowse_num();
-        }
 
-		//move the recent record from redis to local cache in order to release the burden on redis
-		List<ProductPojo> his = productService.updateReadHistory(thisPdct,
-				request.getSession().getAttribute("username").toString());
+		//move the recent record(name+id) to cookies. Get info from cache
+		List<Map> his = productService.updateReadHistory(thisPdct, request,response);
 
 		mv.addObject("pdct",thisPdct);
 		mv.addObject("recent",his);
+		mv.addObject("hisLen",his.size()-1);
 		mv.setViewName("product.definition");
 		return mv;
 	}

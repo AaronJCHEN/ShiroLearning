@@ -84,11 +84,9 @@
 
 	<!--Redis publish and subscribe function-->
 	<bean id="sessionMsgListener" class="com.sjw.ShiroTest.Msg.SessionMsgListener" />
-	<bean id="productMsgListener" class="com.sjw.ShiroTest.Msg.ProductMsgListener" />
 
     <redis:listener-container>
         <redis:listener ref="sessionMsgListener" method="handleMessage" serializer="jdkSerializer" topic="session-update" />
-		<redis:listener ref="productMsgListener" method="handleMessage" serializer="jdkSerializer" topic="product-update" />
 	</redis:listener-container>
 
     <!-- Tiles part -->

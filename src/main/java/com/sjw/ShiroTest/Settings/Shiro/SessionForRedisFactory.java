@@ -1,5 +1,6 @@
 package com.sjw.ShiroTest.Settings.Shiro;
 
+import com.sjw.ShiroTest.Utils.IPUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.SessionContext;
 import org.apache.shiro.session.mgt.SimpleSessionFactory;
@@ -30,7 +31,8 @@ public class SessionForRedisFactory extends SimpleSessionFactory{
 	public Session createSession(SessionContext initData) {
 		HttpServletRequest request = (HttpServletRequest) initData
 				.get(DefaultWebSessionContext.class.getName() + ".SERVLET_REQUEST");
-		String ip = this.getRequestIP(request);
+		IPUtils ipUtils = new IPUtils(request);
+		String ip = ipUtils.getIp();
 		Boolean isExisted = setOps.isMember(key,ip);
 		if (isExisted){
 			Session ss = valOps.get(ip);
@@ -50,23 +52,6 @@ public class SessionForRedisFactory extends SimpleSessionFactory{
 			}
 			return new SessionForRedis();
 		}
-	}
-
-	private String getRequestIP(HttpServletRequest request){
-		String localIP = "127.0.0.1";
-		String ip = request.getHeader("x-forwarded-for");
-		if ("".equals(ip) || ip == null || (ip.equalsIgnoreCase(localIP)) || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("Proxy-Client-IP");
-		}
-		if ("".equals(ip) || ip == null || (ip.equalsIgnoreCase(localIP)) || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("WL-Proxy-Client-IP");
-		}
-		if ("".equals(ip) || ip == null || (ip.equalsIgnoreCase(localIP)) || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getRemoteAddr();
-		}
-		if("0:0:0:0:0:0:0:1".equals(ip))
-		    ip = localIP;
-		return ip;
 	}
 
 	public String getKey() {

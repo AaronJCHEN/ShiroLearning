@@ -11,6 +11,7 @@ public class MsgWrapperPojo<T> implements Serializable {
     private String msg;
     private T obj;
     private String username;
+    private String ip;
 
     public MsgWrapperPojo(){}
 
