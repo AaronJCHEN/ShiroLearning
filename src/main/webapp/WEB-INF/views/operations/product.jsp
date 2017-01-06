@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <ol class="breadcrumb">
     <li>
-        <a href="#">Home</a>
+        <a href="javascript:history.go(-1);">Home</a>
     </li>
     <li class="active">${pdct.name}</li>
 </ol>
@@ -14,6 +14,11 @@
     </div>
     <div class="col-sm-8">
         <h2>${pdct.name}</h2>
+        <p>
+            <c:forEach var = "tag" items="${pdct.tags}">
+                <span class="bg-info">${tag}</span>
+            </c:forEach>
+        </p>
         <hr></hr>
         <h3>Price : <span class="text-danger">${pdct.price}</span></h3>
         <p>
@@ -21,6 +26,7 @@
             <button type="button" class="btn btn-default btn-lg">Add to Cart</button>
         </p>
     </div>
+    
 </div>
 <div class="col-sm-12">
     <div role="tabpanel">

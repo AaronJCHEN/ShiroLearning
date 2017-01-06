@@ -26,13 +26,10 @@ import com.sjw.ShiroTest.Pojo.ProductPojo;
 import com.sjw.ShiroTest.Service.ProductService;
 
 @Service
-@Transactional
+/*@Transactional*/
 public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductDao productDao;
-
-	@Autowired
-	CacheManager cacheManager;
 
 	@Override
 	public List<ProductPojo> getRecommendedProductsService() {
