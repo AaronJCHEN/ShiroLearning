@@ -17,14 +17,11 @@
 <tiles:insertAttribute name="header" />  
 <div id="container-fluid">
 	<div class="row">
-		<div class="col-sm-2">
+		<div class="col-sm-3">
 			<tiles:insertAttribute name="navi" />
 		</div>
 		<div class="col-sm-8">
 			<tiles:insertAttribute name="body" />
-		</div>
-		<div class="col-sm-2">
-			<tiles:insertAttribute name="right" />
 		</div>
 	</div>
 </div>

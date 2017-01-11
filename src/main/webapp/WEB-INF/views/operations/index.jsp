@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="url" value="/ShiroTest"></c:set>
 <c:forEach var="i" items="${rproducts }" varStatus="s">
-	<c:if test="${s.index % 3 == 0 }">
+	<c:if test="${s.index % 4 == 0 }">
 	<div class="row">
 	</c:if>
 		<div class="col-sm-3">
@@ -16,7 +16,7 @@
 		    	</div>
 		    </div>
 	    </div>
-    <c:if test="${s.index % 3 == 2 }">
+    <c:if test="${s.index % 4 == 3 }">
 	</div>
 	</c:if>
 </c:forEach>

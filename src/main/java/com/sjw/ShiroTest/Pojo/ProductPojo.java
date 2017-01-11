@@ -55,12 +55,26 @@ public class ProductPojo implements Serializable {
     }
 
     public void setTags(String tags) {
-        System.out.println("In the setTags method");
         String[] tmp_tags = null;
         if (tags.contains(","))
             tmp_tags = tags.split(",");
 
         this.tags = tmp_tags;
+    }
+
+    public void appendTags(String tag){
+        if (this.tags != null && this.tags.length>0){
+            //TODO expand the array
+            String[] newTags = new String[tags.length+1];
+            newTags[tags.length] = tag;
+            System.arraycopy(tags,0,newTags,0,tags.length);
+            this.tags = newTags;
+        }
+        else{
+            String[] newTags = new String[1];
+            newTags[0] = tag;
+            this.tags = newTags;
+        }
     }
 
     public String getDescription() {

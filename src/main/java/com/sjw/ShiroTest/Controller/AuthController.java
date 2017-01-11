@@ -3,7 +3,9 @@ package com.sjw.ShiroTest.Controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import com.sjw.ShiroTest.Service.MainService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -33,6 +35,9 @@ public class AuthController{
 	@Autowired
 	ProductService productService;
 
+	@Autowired
+	MainService mainService;
+
 	private Logger log = LoggerFactory.getLogger(AuthController.class);
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -44,6 +49,7 @@ public class AuthController{
             String username = subject.getPrincipal().toString();
             subject.getSession().setAttribute("username",username);
             List<ProductPojo> rproducts = productService.getRecommendedProductsService();
+			List<Map> mainMenu = mainService.getMenuService();
             mv.addObject("rproducts", rproducts);
             mv.setViewName("index.definition");
         }
@@ -67,6 +73,7 @@ public class AuthController{
 				Session session = subject.getSession();
 				session.setAttribute("username", user.getUsername());
 				List<ProductPojo> rproducts = productService.getRecommendedProductsService();
+				List<Map> mainMenu = mainService.getMenuService();
 				mv.addObject("rproducts", rproducts);
 				mv.setViewName("index.definition");
 			}

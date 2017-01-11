@@ -58,8 +58,8 @@
   <logger name="java.sql.ResultSet" level="DEBUG" />
 
   <!--additivity means the appender won't transfer the info to the upper appender(root)-->
-  <logger name="com.sjw.ShiroTest.Pojo" level="DEBUG" additivity="false">
-  	<appender-ref ref="mbtsOut"/>
+  <logger name="com.sjw.ShiroTest.Dao" level="DEBUG" additivity="false">
+    <appender-ref ref="mbtsOut"/>
     <appender-ref ref="mbtsFile"/>
   </logger>
 

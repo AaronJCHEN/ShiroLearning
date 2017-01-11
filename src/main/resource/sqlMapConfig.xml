@@ -14,5 +14,6 @@
 		<mapper resource="Mapper/AuthMapper.xml"/>
 		<mapper resource="Mapper/RealmMapper.xml"/>
 		<mapper resource="Mapper/ProductMapper.xml"/>
+		<mapper resource="Mapper/MenuMapper.xml" />
 	</mappers>
 </configuration>

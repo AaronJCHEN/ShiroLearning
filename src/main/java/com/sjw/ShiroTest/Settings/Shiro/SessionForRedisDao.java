@@ -54,7 +54,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 				cachedSession = this.doReadSession(sessionId);
 				if(cachedSession == null) {
 					if (isCreated)
-						throw new UnknownSessionException();
+						throw new UnknownSessionException("Can't find the session. Please reopen the browser");
 				}
 				else{
 					//TODO to see if this part is necessary
