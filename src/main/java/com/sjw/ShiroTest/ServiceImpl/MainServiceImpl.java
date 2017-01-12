@@ -20,4 +20,6 @@ public class MainServiceImpl implements MainService {
     public List<Map> getMenuService() {
         return mainDao.getMainMenuDao();
     }
+
+    //TODO Change the setting of mybatis to use mapscanner
 }

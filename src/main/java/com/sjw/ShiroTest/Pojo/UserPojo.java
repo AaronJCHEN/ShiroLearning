@@ -1,11 +1,13 @@
 package com.sjw.ShiroTest.Pojo;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+@Alias(value = "User")
 public class UserPojo implements Serializable {
 	private static final long serialVersionUID = 123L;
 	public static final String OBJECT_KEY = "USER";

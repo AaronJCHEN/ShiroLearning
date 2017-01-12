@@ -1,7 +1,10 @@
 package com.sjw.ShiroTest.Pojo;
 
+import org.apache.ibatis.type.Alias;
+
 import java.io.Serializable;
 
+@Alias(value = "product")
 public class ProductPojo implements Serializable {
     private static final long serialVersionUID = -7898194272883238970L;
 
