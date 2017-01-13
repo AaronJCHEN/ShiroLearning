@@ -3,11 +3,11 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjw.ShiroTest.Dao.ProductDao">
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
-	<select id="getPdctRcmd" resultType = "Product">
+	<select id="getRecommendedProducts" resultType = "Product">
 		SELECT * FROM PRODUCT WHERE RECOMMENDED = 1
 	</select>
 	
-	<select id="getPdctDetail" parameterType="integer" resultType = "Product">
+	<select id="getProductDetail" parameterType="integer" resultType = "Product">
 		SELECT * FROM PRODUCT WHERE ID = #{id, jdbcType=INTEGER}
 	</select>
 	

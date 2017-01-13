@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjw.ShiroTest.Dao.AuthDao">
-	<select id="getPswd4User" parameterType = "string" resultType = "string">
+	<select id="getPassword" parameterType = "string" resultType = "string">
 		SELECT PASSWORD FROM USER WHERE USERNAME = #{username}
 	</select>
 	
-	<select id="getRoles4User" parameterType = "string" resultType = "string">
+	<select id="getRoleList" parameterType = "string" resultType = "string">
 		SELECT 
 			R.NAME 
 		FROM 
@@ -19,7 +19,7 @@
 			U.USERNAME= #{username }
 	</select>
 
-	<select id="getPmion4User" parameterType = "string" resultType = "string">
+	<select id="getPermissionList" parameterType = "string" resultType = "string">
 		SELECT
 			P.PERMISSION
 		FROM

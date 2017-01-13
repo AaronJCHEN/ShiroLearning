@@ -33,12 +33,12 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<ProductPojo> getRecommendedProductsService() {
-		return productDao.getRecommendedProductsDao();
+		return productDao.getRecommendedProducts();
 	}
 
 	@Override
 	public ProductPojo getProductDetailService(int id) {
-		return productDao.getProductDetailDao(id);
+		return productDao.getProductDetail(id);
 	}
 
 	@Override

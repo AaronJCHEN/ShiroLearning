@@ -18,27 +18,27 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public void registerUserService(UserPojo user){
-		authDao.registerUserDao(user);
+		authDao.registerUser(user);
 	}
 
 	@Override
 	public void registerRolesService(UserPojo user){
-		authDao.registerRolesDao(user);
+		authDao.registerRoles(user);
 	}
 
 	@Override
 	public List<String> getRoleListService(String username) {
-		return authDao.getRoleListDao(username);
+		return authDao.getRoleList(username);
 	}
 
 	@Override
 	public List<String> getPermissionListService(String roleName) {
-		return authDao.getPermissionListDao(roleName);
+		return authDao.getPermissionList(roleName);
 	}
 
 	@Override
 	public List<String> getPasswordService(String username) {
-		return authDao.getPasswordDao(username);
+		return authDao.getPassword(username);
 	}
 
 }

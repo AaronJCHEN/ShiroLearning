@@ -49,6 +49,7 @@
 
     <!-- package scan for transaction -->
     <context:component-scan base-package="com.sjw.ShiroTest.ServiceImpl" />
+	<context:component-scan base-package="com.sjw.ShiroTest.Dao" />
 	<context:component-scan base-package="com.sjw.ShiroTest.DaoImpl" />
 	<context:component-scan base-package="com.sjw.ShiroTest.Settings" />
 	<context:component-scan base-package="com.sjw.ShiroTest.Msg" />
@@ -66,7 +67,7 @@
 	</bean>
 
 	<bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.sjw.ShiroTest.Dao.*" />
+		<property name="basePackage" value="com.sjw.ShiroTest.Dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 
