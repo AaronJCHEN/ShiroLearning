@@ -2,12 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjw.ShiroTest.Dao.MainDao">
-    <resultMap id="mainMenu" type="map">
-        <result column="ID" javaType="int" jdbcType="INTEGER"></result>
-        <result column="NAME" javaType="string" jdbcType="VARCHAR"></result>
+    <resultMap id="menu" type="hashmap">
+        <result column="ID" property="id"></result>
+        <result column="NAME" property="name"></result>
     </resultMap>
 
-    <select id="getMainMenu" resultMap="mainMenu">
+    <select id="getMainMenu" resultMap="menu">
         SELECT ID,NAME FROM MENU
     </select>
+
+    <select id="getSubMenu" parameterType="integer" resultMap="menu">
+        SELECT ID,NAME FROM MENU_SUB WHERE REL_MENU = #{id, jdbcType=INTEGER}
+    </select>
+
 </mapper>

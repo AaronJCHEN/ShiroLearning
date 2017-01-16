@@ -8,4 +8,5 @@ import java.util.Map;
  */
 public interface MainService {
     public List<Map> getMenuService();
+    public List<Map> getSubMenuService(int id);
 }

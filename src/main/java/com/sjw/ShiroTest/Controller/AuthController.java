@@ -50,6 +50,7 @@ public class AuthController{
             subject.getSession().setAttribute("username",username);
             List<ProductPojo> rproducts = productService.getRecommendedProductsService();
 			List<Map> mainMenu = mainService.getMenuService();
+			mv.addObject("mainMenu",mainMenu);
             mv.addObject("rproducts", rproducts);
             mv.setViewName("index.definition");
         }
@@ -75,6 +76,7 @@ public class AuthController{
 				List<ProductPojo> rproducts = productService.getRecommendedProductsService();
 				List<Map> mainMenu = mainService.getMenuService();
 				mv.addObject("rproducts", rproducts);
+				mv.addObject("mainMenu",mainMenu);
 				mv.setViewName("index.definition");
 			}
 			else

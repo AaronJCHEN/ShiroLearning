@@ -11,4 +11,5 @@ import java.util.Map;
 @MapperScan
 public interface MainDao {
     public List<Map> getMainMenu();
+    public List<Map> getSubMenu(int id);
 }

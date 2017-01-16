@@ -21,5 +21,9 @@ public class MainServiceImpl implements MainService {
         return mainDao.getMainMenu();
     }
 
-    //TODO Change the setting of mybatis to use mapscanner
+    @Override
+    public List<Map> getSubMenuService(int id) {
+        return mainDao.getSubMenu(id);
+    }
+
 }
