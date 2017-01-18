@@ -53,19 +53,26 @@ public class ProductServiceImpl implements ProductService {
 		String username = request.getSession().getAttribute("username").toString();
 		Cookie[] cookies = request.getCookies();
 		Cookie his = null;
-		for (Cookie cookie:cookies){
-			if (cookie.getName().contains(username+"-his")){
-				his = cookie;
-				isFindCookie = true;
-				break;
+		if (cookies != null){
+			for (Cookie cookie:cookies){
+				if (cookie.getName().contains(username+"-his")){
+					his = cookie;
+					isFindCookie = true;
+					break;
+				}
+				else
+					continue;
 			}
-			else
-				continue;
+			if (!isFindCookie){
+				his = new Cookie(username+"-his","");
+				his.setMaxAge(1800);
+			}
 		}
-		if (!isFindCookie){
+		else{
 			his = new Cookie(username+"-his","");
 			his.setMaxAge(1800);
 		}
+
 		String hisval = his.getValue();
 		List<Map> returnHis = new ArrayList<>();
 		if (hisval.equals("") || hisval == null)
@@ -101,7 +108,6 @@ public class ProductServiceImpl implements ProductService {
 		}
 		his.setValue(hisval);
 		response.addCookie(his);
-		//TODO Get information from string[] to List<Map>
 		String[] hisArray;
 		if (hisval.contains(","))
 			hisArray = hisval.split(",");
