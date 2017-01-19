@@ -55,7 +55,7 @@ public class AuthController{
             mv.setViewName("index.definition");
         }
         else
-		    mv.setViewName("login");
+		    mv.setViewName("loginPage");
 		return mv;
 	}
 	
@@ -80,11 +80,11 @@ public class AuthController{
 				mv.setViewName("index.definition");
 			}
 			else
-				mv.setViewName("login");
+				mv.setViewName("loginPage");
 		}
 		catch (AuthenticationException e){
 			log.error("Login Error",e);
-			mv.setViewName("login");
+			mv.setViewName("loginPage");
 		}
 
 		return mv;
@@ -112,7 +112,7 @@ public class AuthController{
 			mv.setViewName("index.definition");
 		}
 		else{
-			mv.setViewName("login");
+			mv.setViewName("loginPage");
 		}
 
 		return mv;
@@ -123,7 +123,7 @@ public class AuthController{
 		ModelAndView mv = new ModelAndView();
 		Subject subject = SecurityUtils.getSubject();
 		subject.logout();
-		mv.setViewName("login");
+		mv.setViewName("loginPage");
 		return mv;
 	}
 

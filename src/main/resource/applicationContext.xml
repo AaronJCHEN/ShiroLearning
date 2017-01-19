@@ -62,7 +62,7 @@
 				<property name="cacheEnabled" value="true"/>
 			</bean>
 		</property>
-		<property name="mapperLocations" value="classpath:mapper/*.xml" />
+		<property name="mapperLocations" value="classpath:Mapper/*.xml" />
 		<property name="typeAliasesPackage" value="com.sjw.ShiroTest.Pojo" />
 	</bean>
 

@@ -33,8 +33,8 @@ public class SessionStsListener implements SessionListener {
     @Override
     public void onExpiration(Session session) {
         logger.info("onExpiration 触发 ID是{}", session.getId());
-        sessionDao = new SessionForRedisDao();
-        sessionDao.delete(session);
+        //sessionDao = new SessionForRedisDao();
+        //sessionDao.delete(session);
     }
 
    /* public void setSessionDao(SessionForRedisDao sessionDao) {
