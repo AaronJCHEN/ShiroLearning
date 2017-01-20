@@ -6,6 +6,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sjw.ShiroTest.Enhance.BrowseNumEnhance;
+import com.sjw.ShiroTest.Pojo.BrowsePojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,9 @@ import com.sjw.ShiroTest.Service.ProductService;
 public class ProductController {
 	@Autowired
 	ProductService productService;
+
+	@Autowired
+
 	
 	@Resource(name="redisTemplate")
     private HashOperations<String,String,List> hashOps;
@@ -31,7 +36,15 @@ public class ProductController {
 										 HttpServletRequest request, HttpServletResponse response){
 		ModelAndView mv = new ModelAndView();
 		ProductPojo thisPdct = productService.getProductDetailService(id);
-		//TODO Update browse num on database
+
+		BrowsePojo browse = new BrowsePojo();
+		browse.setProductId(id);
+		browse.setUsername(String.valueOf(request.getSession().getAttribute("username")));
+		BrowseNumEnhance enhance = new BrowseNumEnhance(browse,productService);
+		enhance.run();
+
+		//TODO get total browse num from table. SELECT SUM(BROWSETIMES) FROM BROWSE_RECORD WHERE PRODUCTID='1'
+		//TODO Better to change USERNAME COLUMN TO USERID COLUMN
 
 		//move the recent record(name+id) to cookies. Get info from cache
 		List<Map> his = productService.updateReadHistory(thisPdct, request,response);

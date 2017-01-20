@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.sjw.ShiroTest.Msg.RedisMsgSender;
+import com.sjw.ShiroTest.Pojo.BrowsePojo;
 import com.sjw.ShiroTest.Pojo.MsgWrapperPojo;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -26,7 +27,6 @@ import com.sjw.ShiroTest.Pojo.ProductPojo;
 import com.sjw.ShiroTest.Service.ProductService;
 
 @Service
-/*@Transactional*/
 public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductDao productDao;
@@ -42,8 +42,18 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void updateBrowseNumService(int id) {
-		productDao.updateBrowseNumDao(id);
+	public BrowsePojo getBrowseDetailService(BrowsePojo browse) {
+		return productDao.getBrowseDetail(browse);
+	}
+
+	@Override
+	public void createBrowseRecordService(BrowsePojo browse) {
+		productDao.createBrowseRecord(browse);
+	}
+
+	@Override
+	public void updateBrowseTimesService(BrowsePojo browse) {
+		productDao.updateBrowseTimes(browse);
 	}
 
 	@Override

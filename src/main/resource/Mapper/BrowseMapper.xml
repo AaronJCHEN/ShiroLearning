@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjw.ShiroTest.Dao.ProductDao">
+    <select id="getBrowseDetail" parameterType="Browse" resultType="Browse">
+        SELECT PRODUCTID,USERNAME,BROWSEDATE,BROWSETIMES FROM BROWSE_RECORD
+        WHERE USERNAME = #{username, jdbcType = VARCHAR} AND PRODUCTID = #{productId, jdbcType= INTEGER}
+    </select>
+
+    <insert id="createBrowseRecord" parameterType="Browse">
+        INSERT INTO BROWSE_RECORD(PRODUCTID,USERNAME,BROWSEDATE)
+        VALUES (#{productId, jdbcType=INTEGER},#{username, jdbcType=VARCHAR},#{browseDate, jdbcType=TIMESTAMP})
+    </insert>
+
+    <update id="updateBrowseTimes" parameterType="Browse">
+        UPDATE BROWSE_RECORD
+        SET BROWSEDATE = #{browseDate, jdbcType=TIMESTAMP}, BROWSETIMES = #{browseTimes, jdbcType=INTEGER}
+        WHERE USERNAME = #{username, jdbcType = VARCHAR} AND PRODUCTID = #{productId, jdbcType= INTEGER}
+    </update>
+</mapper>
