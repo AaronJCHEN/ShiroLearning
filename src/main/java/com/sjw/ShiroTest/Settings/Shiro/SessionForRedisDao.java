@@ -41,6 +41,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	private Boolean onlyEhCache = true;
 	private int seconds = 0;
 	private boolean isCreated = false;
+	private boolean isDeleted = false;
 
 
 	@Override
@@ -112,6 +113,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 			txSetOps.remove(key,session.getHost());
 		if (txValOps.get("SessionId:"+session.getId()) != null)
 			txTemplate.delete("SessionId:"+session.getId());
+		this.isDeleted = true;
 	}
 
 	@Override
@@ -120,6 +122,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 		this.assignSessionId(session,sessionId);
 		if (onlyEhCache) {
 			isCreated = true;
+			this.isDeleted = false;
 			return sessionId;
 		}
 		else{
@@ -131,6 +134,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 				txSetOps.add(key, session.getHost());
 				valOpsForStr.set("SessionId:"+session.getId(),session.getHost());
 				isCreated = true;
+				this.isDeleted = false;
 			}
 		}
 		logger.info("doCreate 完成,此时session id为{}",session.getId());
@@ -141,9 +145,13 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	protected Session doReadSession(Serializable sessionId) {
 		Session session = null;
         try {
-			String ip = (String) valOpsForStr.get("SessionId:"+sessionId);
-        	session = valOps.get(ip);
-			logger.info("shiro session id {} 被读取", session.getHost());
+        	if (!this.isDeleted) {
+				String ip = (String) valOpsForStr.get("SessionId:" + sessionId);
+				session = valOps.get(ip);
+				logger.info("shiro session id {} 被读取", session.getHost());
+			}
+			else
+				logger.info("shiro session id {} 已被删除");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -57,6 +57,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public int getBrowseTimesService(int productId) {
+		return productDao.getBrowseTimes(productId);
+	}
+
+	@Override
 	public List<Map> updateReadHistory(ProductPojo product,
 									   HttpServletRequest request, HttpServletResponse response) {
 		Boolean isFindCookie = false;

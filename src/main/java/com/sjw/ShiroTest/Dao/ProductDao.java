@@ -12,5 +12,6 @@ public interface ProductDao {
 	public ProductPojo getProductDetail(int id);
 	public BrowsePojo getBrowseDetail(BrowsePojo browse);
 	public void createBrowseRecord(BrowsePojo browse);
+	public int getBrowseTimes(int productId);
 	public void updateBrowseTimes(BrowsePojo browse);
 }

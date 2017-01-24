@@ -17,4 +17,8 @@
         SET BROWSEDATE = #{browseDate, jdbcType=TIMESTAMP}, BROWSETIMES = #{browseTimes, jdbcType=INTEGER}
         WHERE USERNAME = #{username, jdbcType = VARCHAR} AND PRODUCTID = #{productId, jdbcType= INTEGER}
     </update>
+
+    <select id="getBrowseTimes" parameterType="integer" resultType="integer">
+        SELECT SUM(BROWSETIMES) FROM BROWSE_RECORD WHERE PRODUCTID=#{#productId, jdbcType=INTEGER}
+    </select>
 </mapper>

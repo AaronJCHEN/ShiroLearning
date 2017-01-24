@@ -13,7 +13,7 @@
         <img src="${pdct.img}" width="100%">
     </div>
     <div class="col-sm-8">
-        <h2>${pdct.name}</h2>
+        <h2>${pdct.name} <small>(${browseTimes} readed)</small></h2>
         <p>
             <c:forEach var = "tag" items="${pdct.tags}">
                 <span class="bg-info">${tag}</span>

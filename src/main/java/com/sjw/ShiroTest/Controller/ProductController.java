@@ -43,8 +43,8 @@ public class ProductController {
 		BrowseNumEnhance enhance = new BrowseNumEnhance(browse,productService);
 		enhance.run();
 
-		//TODO get total browse num from table. SELECT SUM(BROWSETIMES) FROM BROWSE_RECORD WHERE PRODUCTID='1'
 		//TODO Better to change USERNAME COLUMN TO USERID COLUMN
+		int sum = productService.getBrowseTimesService(thisPdct.getId());
 
 		//move the recent record(name+id) to cookies. Get info from cache
 		List<Map> his = productService.updateReadHistory(thisPdct, request,response);
@@ -52,6 +52,7 @@ public class ProductController {
 		mv.addObject("pdct",thisPdct);
 		mv.addObject("recent",his);
 		mv.addObject("hisLen",his.size()-1);
+		mv.addObject("browseTimes",sum);
 		mv.setViewName("product.definition");
 		return mv;
 	}

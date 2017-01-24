@@ -19,7 +19,6 @@ public class ProductPojo implements Serializable {
     private double remains;
     private String img;
     private boolean recommended;
-    private double browse_num;
 
     public int getId() {
         return id;
@@ -110,13 +109,5 @@ public class ProductPojo implements Serializable {
 
     public void setRecommanded(boolean recommended) {
         this.recommended = recommended;
-    }
-
-    public double getBrowse_num() {
-        return browse_num;
-    }
-
-    public void setBrowse_num(double browse_num) {
-        this.browse_num = browse_num;
     }
 }

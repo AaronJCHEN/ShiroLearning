@@ -15,5 +15,6 @@ public interface ProductService {
 	public BrowsePojo getBrowseDetailService(BrowsePojo browse);
 	public void createBrowseRecordService(BrowsePojo browse);
 	public void updateBrowseTimesService(BrowsePojo browse);
+	public int getBrowseTimesService(int productId);
 	public List<Map> updateReadHistory(ProductPojo product, HttpServletRequest request, HttpServletResponse response);
 }
