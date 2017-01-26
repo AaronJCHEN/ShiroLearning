@@ -66,7 +66,6 @@ public class ProductPojo implements Serializable {
 
     public void appendTags(String tag){
         if (this.tags != null && this.tags.length>0){
-            //TODO expand the array
             String[] newTags = new String[tags.length+1];
             newTags[tags.length] = tag;
             System.arraycopy(tags,0,newTags,0,tags.length);

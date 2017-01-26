@@ -11,6 +11,7 @@ import java.util.Date;
  */
 @Alias(value = "Browse")
 public class BrowsePojo implements Serializable{
+    private static final long serialVersionUID = -3587730048287667954L;
     private int productId;
     private String username;
     private Timestamp browseDate;

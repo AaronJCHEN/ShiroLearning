@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="/ShiroTest/js/operations/product.js"></script>
 <ol class="breadcrumb">
     <li>
         <a href="javascript:history.go(-1);">Home</a>
@@ -33,17 +34,18 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-                <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Detail</a>
+                <a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">Detail</a>
             </li>
             <li role="presentation">
-                <a href="#tab" aria-controls="tab" role="tab" data-toggle="tab">Comments</a>
+                <a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">Comments</a>
             </li>
         </ul>
 
         <!-- Tab panes -->
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="home">...</div>
-            <div role="tabpanel" class="tab-pane" id="tab">...</div>
+            <div role="tabpanel" class="tab-pane active" id="detail">...</div>
+            <div role="tabpanel" class="tab-pane" id="comments">Coming soon...</div>
+            <input type="hidden" id="pdctId" value="${pdct.id}" />
         </div>
     </div>
 </div>
