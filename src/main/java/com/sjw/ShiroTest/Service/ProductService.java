@@ -17,4 +17,5 @@ public interface ProductService {
 	public void updateBrowseTimesService(BrowsePojo browse);
 	public int getBrowseTimesService(int productId);
 	public List<Map> updateReadHistory(ProductPojo product, HttpServletRequest request, HttpServletResponse response);
+	public void addPdctToCartService(String newInfo, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

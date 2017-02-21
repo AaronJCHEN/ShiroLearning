@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -18,6 +20,8 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +34,8 @@ import com.sjw.ShiroTest.Service.ProductService;
 public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductDao productDao;
+
+	private Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
 	@Override
 	public List<ProductPojo> getRecommendedProductsService() {
@@ -138,6 +144,47 @@ public class ProductServiceImpl implements ProductService {
 			returnHis.add(tmpMap);
 		}
 		return returnHis;
+	}
+
+	@Override
+	public void addPdctToCartService(String newInfo, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		/**
+		 * Using js instead of backend menthod. But keep these code to remain a template of how to use backend
+		 * cookie and how to use the regex matches function.
+		 */
+		/*Cookie[] cookies = request.getCookies();
+		String username = request.getSession().getAttribute("username").toString();
+		Cookie cart = null;
+		for (Cookie cookie : cookies){
+			if (cookie.getName().contains(username+"-cart")){
+				cart = cookie;
+			}
+		}
+		if (cart != null){
+			String info = cart.getValue();
+			if(info.contains(newInfo)) {
+				Pattern pattern = Pattern.compile(newInfo+"_\\d");
+				String sub = info.substring(info.indexOf(newInfo),newInfo.length()+2);
+				String num = sub.substring(sub.length()-1,sub.length());
+				newInfo = newInfo + "_" + String.valueOf(Integer.valueOf(num)+1);
+				Matcher matcher = pattern.matcher(info);
+				if (matcher.find()){
+					info = matcher.replaceFirst(newInfo);
+					cart.setValue(info);
+					cart.setMaxAge(1800);
+				}
+			}
+			else {
+				info = info + "," + newInfo+"_1";
+				cart.setValue(info);
+				cart.setMaxAge(1800);
+			}
+		}
+		else {
+			cart = new Cookie(username+"-cart",newInfo+"_1");
+			cart.setMaxAge(1800);
+		}
+		response.addCookie(cart);*/
 	}
 
 }

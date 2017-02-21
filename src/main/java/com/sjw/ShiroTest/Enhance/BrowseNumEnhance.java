@@ -39,6 +39,6 @@ public class BrowseNumEnhance implements Runnable {
             existedRecord.setBrowseDate(currentTime);
             productService.updateBrowseTimesService(existedRecord);
         }
-        logger.info(browse.getUsername()+"update the browse record of pdct id "+browse.getProductId());
+        logger.info(browse.getUsername()+" update the browse record of pdct id "+browse.getProductId());
     }
 }
