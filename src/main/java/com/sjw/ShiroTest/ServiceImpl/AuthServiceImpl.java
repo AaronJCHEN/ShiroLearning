@@ -41,4 +41,9 @@ public class AuthServiceImpl implements AuthService {
 		return authDao.getPassword(username);
 	}
 
+	@Override
+	public UserPojo getUserByNameService(String username) {
+		return authDao.getUserByName(username);
+	}
+
 }

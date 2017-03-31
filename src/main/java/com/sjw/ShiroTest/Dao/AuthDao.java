@@ -7,9 +7,10 @@ import org.mybatis.spring.annotation.MapperScan;
 
 @MapperScan
 public interface AuthDao {
-	public void registerUser(UserPojo user);
-	public void registerRoles(UserPojo user);
-	public List<String> getRoleList(String username);
-	public List<String> getPermissionList(String roleName);
-	public List<String> getPassword(String username);
+	void registerUser(UserPojo user);
+	void registerRoles(UserPojo user);
+	List<String> getRoleList(String username);
+	List<String> getPermissionList(String roleName);
+	List<String> getPassword(String username);
+	UserPojo getUserByName(String username);
 }

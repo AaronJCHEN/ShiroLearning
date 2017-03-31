@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 public interface ProductService {
 	public List<ProductPojo> getRecommendedProductsService();
 	public ProductPojo getProductDetailService(int id);
+	public ProductPojo getProductDetailService(String name);
+	public void updateRemainCountService(ProductPojo product);
 	public BrowsePojo getBrowseDetailService(BrowsePojo browse);
 	public void createBrowseRecordService(BrowsePojo browse);
 	public void updateBrowseTimesService(BrowsePojo browse);

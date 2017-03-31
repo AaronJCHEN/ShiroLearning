@@ -24,6 +24,7 @@
 	      <li><a href="/ShiroTest/index/editRole">Profile Setting</a></li>
 	      <shiro:hasRole name="MANAGER">
       		<li><a id="backend" href="/ShiroTest/druid">Backend</a></li>
+      		<li><a id="uploadInit" href="/ShiroTest/admin/uploadInit">Import Products</a></li>
       	  </shiro:hasRole>
 	      <li><a href="#">Something else here</a></li>
 	      <li role="separator" class="divider"></li>

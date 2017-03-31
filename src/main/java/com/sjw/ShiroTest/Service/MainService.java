@@ -7,6 +7,6 @@ import java.util.Map;
  * Created by Watson on 01/11/2017.
  */
 public interface MainService {
-    public List<Map> getMenuService();
-    public List<Map> getSubMenuService(int id);
+    List<Map> getMenuService();
+    List<Map> getSubMenuService(int id);
 }

@@ -48,6 +48,16 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public ProductPojo getProductDetailService(String name) {
+		return productDao.getProductDetailByName(name);
+	}
+
+	@Override
+	public void updateRemainCountService(ProductPojo product) {
+		productDao.updateRemainCount(product);
+	}
+
+	@Override
 	public BrowsePojo getBrowseDetailService(BrowsePojo browse) {
 		return productDao.getBrowseDetail(browse);
 	}

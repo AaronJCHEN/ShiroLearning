@@ -11,7 +11,13 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    	<property name="location" value="classpath:database.properties"/>
+    	<!--<property name="location" value="classpath:database.properties"/>-->
+		<property name="locations">
+			<list>
+				<value>classpath:database.properties</value>
+				<value>classpath:upload.properties</value>
+			</list>
+		</property>
     </bean>
 
     <!-- Druid connection pool -->
@@ -50,7 +56,6 @@
     <!-- package scan for transaction -->
     <context:component-scan base-package="com.sjw.ShiroTest.ServiceImpl" />
 	<context:component-scan base-package="com.sjw.ShiroTest.Dao" />
-	<context:component-scan base-package="com.sjw.ShiroTest.DaoImpl" />
 	<context:component-scan base-package="com.sjw.ShiroTest.Settings" />
 	<context:component-scan base-package="com.sjw.ShiroTest.Msg" />
 

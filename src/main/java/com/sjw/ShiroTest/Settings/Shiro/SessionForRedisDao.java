@@ -1,5 +1,6 @@
 package com.sjw.ShiroTest.Settings.Shiro;
 
+import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.ValidatingSession;
@@ -12,8 +13,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.Servlet;
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -42,6 +47,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	private int seconds = 0;
 	private boolean isCreated = false;
 	private boolean isDeleted = false;
+	private static String staticFile = ".css,.js,.png,.jpg,.gif,.jpeg,.bmp,.ico,.swf,.psd";
 
 
 	@Override
@@ -66,7 +72,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 				}
 			}
 			else if(cachedSession !=null)
-				logger.debug("从Ehcache读取session,IP为{}",cachedSession.getHost());
+				logger.info("Session is read from Ehcache, which IP is {}",cachedSession.getHost());
 			return cachedSession;
 		}
 	}
@@ -129,10 +135,12 @@ public class SessionForRedisDao extends CachingSessionDAO {
 			if(session != null && session.getHost() != null) {
 				logger.info("Begin to create a new session");
 				session.setTimeout(seconds);
-				txValOps.getOperations().expire(session.getHost(), session.getTimeout(), TimeUnit.MILLISECONDS);
 				txValOps.set(session.getHost(), session);
+				txValOps.getOperations().expire(session.getHost(), session.getTimeout(), TimeUnit.MILLISECONDS);
 				txSetOps.add(key, session.getHost());
+				txSetOps.getOperations().expire(key,session.getTimeout(), TimeUnit.MILLISECONDS);
 				valOpsForStr.set("SessionId:"+session.getId(),session.getHost());
+				valOpsForStr.getOperations().expire("SessionId:"+session.getId(),session.getTimeout(), TimeUnit.MILLISECONDS);
 				isCreated = true;
 				this.isDeleted = false;
 			}
@@ -144,16 +152,32 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	@Override
 	protected Session doReadSession(Serializable sessionId) {
 		Session session = null;
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+				.getRequestAttributes()).getRequest();
+		String uri = request.getServletPath();
+		/*if (request != null){
+			String uri = request.getServletPath();
+			// Judge if it's the static file
+
+
+			session = (Session)request.getAttribute("session_"+sessionId);
+		}
+		if (session != null){
+			return session;
+		}*/
         try {
         	if (!this.isDeleted) {
 				String ip = (String) valOpsForStr.get("SessionId:" + sessionId);
 				session = valOps.get(ip);
-				logger.info("shiro session id {} 被读取", session.getHost());
+				logger.info("session is read by Redis, which ID is {}", session.getHost());
 			}
-			else
+			else {
 				logger.info("shiro session id {} 已被删除");
-		} catch (Exception e) {
+				throw new InvalidSessionException();
+			}
+		} catch (InvalidSessionException e) {
 			e.printStackTrace();
+			throw e;
 		}
         return session;
 	}

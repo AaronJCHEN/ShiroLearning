@@ -127,7 +127,7 @@ public class SessionForRedis extends SimpleSession {
 	@Override
 	protected void expire() {
 		super.expire();
-		logger.info("Session expire is set");
+		logger.info("Session is expired");
 		//Listener will do this part
 		//this.needUpdate = true;
 		//this.needNotified = false;

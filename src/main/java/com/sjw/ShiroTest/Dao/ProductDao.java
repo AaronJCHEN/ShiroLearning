@@ -8,10 +8,14 @@ import org.mybatis.spring.annotation.MapperScan;
 
 @MapperScan
 public interface ProductDao {
-	public List<ProductPojo> getRecommendedProducts();
-	public ProductPojo getProductDetail(int id);
-	public BrowsePojo getBrowseDetail(BrowsePojo browse);
-	public void createBrowseRecord(BrowsePojo browse);
-	public int getBrowseTimes(int productId);
-	public void updateBrowseTimes(BrowsePojo browse);
+	List<ProductPojo> getRecommendedProducts();
+	ProductPojo getProductDetail(int id);
+	ProductPojo getProductDetailByName(String name);
+	void updateRemainCount(ProductPojo product);
+	BrowsePojo getBrowseDetail(BrowsePojo browse);
+	void createBrowseRecord(BrowsePojo browse);
+	int getBrowseTimes(int productId);
+	void updateBrowseTimes(BrowsePojo browse);
+	void updateRemainCount(int productId);
+	void createNewProduct(ProductPojo product);
 }

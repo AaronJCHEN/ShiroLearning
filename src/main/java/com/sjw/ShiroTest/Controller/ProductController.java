@@ -22,9 +22,6 @@ import com.sjw.ShiroTest.Service.ProductService;
 public class ProductController {
 	@Autowired
 	ProductService productService;
-
-	@Autowired
-
 	
 	@Resource(name="redisTemplate")
     private HashOperations<String,String,List> hashOps;
@@ -41,13 +38,13 @@ public class ProductController {
 		BrowseNumEnhance enhance = new BrowseNumEnhance(browse,productService);
 		enhance.run();
 
-		//TODO Better to change USERNAME COLUMN TO USERID COLUMN
 		int sum = productService.getBrowseTimesService(thisPdct.getId());
 
 		//move the recent record(name+id) to cookies. Get info from cache
 		List<Map> his = productService.updateReadHistory(thisPdct, request,response);
 
 		mv.addObject("pdct",thisPdct);
+		mv.addObject("tagsAry",thisPdct.getTags().split(","));
 		mv.addObject("recent",his);
 		mv.addObject("hisLen",his.size()-1);
 		mv.addObject("browseTimes",sum);

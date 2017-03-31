@@ -14,5 +14,28 @@
 	<select id="getPdctComments" parameterType="string" resultType = "map">
 		SELECT COMMENTS FROM PRODUCT_COMMENTS AS PC LEFT JOIN PRODUCT AS P ON P.ID = PC.PRODUCT_ID WHERE P.ID = #{id, jdbcType=INTEGER)
 	</select>
-	
+
+	<select id="getProductDetailByName" parameterType="string" resultType="Product">
+		SELECT * FROM PRODUCT WHERE NAME = #{name, jdbcType=VARCHAR}
+	</select>
+
+	<update id="updateRemainCount" parameterType="Product">
+		UPDATE PRODUCT SET REMAINS = #{remains,jdbcType=FLOAT} WHERE ID = #{id, jdbcType=INTEGER}
+	</update>
+
+	<insert id="createNewProduct" parameterType="Product">
+		INSERT OR REPLACE INTO PRODUCT(NAME,PRICE
+		<if test="category != null and category !=''">,CATEGORY</if>
+		<if test="tags != null and category !=''">,TAGS</if>
+		<if test="description != null and description !=''">,DESCRIPTION</if>
+		<if test="remains != null and remains != ''">,REMAINS</if>
+		)
+		VALUES(
+		#{name,jdbcType=VARCHAR},#{price,jdbcType=FLOAT}
+		<if test="category != null and category !=''">,#{category,jdbcType=VARCHAR}</if>
+		<if test="tags != null and tags !=''">,#{tags,jdbcType=VARChAR}</if>
+		<if test="description != null and description !=''">,#{description,jdbcType=VARCHAR}</if>
+		<if test="remains != null and remains != ''">,#{remains,jdbcType=FLOAT}</if>
+		)
+	</insert>
 </mapper>

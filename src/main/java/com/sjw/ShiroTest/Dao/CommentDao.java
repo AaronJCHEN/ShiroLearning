@@ -11,6 +11,6 @@ import java.util.Map;
  */
 @MapperScan
 public interface CommentDao {
-    public List<CommentPojo> getCommentsByProduct(Map params);
+    List<CommentPojo> getCommentsByProduct(Map params);
 
 }

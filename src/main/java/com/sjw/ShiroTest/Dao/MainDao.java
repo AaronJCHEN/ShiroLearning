@@ -10,6 +10,6 @@ import java.util.Map;
  */
 @MapperScan
 public interface MainDao {
-    public List<Map> getMainMenu();
-    public List<Map> getSubMenu(int id);
+    List<Map> getMainMenu();
+    List<Map> getSubMenu(int id);
 }

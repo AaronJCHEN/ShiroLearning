@@ -28,7 +28,7 @@
     <div class="col-sm-8">
         <h2>${pdct.name} <small>(${browseTimes} readed)</small></h2>
         <p>
-            <c:forEach var = "tag" items="${pdct.tags}">
+            <c:forEach var = "tag" items="${tagsAry}">
                 <span class="bg-info">${tag}</span>
             </c:forEach>
         </p>

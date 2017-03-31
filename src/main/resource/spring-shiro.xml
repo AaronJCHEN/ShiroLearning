@@ -53,22 +53,30 @@
     
     <bean id="sessionDao" class="com.sjw.ShiroTest.Settings.Shiro.SessionForRedisDao">
         <property name="onlyEhCache" value="false" />
-        <property name="seconds" value="1200000" />
+        <property name="seconds" value="300000" />
         <property name="key" value="SessionList" />
     </bean>
 
     <bean id="sessionStsListener" class="com.sjw.ShiroTest.Settings.Shiro.SessionStsListener" />
 
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
+        <property name="interval" value="300000" />
+        <property name="sessionManager" ref="defaultWebSessionManager" />
+    </bean>
+    
     <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">  
-    	<property name="globalSessionTimeout" value="1200000" />
+    	<property name="globalSessionTimeout" value="300000" />
         <property name="sessionFactory" ref="sessionFactory"/>
     	<property name="sessionDAO" ref="sessionDao" />
+        <property name="sessionValidationSchedulerEnabled" value="true" />
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler" />
         <property name="sessionListeners">
             <list>
                 <ref bean="sessionStsListener"/>
             </list>
         </property>
 	</bean>
+
 	
     <!-- Shiro安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
@@ -95,7 +103,9 @@
             <value>
                 /auth/*=anon
                 /druid/*=authc,roles[MANAGER]
+                /admin/*=authc,roles[MANAGER]
                 /index/*=authc
+                /product/*=authc
             </value>
         </property>
     </bean>

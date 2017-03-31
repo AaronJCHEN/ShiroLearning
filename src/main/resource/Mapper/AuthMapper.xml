@@ -16,4 +16,8 @@
 			((SELECT ID FROM USER WHERE USERNAME=#{username,jdbcType=VARCHAR}),(SELECT ID FROM ROLE WHERE NAME=#{role}))
 		</foreach>
 	</insert>
+
+	<select id="getUserByName" parameterType="string" resultType="User">
+		SELECT * FROM USER WHERE USERNAME = #{username, jdbcType=VARCHAR}
+	</select>
 </mapper>

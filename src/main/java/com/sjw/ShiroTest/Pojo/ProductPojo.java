@@ -4,7 +4,7 @@ import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
 
-@Alias(value = "product")
+@Alias(value = "Product")
 public class ProductPojo implements Serializable {
     private static final long serialVersionUID = -7898194272883238970L;
 
@@ -13,8 +13,9 @@ public class ProductPojo implements Serializable {
     private int id;
     private String name;
     private float price;
+    private float accountPrice;
     private String category;
-    private String[] tags;
+    private String tags;
     private String description;
     private double remains;
     private String img;
@@ -52,30 +53,12 @@ public class ProductPojo implements Serializable {
         this.category = category;
     }
 
-    public String[] getTags() {
+    public String getTags() {
         return tags;
     }
 
     public void setTags(String tags) {
-        String[] tmp_tags = null;
-        if (tags.contains(","))
-            tmp_tags = tags.split(",");
-
-        this.tags = tmp_tags;
-    }
-
-    public void appendTags(String tag){
-        if (this.tags != null && this.tags.length>0){
-            String[] newTags = new String[tags.length+1];
-            newTags[tags.length] = tag;
-            System.arraycopy(tags,0,newTags,0,tags.length);
-            this.tags = newTags;
-        }
-        else{
-            String[] newTags = new String[1];
-            newTags[0] = tag;
-            this.tags = newTags;
-        }
+        this.tags = tags;
     }
 
     public String getDescription() {
@@ -109,4 +92,13 @@ public class ProductPojo implements Serializable {
     public void setRecommanded(boolean recommended) {
         this.recommended = recommended;
     }
+
+    public float getAccountPrice() {
+        return accountPrice;
+    }
+
+    public void setAccountPrice(float accountPrice) {
+        this.accountPrice = accountPrice;
+    }
+
 }
