@@ -4,6 +4,8 @@ import com.sjw.ShiroTest.Pojo.ImportPdctPojo;
 import com.sjw.ShiroTest.Service.AdminService;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+    private Logger logger = LoggerFactory.getLogger(AdminController.class);
+
     @Autowired
     AdminService adminService;
 

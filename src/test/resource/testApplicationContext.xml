@@ -12,7 +12,13 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:database.properties"/>
+		<property name="locations">
+			<list>
+				<value>classpath:database.properties</value>
+				<value>classpath:upload.properties</value>
+			</list>
+
+		</property>
 	</bean>
 
 	<!-- Druid connection pool -->
@@ -97,6 +103,7 @@
 
 	<redis:listener-container>
 		<redis:listener ref="sessionMsgListener" method="handleMessage" serializer="jdkSerializer" topic="session-update" />
+		<redis:listener ref="sessionMsgListener" method="handleDelMessage" serializer="jdkSerializer" topic="session-delete" />
 	</redis:listener-container>
 
 </beans>

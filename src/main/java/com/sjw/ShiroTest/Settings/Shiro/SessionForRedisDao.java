@@ -1,5 +1,6 @@
 package com.sjw.ShiroTest.Settings.Shiro;
 
+import com.sjw.ShiroTest.Msg.RedisMsgSender;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
@@ -8,6 +9,7 @@ import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
@@ -40,6 +42,9 @@ public class SessionForRedisDao extends CachingSessionDAO {
 
 	@Resource(name = "txRedisTemplate")
 	private SetOperations<String,String> txSetOps;
+
+	@Autowired
+	RedisMsgSender redisMsgSender;
 	
 	private String key;
 	private Logger logger = LoggerFactory.getLogger(SessionForRedisDao.class);
@@ -89,12 +94,14 @@ public class SessionForRedisDao extends CachingSessionDAO {
 						ss.setLastAccessTime(new Date());
 						txValOps.set(session.getHost(), ss);
 						txValOps.getOperations().expire(session.getHost(), ss.getTimeout(), TimeUnit.MILLISECONDS);
+						redisMsgSender.sender("session-update","update session:"+session.getHost());
 					}
 				}
 				else if (session instanceof Serializable){
 					txValOps.set(session.getHost(), session);
 					txValOps.getOperations().expire(session.getHost(), session.getTimeout(), TimeUnit.MILLISECONDS);
 					logger.info("A Session that doesn't fit for redis is recorded");
+					redisMsgSender.sender("session-update","update session:"+session.getHost());
 				}
 				else{
 					logger.warn("The session can't be serialized");
@@ -180,6 +187,10 @@ public class SessionForRedisDao extends CachingSessionDAO {
 			throw e;
 		}
         return session;
+	}
+
+	public void doUpdateToEhcache(String host){
+
 	}
 
 	@Override
