@@ -1,4 +1,4 @@
-.popover-enhance{
+/* .popover-enhance{
 	width:400px;
 	max-width: 500px !important;
 }
@@ -8,4 +8,29 @@
 	margin-bottom: 2px;
 	padding-left: 0px;
     padding-right: 0px;
+} */
+
+.list-sub-group{
+    visibility: hidden;
+    opacity: 0;
+    position:absolute;z-index:10;
+    background-color:white;
+    left:100%;
+    top:0%;
+    border:1px solid #ddd;
+    min-width:200px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    transition: all 0.3s
+}
+.list-group-item-enhance{
+    cursor: pointer;
+}
+
+.list-group-item-enhance:hover{
+    background-color: #eee;
+}
+
+.list-group-item-enhance:hover .list-sub-group{
+  visibility: visible;
+  opacity: 1;
 }

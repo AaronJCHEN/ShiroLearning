@@ -9,6 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <script type="text/javascript" src="/ShiroTest/js/tools/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="/ShiroTest/js/tools/bootstrap.min.js"></script>
+<script type="text/javascript" src="/ShiroTest/js/tools/vue.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/ShiroTest/css/tools/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/ShiroTest/css/tools/font-awesome.min.css" />
 <title>System</title>

@@ -51,7 +51,7 @@
         <property name="key" value="SessionList"/>
     </bean>
 
-    <bean id="sessionDao" class="com.sjw.ShiroTest.Settings.Shiro.SessionForRedisDao">
+    <bean id="sessionForRedisDao" class="com.sjw.ShiroTest.Settings.Shiro.SessionForRedisDao">
         <property name="onlyEhCache" value="false" />
         <property name="seconds" value="1200000" />
         <property name="key" value="SessionList" />
@@ -62,7 +62,7 @@
     <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <property name="globalSessionTimeout" value="1200000" />
         <property name="sessionFactory" ref="sessionFactory"/>
-        <property name="sessionDAO" ref="sessionDao" />
+        <property name="sessionDAO" ref="sessionForRedisDao" />
         <property name="sessionListeners">
             <list>
                 <ref bean="sessionStsListener"/>

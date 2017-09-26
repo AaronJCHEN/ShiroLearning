@@ -10,21 +10,27 @@
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！-->
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Signin Template for Bootstrap</title>
+    <title>Signin</title>
     <!-- Bootstrap core CSS-->
     <link href="/ShiroTest/css/tools/bootstrap.min.css" rel="stylesheet">
     <link href="/ShiroTest/css/tools/font-awesome.min.css" rel="stylesheet">
     <link href="/ShiroTest/css/operations/signin.css" rel="stylesheet">
-    <script type="text/javascript" src="/ShiroTest/js/tools/jquery-1.12.4.min.js"></script>
+    <!-- <script type="text/javascript" src="/ShiroTest/js/tools/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="/ShiroTest/js/tools/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/ShiroTest/js/operations/loginInit.js"></script>
+    <script type="text/javascript" src="/ShiroTest/js/operations/loginInit.js"></script> -->
   </head>
   <body>
     <div class="container">
-      <form id="login" method="post" action="/ShiroTest/auth/login" class="form-signin">
+      <form id="login" method="post" action="/ShiroTest/auth/login" class="form-signin" @submit="submitForm">
         <h2 class="form-signin-heading">Please sign in</h2>
         <label for="inputEmail" class="sr-only">Username</label>
-        <input id="inputEmail" type="text" placeholder="Username" required="" autofocus="" name="username" class="form-control">
+        <input id="inputEmail" type="text" placeholder="Username" required="" autofocus="" name="username" class="form-control" v-model="username">
+        <!-- Auto complete part -->
+        <ul class="list-group" style="z-index:10;position:fixed" v-if="doShowList">
+          <li class="list-group-item" v-for="(option,index) in options" v-bind:key="option" @click="handleNameChoose(username+option)">
+            {{username}}{{option}}
+          </li>
+        </ul>
         <label for="inputPassword" class="sr-only">Password</label>
         <input id="inputPassword" type="password" placeholder="Password" required="" name="password" class="form-control">
         <div class="checkbox">
@@ -32,7 +38,7 @@
             <input type="checkbox" name="rememberMe" id="rememberMe"> Remember me
           </label>
         </div>
-        <button id="sbmt" type="button" class="btn btn-lg btn-primary col-sm-6">Sign in</button>
+        <button id="sbmt" type="submit" class="btn btn-lg btn-primary col-sm-6">Sign in</button>
         <button id="rgst" type="button" data-toggle="modal" data-target="#reg" class="btn btn-lg btn-default col-sm-6">Register</button>
       </form>
       <div id="reg" role="dialog" aria-labelledby="gridSystemModalLabel" class="modal fade">
@@ -66,4 +72,6 @@
       <!-- /.modal-->
     </div>
   </body>
+  <script type="text/javascript" src="/ShiroTest/js/tools/vue.min.js"></script>
+  <script type="text/javascript" src="/ShiroTest/js/operations/loginForm.js"></script>
 </html>

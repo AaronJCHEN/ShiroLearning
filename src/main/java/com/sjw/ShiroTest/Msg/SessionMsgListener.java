@@ -17,14 +17,14 @@ import java.io.Serializable;
  */
 @Component
 public class SessionMsgListener {
-    @Autowired
-    SessionForRedisDao redisDao;
+   /* @Autowired
+    SessionForRedisDao sessionForRedisDao;*/
 
     public void handleMessage(Serializable message){
        if (message!=null){
            if (message instanceof String && ((String) message).contains("update session")) {
                String host = ((String) message).substring(((String) message).indexOf(":"));
-               redisDao.doUpdateToEhcache(host);
+               //sessionForRedisDao.doUpdateToEhcache(host);
            }
            else
                throw new RuntimeException("Update session msg format is wrong");
