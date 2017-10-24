@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sjw.ShiroTest.Pojo.ProductPojo;
 import com.sjw.ShiroTest.Service.ProductService;
 
+@CrossOrigin("http://localhost:8082")
 @Controller
 @RequestMapping(value="/product")
 public class ProductController {
