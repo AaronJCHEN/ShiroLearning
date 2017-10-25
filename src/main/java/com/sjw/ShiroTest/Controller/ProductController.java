@@ -52,4 +52,10 @@ public class ProductController {
 		mv.setViewName("product.definition");
 		return mv;
 	}
+
+	@ResponseBody
+	@RequestMapping(value = "/recommended",method = RequestMethod.POST)
+	public List<ProductPojo> getRecommendedProducts(){
+		return productService.getRecommendedProductsService();
+	}
 }

@@ -7,6 +7,7 @@ import com.sjw.ShiroTest.Service.AuthService;
 import com.sjw.ShiroTest.Service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin("http://localhost:8082")
 @Controller
 @RequestMapping("/index")
 public class MainController {
@@ -53,12 +55,17 @@ public class MainController {
 	}
 
 	@ResponseBody
+	@RequestMapping(value = "/getMainMenu",method = RequestMethod.GET)
+	public List<Map> getMainMenu(){
+		return mainService.getMenuService();
+	}
+
+	@ResponseBody
 	@RequestMapping(value="/getSubMenu",method = RequestMethod.POST)
-	public String getSubMenu(HttpServletRequest request) throws JsonProcessingException {
+	public List<Map> getSubMenu(HttpServletRequest request) throws JsonProcessingException {
 		int id_int = Integer.parseInt(request.getParameter("mainMenu"));
 		List<Map> subMenu= mainService.getSubMenuService(id_int);
-		ObjectMapper objectMapper = new ObjectMapper();
-		return objectMapper.writeValueAsString(subMenu);
+		return subMenu;
 	}
 
 }

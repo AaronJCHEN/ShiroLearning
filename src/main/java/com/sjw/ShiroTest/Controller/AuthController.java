@@ -58,7 +58,7 @@ public class AuthController{
 		return mv;
 	}
 	
-	@RequestMapping(value="/login", method = RequestMethod.POST)
+	/*@RequestMapping(value="/login", method = RequestMethod.POST)
 	public ModelAndView loginUserForm(@ModelAttribute UserPojo user){
 		ModelAndView mv = new ModelAndView();
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
@@ -87,11 +87,11 @@ public class AuthController{
 		}
 
 		return mv;
-	}
+	}*/
 
 	@ResponseBody
-	@RequestMapping(value = "/loginByAjax", method = RequestMethod.POST)
-	public Map loginForAjax(@ModelAttribute UserPojo user){
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public Map loginUserForm(@ModelAttribute UserPojo user){
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
 		if(user.getRememberMe()!=null && user.getRememberMe())
 			token.setRememberMe(true);
