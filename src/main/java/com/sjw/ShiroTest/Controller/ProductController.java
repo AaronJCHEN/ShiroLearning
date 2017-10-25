@@ -54,7 +54,7 @@ public class ProductController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/recommended",method = RequestMethod.POST)
+	@RequestMapping(value = "/recommended",method = RequestMethod.GET)
 	public List<ProductPojo> getRecommendedProducts(){
 		return productService.getRecommendedProductsService();
 	}

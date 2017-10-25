@@ -130,7 +130,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 	}
 
 	@Override
-	protected Serializable doCreate(Session session) {
+	protected synchronized Serializable doCreate(Session session) {
 		Serializable sessionId = this.generateSessionId(session);
 		this.assignSessionId(session,sessionId);
 		if (onlyEhCache) {
@@ -183,8 +183,12 @@ public class SessionForRedisDao extends CachingSessionDAO {
 				throw new InvalidSessionException();
 			}
 		} catch (InvalidSessionException e) {
+        	this.isDeleted = true;
 			e.printStackTrace();
 			throw e;
+		} catch (IllegalArgumentException e){
+			this.isDeleted = true;
+			e.printStackTrace();
 		}
         return session;
 	}
