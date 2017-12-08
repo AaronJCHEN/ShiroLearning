@@ -6,10 +6,7 @@ import com.sjw.ShiroTest.Pojo.CommentPojo;
 import com.sjw.ShiroTest.Service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -19,6 +16,7 @@ import java.util.Map;
 /**
  * Created by Watson on 01/24/2017.
  */
+@CrossOrigin("http://localhost:8082")
 @Controller
 @RequestMapping(value = "/comment")
 public class CommentController {
@@ -27,7 +25,7 @@ public class CommentController {
 
     @ResponseBody
     @RequestMapping(value = "/byProduct", method = RequestMethod.POST)
-    public String getCommentsByProduct(HttpServletRequest request) throws JsonProcessingException {
+    public List getCommentsByProduct(HttpServletRequest request) throws JsonProcessingException {
         int productId = Integer.parseInt(request.getParameter("productId"));
         int pageNum = 1;
         if(request.getParameter("pageNum") != null)
@@ -37,7 +35,6 @@ public class CommentController {
         params.put("productId",productId);
         params.put("offset",offset);
         List<CommentPojo> comments = commentService.getCommentsByProductService(params);
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(comments);
+        return comments;
     }
 }

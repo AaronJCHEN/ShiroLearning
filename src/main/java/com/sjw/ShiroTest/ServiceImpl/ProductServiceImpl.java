@@ -84,9 +84,11 @@ public class ProductServiceImpl implements ProductService {
 		String username = request.getSession().getAttribute("username").toString();
 		Cookie[] cookies = request.getCookies();
 		Cookie his = null;
+		String cookieName = username.substring(0,username.indexOf("@"))
+				+username.substring(username.indexOf("@")+1,username.indexOf("."));
 		if (cookies != null){
 			for (Cookie cookie:cookies){
-				if (cookie.getName().contains(username+"-his")){
+				if (cookie.getName().contains(cookieName+"-his")){
 					his = cookie;
 					isFindCookie = true;
 					break;
@@ -95,12 +97,14 @@ public class ProductServiceImpl implements ProductService {
 					continue;
 			}
 			if (!isFindCookie){
-				his = new Cookie(username+"-his","");
+				his = new Cookie(cookieName+"-his","");
+				his.setPath("/ShiroTest");
 				his.setMaxAge(1800);
 			}
 		}
 		else{
-			his = new Cookie(username+"-his","");
+			his = new Cookie(cookieName+"-his","");
+			his.setPath("/ShiroTest");
 			his.setMaxAge(1800);
 		}
 

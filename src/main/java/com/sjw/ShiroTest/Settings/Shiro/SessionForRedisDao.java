@@ -1,6 +1,7 @@
 package com.sjw.ShiroTest.Settings.Shiro;
 
 import com.sjw.ShiroTest.Msg.RedisMsgSender;
+import com.sjw.ShiroTest.Msg.SocketHandler;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
@@ -17,10 +18,13 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 import javax.annotation.Resource;
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -76,8 +80,8 @@ public class SessionForRedisDao extends CachingSessionDAO {
 					((SessionForRedis)cachedSession).setNeedUpdate(false);  //TODO need to confirm if it's necessary
 				}
 			}
-			else if(cachedSession !=null)
-				logger.info("Session is read from Ehcache, which IP is {}",cachedSession.getHost());
+			/*else if(cachedSession !=null)
+				logger.info("Session is read from Ehcache, which IP is {}",cachedSession.getHost());*/
 			return cachedSession;
 		}
 	}
@@ -126,6 +130,17 @@ public class SessionForRedisDao extends CachingSessionDAO {
 			txSetOps.remove(key,session.getHost());
 		if (txValOps.get("SessionId:"+session.getId()) != null)
 			txTemplate.delete("SessionId:"+session.getId());
+		if(SocketHandler.sessionList.containsKey(session.getId())){
+			WebSocketSession webSocketSession = SocketHandler.sessionList.get(session.getId());
+			TextMessage textMessage = new TextMessage("session timeout");
+			try {
+				logger.info("Begin to send msg to client side");
+				webSocketSession.sendMessage(textMessage);
+				SocketHandler.sessionList.remove(session.getId());
+			} catch (IOException e) {
+				logger.error(e.getMessage());
+			}
+		}
 		this.isDeleted = true;
 	}
 

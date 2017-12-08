@@ -26,9 +26,10 @@ public class ProductController {
 	
 	@Resource(name="redisTemplate")
     private HashOperations<String,String,List> hashOps;
-	
+
+	@ResponseBody
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
-	public ModelAndView getProductDetail(@PathVariable int id,
+	public Map getProductDetail(@PathVariable int id,
 										 HttpServletRequest request, HttpServletResponse response){
 		ModelAndView mv = new ModelAndView();
 		ProductPojo thisPdct = productService.getProductDetailService(id);
@@ -44,13 +45,19 @@ public class ProductController {
 		//move the recent record(name+id) to cookies. Get info from cache
 		List<Map> his = productService.updateReadHistory(thisPdct, request,response);
 
-		mv.addObject("pdct",thisPdct);
+		Map<String,Object> pdctDetail = new HashMap();
+		pdctDetail.put("pdct",thisPdct);
+		pdctDetail.put("recent",his);
+		pdctDetail.put("browseTimes",sum);
+		return pdctDetail;
+
+		/*mv.addObject("pdct",thisPdct);
 		mv.addObject("tagsAry",thisPdct.getTags().split(","));
 		mv.addObject("recent",his);
 		mv.addObject("hisLen",his.size()-1);
 		mv.addObject("browseTimes",sum);
 		mv.setViewName("product.definition");
-		return mv;
+		return mv;*/
 	}
 
 	@ResponseBody

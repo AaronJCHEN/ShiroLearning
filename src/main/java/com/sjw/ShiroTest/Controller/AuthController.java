@@ -21,8 +21,10 @@ import com.sjw.ShiroTest.Pojo.UserPojo;
 import com.sjw.ShiroTest.Service.AuthService;
 import com.sjw.ShiroTest.Service.ProductService;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @CrossOrigin("http://localhost:8082")
 @Controller
@@ -91,7 +93,7 @@ public class AuthController{
 
 	@ResponseBody
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Map loginUserForm(@ModelAttribute UserPojo user){
+	public Map<String,Object> loginUserForm(@ModelAttribute UserPojo user){
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
 		if(user.getRememberMe()!=null && user.getRememberMe())
 			token.setRememberMe(true);
@@ -103,13 +105,13 @@ public class AuthController{
 			if(subject.isAuthenticated()) {
 				Session session = subject.getSession();
 				session.setAttribute("username", user.getUsername());
-				/*List<ProductPojo> rproducts = productService.getRecommendedProductsService();
-				List<Map> mainMenu = mainService.getMenuService();
-				Map<String, List> indexInfo = new HashMap<>();
-				indexInfo.put("rproducts", rproducts);
-				indexInfo.put("mainMenu", mainMenu);*/
-				Map<String, String> result = new HashMap<>();
-				result.put("result","success");
+//				HttpSession session = request.getSession();
+//				session.setAttribute("username", user.getUsername());
+				log.info("*********Session id: "+session.getId());
+				log.info(user.getUsername()+" has logged in");
+				Map<String, Object> result = new HashMap<>();
+				result.put("token",token);
+				result.put("jSessionId",session.getId());
 				return result;
 			}
 		}
@@ -148,7 +150,7 @@ public class AuthController{
 	}
 	
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
-	public ModelAndView logoutUser(){
+	public ModelAndView logoutUser() {
 		ModelAndView mv = new ModelAndView();
 		Subject subject = SecurityUtils.getSubject();
 		subject.logout();
