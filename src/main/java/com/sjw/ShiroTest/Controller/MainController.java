@@ -17,6 +17,8 @@ import com.sjw.ShiroTest.Utils.RoleType;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,24 +36,26 @@ public class MainController {
 		ModelAndView mv = new ModelAndView("index.definition");
 		return mv;
 	}
-	
-	@RequestMapping(value="/editRole")
-	public ModelAndView manageRoles(HttpServletRequest request) throws JsonProcessingException{
-		ModelAndView mv = new ModelAndView();
-		String[] roleType = new String[RoleType.values().length];
-		for(RoleType r : RoleType.values()){
-			roleType[r.ordinal()] = r.getRole();
-		}
-		mv.addObject("roleType",roleType);
 
-		//Search My roles
+	@ResponseBody
+	@RequestMapping(value="/profile")
+	public List<Map> manageRoles(HttpServletRequest request) throws JsonProcessingException{
 		HttpSession session = request.getSession();
 		List<String> role_list = authService.getRoleListService(session.getAttribute("username").toString());
-		ObjectMapper objMapper = new ObjectMapper();
-		mv.addObject("myRoles", objMapper.writeValueAsString(role_list));
-		
-		mv.setViewName("profile.definition");
-		return mv;
+		List<Map> roleList = new ArrayList<>();
+		for(RoleType r : RoleType.values()) {
+			Map<String,Object> roleMap = new HashMap<>();
+			if (role_list.contains(r.getRole())){
+				roleMap.put("role", r.getRole());
+				roleMap.put("isChecked", true);
+			}
+			else {
+				roleMap.put("role", r.getRole());
+				roleMap.put("isChecked", false);
+			}
+			roleList.add(roleMap);
+		}
+		return roleList;
 	}
 
 	@ResponseBody

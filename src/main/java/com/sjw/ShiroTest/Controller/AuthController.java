@@ -148,14 +148,13 @@ public class AuthController{
 
 		return mv;
 	}
-	
+
+	@ResponseBody
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
-	public ModelAndView logoutUser() {
-		ModelAndView mv = new ModelAndView();
+	public String logoutUser() {
 		Subject subject = SecurityUtils.getSubject();
 		subject.logout();
-		mv.setViewName("loginPage");
-		return mv;
+		return "success";
 	}
 
 }
