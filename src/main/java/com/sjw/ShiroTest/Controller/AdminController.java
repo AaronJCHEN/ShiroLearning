@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * Created by Watson on 03/13/2017.
  */
+@CrossOrigin("http://localhost:8082")
 @RestController
 @RequestMapping("/ShiroTest/admin")
 public class AdminController {
@@ -29,15 +30,6 @@ public class AdminController {
     @RequestMapping(value = "/uploadInit",method = RequestMethod.GET)
     public ModelAndView uploadInit(){
         return new ModelAndView("import.definition");
-    }
-
-    @RequestMapping(value = "/uploadPreview",method = RequestMethod.POST)
-    public List<ImportPdctPojo> uploadPreview(@RequestParam("pdctList") MultipartFile file) throws Exception{
-        InputStream in = file.getInputStream();
-        Workbook wb = WorkbookFactory.create(in);
-        List<ImportPdctPojo> wbPreview = adminService.uploadPreview(wb);
-        in.close();
-        return wbPreview;
     }
 
     @RequestMapping(value = "/uploadToDB",method = RequestMethod.POST)
