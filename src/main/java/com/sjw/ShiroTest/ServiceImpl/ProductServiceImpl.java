@@ -116,13 +116,13 @@ public class ProductServiceImpl implements ProductService {
 			// Replace existed history
 			String newRecord = product.getName()+"_"+product.getId();
 			if (hisval.contains(newRecord)){
-				if (hisval.contains(",")){
-					if (hisval.contains(newRecord+","))
-						hisval = hisval.replace(newRecord+",","");
-					else if (hisval.contains(","+newRecord))
-						hisval = hisval.replace(","+newRecord,"");
+				if (hisval.contains("#")){
+					if (hisval.contains(newRecord+"#"))
+						hisval = hisval.replace(newRecord+"#","");
+					else if (hisval.contains("#"+newRecord))
+						hisval = hisval.replace("#"+newRecord,"");
 					else
-						throw new RuntimeException("Record replacement of comma is wrong");
+						throw new RuntimeException("Record replacement of # is wrong");
 				}
 				else{
 					Map<String,String> tmpMap = new HashMap<>();
@@ -133,19 +133,19 @@ public class ProductServiceImpl implements ProductService {
 				}
 			}
 
-			String[] hisArray = hisval.split(",");
+			String[] hisArray = hisval.split("#");
 			if (hisArray.length<10)
-				hisval = newRecord+","+hisval;
+				hisval = newRecord+"#"+hisval;
 			else{
-				hisval = hisval.substring(hisval.indexOf(",")+1,hisval.length());
-				hisval = newRecord+","+hisval;
+				hisval = hisval.substring(hisval.indexOf("#")+1,hisval.length());
+				hisval = newRecord+"#"+hisval;
 			}
 		}
 		his.setValue(hisval);
 		response.addCookie(his);
 		String[] hisArray;
-		if (hisval.contains(","))
-			hisArray = hisval.split(",");
+		if (hisval.contains("#"))
+			hisArray = hisval.split("#");
 		else{
 			hisArray = new String[1];
 			hisArray[0] = hisval;
