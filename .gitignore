@@ -1,7 +1,6 @@
 /target/
 /generatorConfig.xml
 /src/main/resource/database.properties
-/src/main/webapp/img/
 .idea/
 ShiroTest.iml
 .DS_Store

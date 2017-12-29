@@ -17,13 +17,12 @@ import java.util.Map;
  * Created by Watson on 01/24/2017.
  */
 @CrossOrigin("http://localhost:8082")
-@Controller
-@RequestMapping(value = "/comment")
+@RestController
+@RequestMapping(value = "/ShiroTest/comment")
 public class CommentController {
     @Autowired
     CommentService commentService;
 
-    @ResponseBody
     @RequestMapping(value = "/byProduct", method = RequestMethod.POST)
     public List getCommentsByProduct(HttpServletRequest request) throws JsonProcessingException {
         int productId = Integer.parseInt(request.getParameter("productId"));

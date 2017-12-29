@@ -18,8 +18,8 @@ import com.sjw.ShiroTest.Pojo.ProductPojo;
 import com.sjw.ShiroTest.Service.ProductService;
 
 @CrossOrigin("http://localhost:8082")
-@Controller
-@RequestMapping(value="/product")
+@RestController
+@RequestMapping(value="/ShiroTest/product")
 public class ProductController {
 	@Autowired
 	ProductService productService;
@@ -27,7 +27,6 @@ public class ProductController {
 	@Resource(name="redisTemplate")
     private HashOperations<String,String,List> hashOps;
 
-	@ResponseBody
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	public Map getProductDetail(@PathVariable int id,
 										 HttpServletRequest request, HttpServletResponse response){
@@ -51,16 +50,8 @@ public class ProductController {
 		pdctDetail.put("browseTimes",sum);
 		return pdctDetail;
 
-		/*mv.addObject("pdct",thisPdct);
-		mv.addObject("tagsAry",thisPdct.getTags().split(","));
-		mv.addObject("recent",his);
-		mv.addObject("hisLen",his.size()-1);
-		mv.addObject("browseTimes",sum);
-		mv.setViewName("product.definition");
-		return mv;*/
 	}
 
-	@ResponseBody
 	@RequestMapping(value = "/recommended",method = RequestMethod.GET)
 	public List<ProductPojo> getRecommendedProducts(){
 		return productService.getRecommendedProductsService();

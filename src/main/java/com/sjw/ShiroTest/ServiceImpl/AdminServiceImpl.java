@@ -7,11 +7,14 @@ import com.sjw.ShiroTest.Pojo.ImportPdctPojo;
 import com.sjw.ShiroTest.Pojo.ProductPojo;
 import com.sjw.ShiroTest.Pojo.UserPojo;
 import com.sjw.ShiroTest.Service.AdminService;
+import jdk.nashorn.internal.objects.annotations.Property;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +26,7 @@ import java.util.Map;
  * Created by Watson on 03/13/2017.
  */
 @Service
+@PropertySource("classpath:upload.properties")
 public class AdminServiceImpl implements AdminService {
     @Autowired
     AdminDao adminDao;

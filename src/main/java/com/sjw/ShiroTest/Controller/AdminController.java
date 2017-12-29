@@ -18,8 +18,8 @@ import java.util.List;
 /**
  * Created by Watson on 03/13/2017.
  */
-@Controller
-@RequestMapping("/admin")
+@RestController
+@RequestMapping("/ShiroTest/admin")
 public class AdminController {
     private Logger logger = LoggerFactory.getLogger(AdminController.class);
 
@@ -31,7 +31,6 @@ public class AdminController {
         return new ModelAndView("import.definition");
     }
 
-    @ResponseBody
     @RequestMapping(value = "/uploadPreview",method = RequestMethod.POST)
     public List<ImportPdctPojo> uploadPreview(@RequestParam("pdctList") MultipartFile file) throws Exception{
         InputStream in = file.getInputStream();
@@ -41,7 +40,6 @@ public class AdminController {
         return wbPreview;
     }
 
-    @ResponseBody
     @RequestMapping(value = "/uploadToDB",method = RequestMethod.POST)
     public String uploadToDB(@RequestBody ImportPdctPojo[] importedList) throws Exception{
         int count = 0;

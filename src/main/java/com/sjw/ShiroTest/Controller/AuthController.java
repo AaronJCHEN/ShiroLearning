@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @CrossOrigin("http://localhost:8082")
-@Controller
-@RequestMapping("/auth")
+@RestController
+@RequestMapping("/ShiroTest/auth")
 public class AuthController{
 	@Autowired
 	AuthService authService;
@@ -40,58 +40,8 @@ public class AuthController{
 	MainService mainService;
 
 	private Logger log = LoggerFactory.getLogger(AuthController.class);
-	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView loginUser(){
-		ModelAndView mv = new ModelAndView();
-        Subject subject = SecurityUtils.getSubject();
-        //If using the rememberMe to login, the Authentication is false. Vice visa
-        if (subject.isRemembered()||subject.isAuthenticated()){
-            String username = subject.getPrincipal().toString();
-            subject.getSession().setAttribute("username",username);
-            List<ProductPojo> rproducts = productService.getRecommendedProductsService();
-			List<Map> mainMenu = mainService.getMenuService();
-			mv.addObject("mainMenu",mainMenu);
-            mv.addObject("rproducts", rproducts);
-            mv.setViewName("index.definition");
-        }
-        else
-		    mv.setViewName("loginPage");
-		return mv;
-	}
-	
-	/*@RequestMapping(value="/login", method = RequestMethod.POST)
-	public ModelAndView loginUserForm(@ModelAttribute UserPojo user){
-		ModelAndView mv = new ModelAndView();
-		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
-        if(user.getRememberMe()!=null && user.getRememberMe())
-            token.setRememberMe(true);
-        else
-            token.setRememberMe(false);
-		Subject subject = SecurityUtils.getSubject();
-		try{
-			subject.login(token);
-			if(subject.isAuthenticated()){
-				Session session = subject.getSession();
-				session.setAttribute("username", user.getUsername());
-				List<ProductPojo> rproducts = productService.getRecommendedProductsService();
-				List<Map> mainMenu = mainService.getMenuService();
-				mv.addObject("rproducts", rproducts);
-				mv.addObject("mainMenu",mainMenu);
-				mv.setViewName("index.definition");
-			}
-			else
-				mv.setViewName("loginPage");
-		}
-		catch (AuthenticationException e){
-			log.error("Login Error",e);
-			mv.setViewName("loginPage");
-		}
 
-		return mv;
-	}*/
 
-	@ResponseBody
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Map<String,Object> loginUserForm(@ModelAttribute UserPojo user){
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
