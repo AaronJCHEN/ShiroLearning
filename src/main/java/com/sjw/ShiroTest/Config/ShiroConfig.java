@@ -2,6 +2,8 @@ package com.sjw.ShiroTest.Config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.RememberMeManager;
@@ -19,6 +21,7 @@ import java.util.Map;
 
 @Configuration
 public class ShiroConfig {
+
     @Bean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         LifecycleBeanPostProcessor lifecycleBeanPostProcessor = new LifecycleBeanPostProcessor();
@@ -67,11 +70,13 @@ public class ShiroConfig {
     public DefaultWebSecurityManager securityManager (
             DefaultWebSessionManager defaultWebSessionManager,
             RealmForShiro realmForShiro,
-            RememberMeManager rememberMeManager) {
+            RememberMeManager rememberMeManager,
+            EhCacheManager cacheManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setSessionManager(defaultWebSessionManager);
         securityManager.setRealm(realmForShiro);
         securityManager.setRememberMeManager(rememberMeManager);
+        securityManager.setCacheManager(cacheManager);
         return securityManager;
     }
 
