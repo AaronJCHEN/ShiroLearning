@@ -1,4 +1,4 @@
-package com.sjw.ShiroTest.Settings.Shiro;
+package com.sjw.ShiroTest.Shiro;
 
 import com.sjw.ShiroTest.Msg.RedisMsgSender;
 import com.sjw.ShiroTest.Msg.SocketHandler;
@@ -11,7 +11,6 @@ import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
@@ -22,7 +21,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import javax.annotation.Resource;
-import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.Serializable;
@@ -134,7 +132,7 @@ public class SessionForRedisDao extends CachingSessionDAO {
 			WebSocketSession webSocketSession = SocketHandler.sessionList.get(session.getId());
 			TextMessage textMessage = new TextMessage("session timeout");
 			try {
-				logger.info("Begin to send msg to client side");
+				logger.info("Notify user for session delete phrase");
 				webSocketSession.sendMessage(textMessage);
 				SocketHandler.sessionList.remove(session.getId());
 			} catch (IOException e) {

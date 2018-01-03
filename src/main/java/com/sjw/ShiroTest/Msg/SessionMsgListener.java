@@ -1,15 +1,8 @@
 package com.sjw.ShiroTest.Msg;
 
 
-import com.sjw.ShiroTest.Settings.Shiro.SessionForRedisDao;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import javax.servlet.ServletContext;
 import java.io.Serializable;
 
 /**

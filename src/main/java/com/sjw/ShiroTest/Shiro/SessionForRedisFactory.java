@@ -1,4 +1,4 @@
-package com.sjw.ShiroTest.Settings.Shiro;
+package com.sjw.ShiroTest.Shiro;
 
 import com.sjw.ShiroTest.Utils.IPUtils;
 import org.apache.shiro.session.Session;
@@ -7,14 +7,11 @@ import org.apache.shiro.session.mgt.SimpleSessionFactory;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.util.comparator.BooleanComparator;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.Serializable;
 
 public class SessionForRedisFactory extends SimpleSessionFactory{
 	private Logger logger = LoggerFactory.getLogger(SessionForRedisFactory.class);

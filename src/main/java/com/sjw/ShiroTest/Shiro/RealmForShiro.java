@@ -1,4 +1,4 @@
-package com.sjw.ShiroTest.Config;
+package com.sjw.ShiroTest.Shiro;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sjw.ShiroTest.Service.AuthService;
-import org.springframework.stereotype.Component;
 
 /**
  * Extends from the JdbcRealm to use the mybatis instead of pure jdbc function.

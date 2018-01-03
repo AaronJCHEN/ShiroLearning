@@ -1,4 +1,4 @@
-package com.sjw.ShiroTest.Settings.Shiro;
+package com.sjw.ShiroTest.Shiro;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -22,14 +22,14 @@ public class SessionForRedis extends SimpleSession {
 	
 	public SessionForRedis() {
 		super();
-		logger.info("Session for Redis is created");
+		logger.info("Session for Redis is created by default settings");
 		this.needUpdate = true;
 		this.needNotified = false;
 	}
 
 	public SessionForRedis(String host) {
 		super(host);
-		logger.info("Session for Redis is created by host");
+		logger.info("Session for Redis is created by host: "+host);
 		this.needUpdate = true;
 		this.needNotified = false;
 	}

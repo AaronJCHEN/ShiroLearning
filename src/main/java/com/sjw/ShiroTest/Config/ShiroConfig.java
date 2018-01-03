@@ -1,13 +1,19 @@
 package com.sjw.ShiroTest.Config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.sjw.ShiroTest.Shiro.RealmForShiro;
+import com.sjw.ShiroTest.Shiro.SessionForRedisDao;
+import com.sjw.ShiroTest.Shiro.SessionForRedisFactory;
+import com.sjw.ShiroTest.Shiro.SessionStsListener;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.RememberMeManager;
+import org.apache.shiro.session.SessionListener;
+import org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -16,11 +22,20 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
 public class ShiroConfig {
+
+    @Bean
+    public SessionForRedisFactory redisFactory () {
+        SessionForRedisFactory redisFactory = new SessionForRedisFactory();
+        redisFactory.setKey("SessionList");
+        return redisFactory;
+    }
 
     @Bean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
@@ -60,9 +75,42 @@ public class ShiroConfig {
     }
 
     @Bean
-    public DefaultWebSessionManager defaultWebSessionManager () {
+    public SessionForRedisDao redisDao() {
+        SessionForRedisDao redisDao = new SessionForRedisDao();
+        redisDao.setOnlyEhCache(false);
+        redisDao.setSeconds(300000);
+        redisDao.setKey("SessionList");
+        return redisDao;
+    }
+
+    @Bean
+    public SessionStsListener stsListener() {
+        SessionStsListener stsListener = new SessionStsListener();
+        return stsListener;
+    }
+
+    @Bean
+    public ExecutorServiceSessionValidationScheduler validationScheduler(){
+        ExecutorServiceSessionValidationScheduler validationScheduler = new ExecutorServiceSessionValidationScheduler();
+        validationScheduler.setInterval(300000);
+        return validationScheduler;
+    }
+
+    @Bean
+    public DefaultWebSessionManager defaultWebSessionManager (
+            SessionForRedisFactory redisFactory,
+            SessionForRedisDao redisDao,
+            ExecutorServiceSessionValidationScheduler validationScheduler,
+            SessionListener stsListener) {
         DefaultWebSessionManager defaultWebSessionManager = new DefaultWebSessionManager();
         defaultWebSessionManager.setGlobalSessionTimeout(600000);
+        defaultWebSessionManager.setSessionFactory(redisFactory);
+        defaultWebSessionManager.setSessionDAO(redisDao);
+        defaultWebSessionManager.setSessionValidationSchedulerEnabled(true);
+        defaultWebSessionManager.setSessionValidationScheduler(validationScheduler);
+        List<SessionListener> stsListeners = new ArrayList<>();
+        stsListeners.add(stsListener);
+        defaultWebSessionManager.setSessionListeners(stsListeners);
         return defaultWebSessionManager;
     }
 
@@ -78,6 +126,13 @@ public class ShiroConfig {
         securityManager.setRememberMeManager(rememberMeManager);
         securityManager.setCacheManager(cacheManager);
         return securityManager;
+    }
+
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor (DefaultSecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
     }
 
     @Bean

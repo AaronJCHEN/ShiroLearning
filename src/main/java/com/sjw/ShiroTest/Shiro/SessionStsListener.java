@@ -1,16 +1,10 @@
-package com.sjw.ShiroTest.Settings.Shiro;
+package com.sjw.ShiroTest.Shiro;
 
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.SetOperations;
-
-import javax.annotation.Resource;
-import java.io.Serializable;
 
 /**
  * Created by Watson on 10/27/2016.
