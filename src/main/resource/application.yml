@@ -2,3 +2,11 @@ mybatis:
   type-aliases-package: com.sjw.ShiroTest.Pojo
   mapper-locations: classpath:mapper/*.xml
 
+spring:
+  session:
+    jdbc:
+
+
+server:
+  session:
+    timeout: 1800

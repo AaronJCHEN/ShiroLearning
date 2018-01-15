@@ -10,8 +10,6 @@ import java.io.Serializable;
  */
 @Component
 public class SessionMsgListener {
-   /* @Autowired
-    SessionForRedisDao sessionForRedisDao;*/
 
     public void handleMessage(Serializable message){
        if (message!=null){

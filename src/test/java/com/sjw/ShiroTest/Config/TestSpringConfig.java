@@ -1,20 +1,17 @@
 package com.sjw.ShiroTest.Config;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Configuration
-public class SpringConfig {
+@ComponentScan(basePackages = {
+        "com.sjw.ShiroTest.Controller",
+        "com.sjw.ShiroTest.ServiceImpl"})
+public class TestSpringConfig {
     @Bean
     public DruidDataSource druidDataSource () throws SQLException {
         DruidDataSource dataSource = new DruidDataSource();

@@ -1,5 +1,9 @@
 package com.sjw.ShiroTest.Controller;
 
+import com.sjw.ShiroTest.Config.TestEhCacheConfig;
+import com.sjw.ShiroTest.Config.TestShiroConfig;
+import com.sjw.ShiroTest.Config.TestSpringConfig;
+import com.sjw.ShiroTest.Config.TestSpringSessionConfig;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.SecurityManager;
 import org.junit.Assert;
@@ -27,8 +31,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:testApplicationContext.xml","classpath:testServlet-context.xml"
-        ,"classpath:testSpring-shiro.xml"})
+@ContextConfiguration(classes = {TestEhCacheConfig.class,
+        TestShiroConfig.class,
+        TestSpringConfig.class,
+        TestSpringSessionConfig.class})
 @WebAppConfiguration
 public class TestProductController {
 

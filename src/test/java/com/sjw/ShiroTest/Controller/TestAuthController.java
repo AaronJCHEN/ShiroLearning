@@ -1,5 +1,9 @@
 package com.sjw.ShiroTest.Controller;
 
+import com.sjw.ShiroTest.Config.TestEhCacheConfig;
+import com.sjw.ShiroTest.Config.TestShiroConfig;
+import com.sjw.ShiroTest.Config.TestSpringConfig;
+import com.sjw.ShiroTest.Config.TestSpringSessionConfig;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.util.ThreadContext;
 import org.apache.shiro.mgt.SecurityManager;
@@ -9,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -30,8 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by sjw on 16/8/13.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:testApplicationContext.xml","classpath:testServlet-context.xml"
-		,"classpath:testSpring-shiro.xml"})
+@SpringBootTest
 @WebAppConfiguration
 public class TestAuthController {
 	private Logger logger = LoggerFactory.getLogger(TestAuthController.class);
@@ -59,10 +64,9 @@ public class TestAuthController {
     public void run() throws Exception {
 		mockMvc.perform(post("/auth/login")
 				.session(session)
-				.param("username","a")
-				.param("password","aaa"))
+				.param("username","qy@163.com")
+				.param("password","qyqy"))
 				.andExpect(status().isOk())
-				.andExpect(view().name("index.definition"))
 				.andDo(MockMvcResultHandlers.print());
     }
 
