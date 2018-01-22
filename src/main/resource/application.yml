@@ -1,6 +1,6 @@
 mybatis:
   type-aliases-package: com.sjw.ShiroTest.Pojo
-  mapper-locations: classpath:mapper/*.xml
+  mapper-locations: mapper/*.xml
 
 spring:
   session:
