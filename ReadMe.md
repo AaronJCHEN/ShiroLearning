@@ -1,5 +1,19 @@
 # Introduction
 
+
+## What's new in version 2.0
+1. Change the environment to SpringBoot.
+2. Use Java config instead of xml config.
+3. Use log4j2 instead of logback as the default logging system.
+4. Create two Branches. One is using Spring session and redis to control authentication. Another is using JWT.
+   </br>All of them can be used in Cloud environment. Haven't decided to use which version.
+
+## Future features
+1. Change authentication from username, password to JWT. In order to the next phrase.(Merge to SpringCloud).
+2. Use WebSocket to notify token expired.
+3. Split current Jar to certain SpringCloud micro-services(With business requirement). And use rest method to communicate with each parts.
+   </br>(Haven't decided using restTemplate or Feign).
+
 ## Related links to develop
 1. Nginx:
    * Install: http://jingyan.baidu.com/article/1e5468f97f3275484961b7df.html
@@ -28,19 +42,6 @@
 5. Run the ngnix under/usr/local/nginx/sbin/. Use ./nginx to run.
 6. Browser http://localhost/ShiroTest to browse it. Since the Ngnix is running under 80 port by default.
    </br>So if the 80 port is used by other server such as Apache, it will goes wrong. Nginx can be used as the http server only.
-
-## What's new in version 2.0
-1. Change the environment to SpringBoot.
-2. Use Java config instead of xml config.
-3. Use log4j2 instead of logback as the default logging system.
-4. Create two Branches. One is using Spring session and redis to control authentication. Another is using JWT.
-   </br>All of them can be used in Cloud environment. Haven't decided to use which version.
-
-## Future features
-1. Change authentication from username, password to JWT. In order to the next phrase.(Merge to SpringCloud).
-2. Use WebSocket to notify token expired.
-3. Split current Jar to certain SpringCloud micro-services(With business requirement). And use rest method to communicate with each parts.
-   </br>(Haven't decided using restTemplate or Feign).
 
 ***
 Last update : 02/13/2018 by poisson0106
