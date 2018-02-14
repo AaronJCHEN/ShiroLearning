@@ -5,6 +5,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sjw.ShiroTest.Service.AuthService;
 import com.sjw.ShiroTest.Service.MainService;
+import com.sjw.ShiroTest.Utils.JWTUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +39,8 @@ public class MainController {
 
 	@RequestMapping(value="/profile")
 	public List<Map> manageRoles(HttpServletRequest request) throws JsonProcessingException{
-		HttpSession session = request.getSession();
-		List<String> role_list = authService.getRoleListService(session.getAttribute("username").toString());
+		String token = request.getHeader("Authorization");
+		List<String> role_list = authService.getRoleListService(JWTUtils.getTokenUsername(token));
 		List<Map> roleList = new ArrayList<>();
 		for(RoleType r : RoleType.values()) {
 			Map<String,Object> roleMap = new HashMap<>();

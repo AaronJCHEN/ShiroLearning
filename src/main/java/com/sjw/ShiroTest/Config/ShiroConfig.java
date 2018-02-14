@@ -2,10 +2,14 @@ package com.sjw.ShiroTest.Config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.sjw.ShiroTest.Shiro.*;
+import com.sjw.ShiroTest.Utils.JWTUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.RememberMeManager;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler;
@@ -17,16 +21,21 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.session.mgt.ServletContainerSessionManager;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.Filter;
+import java.util.*;
 
 @Configuration
 public class ShiroConfig {
+
+    @Bean
+    public JWTUtils jwtUtils() {
+        return new JWTUtils();
+    }
 
     @Bean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
@@ -35,54 +44,61 @@ public class ShiroConfig {
     }
 
     @Bean
-    public HashedCredentialsMatcher credentialsMatcher () {
-        HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher("MD5");
-        return credentialsMatcher;
+    public JWTShiroFilter jwtShiroFilter() {
+        JWTShiroFilter jwtShiroFilter = new JWTShiroFilter();
+        return jwtShiroFilter;
     }
 
     @Bean
-    public RealmForShiro realmForShiro (HashedCredentialsMatcher credentialsMatcher, DruidDataSource dataSource) {
-        RealmForShiro realmForShiro = new RealmForShiro();
-        realmForShiro.setCredentialsMatcher(credentialsMatcher);
-        realmForShiro.setPermissionsLookupEnabled(true);
-        realmForShiro.setDataSource(dataSource);
-        return realmForShiro;
+    public DefaultSessionStorageEvaluator defaultSessionStorageEvaluator() {
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
+        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
+        return defaultSessionStorageEvaluator;
     }
 
     @Bean
-    public SimpleCookie simpleCookie () {
-        SimpleCookie rememberMeCookie = new SimpleCookie("rememberMe");
-        rememberMeCookie.setHttpOnly(false);
-        rememberMeCookie.setMaxAge(8640);
-        return rememberMeCookie;
+    public DefaultSubjectDAO defaultSubjectDAO(DefaultSessionStorageEvaluator defaultSessionStorageEvaluator) {
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+        return subjectDAO;
     }
 
     @Bean
-    public CookieRememberMeManager rememberMeManager(SimpleCookie rememberMeCookie) {
-        CookieRememberMeManager rememberMeManager = new CookieRememberMeManager();
-        rememberMeManager.setCipherKey(Base64.decode("4AvVhmFLUs0KTA3Kprsdag=="));
-        rememberMeManager.setCookie(rememberMeCookie);
-        return rememberMeManager;
+    public JWTRealm jwtRealm () {
+        JWTRealm jwtRealm = new JWTRealm();
+        jwtRealm.setPermissionsLookupEnabled(true);
+        return jwtRealm;
     }
 
     @Bean
-    public ServletContainerSessionManager serlvetSessionMgr () {
-        ServletContainerSessionManager servletSessionMgr = new ServletContainerSessionManager();
-        return servletSessionMgr;
+    public JWTSubjectFactory jwtSubjectFactory() {
+        JWTSubjectFactory jwtSubjectFactory = new JWTSubjectFactory();
+        return jwtSubjectFactory;
     }
 
     @Bean
     public DefaultWebSecurityManager securityManager (
-            ServletContainerSessionManager servletSessionMgr,
-            RealmForShiro realmForShiro,
-            RememberMeManager rememberMeManager,
-            EhCacheManager cacheManager) {
+            JWTRealm jwtRealm,
+            EhCacheManager cacheManager,
+            JWTSubjectFactory jwtSubjectFactory,
+            DefaultSubjectDAO subjectDAO) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setSessionManager(servletSessionMgr);
-        securityManager.setRealm(realmForShiro);
-        securityManager.setRememberMeManager(rememberMeManager);
+        securityManager.setRealm(jwtRealm);
         securityManager.setCacheManager(cacheManager);
+
+        //close session
+        securityManager.setSubjectFactory(jwtSubjectFactory);
+        securityManager.setSubjectDAO(subjectDAO);
+
         return securityManager;
+    }
+
+    @Bean
+    public MethodInvokingFactoryBean methodInvokingFactoryBean(DefaultSecurityManager securityManager){
+        MethodInvokingFactoryBean methodInvokingFactoryBean = new MethodInvokingFactoryBean();
+        methodInvokingFactoryBean.setStaticMethod("org.apache.shiro.SecurityUtils.setSecurityManager");
+        methodInvokingFactoryBean.setArguments(securityManager);
+        return methodInvokingFactoryBean;
     }
 
     @Bean
@@ -93,16 +109,21 @@ public class ShiroConfig {
     }
 
     @Bean
-    public ShiroFilterFactoryBean shiroFilterFactoryBean (DefaultSecurityManager securityManager) {
+    public ShiroFilterFactoryBean shiroFilterFactoryBean (
+            DefaultSecurityManager securityManager,
+            JWTShiroFilter jwtShiroFilter) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        shiroFilterFactoryBean.setSecurityManager(securityManager);
-        Map<String, String> filterChain = new HashMap<>();
-        filterChain.put("/auth/*","anon");
-        filterChain.put("/druid/*","authc,roles[MANAGER]");
-        filterChain.put("/admin/*","authc,roles[MANAGER]");
-        filterChain.put("/index/*","authc");
-        filterChain.put("/product/*","authc");
+        Map<String, Filter> filterMap = new HashMap<>();
+        filterMap.put("jwtShiroFilter", jwtShiroFilter);
+        shiroFilterFactoryBean.setFilters(filterMap);
+        Map<String, String> filterChain = new LinkedHashMap<>();
+        filterChain.put("/ShiroTest/auth/*","anon");
+        filterChain.put("/ShiroTest/druid/*","jwtShiroFilter,roles[MANAGER]");
+        filterChain.put("/ShiroTest/admin/*","jwtShiroFilter,roles[MANAGER]");
+        filterChain.put("/ShiroTest/index/*","jwtShiroFilter");
+        filterChain.put("/ShiroTest/product/*","jwtShiroFilter");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChain);
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
         return shiroFilterFactoryBean;
     }
 

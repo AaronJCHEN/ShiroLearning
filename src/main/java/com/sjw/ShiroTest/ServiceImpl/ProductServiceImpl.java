@@ -4,27 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.sjw.ShiroTest.Msg.RedisMsgSender;
 import com.sjw.ShiroTest.Pojo.BrowsePojo;
-import com.sjw.ShiroTest.Pojo.MsgWrapperPojo;
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-import org.apache.shiro.web.servlet.SimpleCookie;
+import com.sjw.ShiroTest.Utils.JWTUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.sjw.ShiroTest.Dao.ProductDao;
 import com.sjw.ShiroTest.Pojo.ProductPojo;
@@ -81,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
 	public List<Map> updateReadHistory(ProductPojo product,
 									   HttpServletRequest request, HttpServletResponse response) {
 		Boolean isFindCookie = false;
-		String username = request.getSession().getAttribute("username").toString();
+		String username = JWTUtils.getTokenUsername(request.getHeader("Authorization"));
 		Cookie[] cookies = request.getCookies();
 		Cookie his = null;
 		String cookieName = username.substring(0,username.indexOf("@"))

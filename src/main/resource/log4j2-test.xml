@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="DEBUG">
+    <Properties>
+
+    </Properties>
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+        </Console>
+        <Console name="CSTDOUT" target="SYSTEM_OUT">
+            <PatternLayout>
+                <Pattern>%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n}</Pattern>
+            </PatternLayout>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <logger name="com.sjw.ShiroTest.Dao" level="DEBUG" additivity="false">
+            <AppenderRef ref="CSTDOUT" />
+        </logger>
+        <logger name="com.sjw.ShiroTest.Controller" level="DEBUG" additivity="false">
+            <AppenderRef ref="CSTDOUT" />
+        </logger>
+        <logger name="com.sjw.ShiroTest.ServiceImpl" level="DEBUG" additivity="false">
+            <AppenderRef ref="CSTDOUT" />
+        </logger>
+        <logger name="com.sjw.ShiroTest.Shiro" level="DEBUG" additivity="false">
+            <AppenderRef ref="CSTDOUT" />
+        </logger>
+        <logger name="org.apache.shiro.web.mgt" level="DEBUG" additivity="false">
+            <AppenderRef ref="STDOUT" />
+        </logger>
+        <Root level="DEBUG" includeLocation="false">
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+</Configuration>

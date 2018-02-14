@@ -26,7 +26,7 @@ import java.util.Map;
  * Created by Watson on 03/13/2017.
  */
 @Service
-@PropertySource("classpath:upload.properties")
+@PropertySource("classpath:settings.properties")
 public class AdminServiceImpl implements AdminService {
     @Autowired
     AdminDao adminDao;

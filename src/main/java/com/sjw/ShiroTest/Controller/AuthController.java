@@ -2,16 +2,21 @@ package com.sjw.ShiroTest.Controller;
 
 import java.util.*;
 
+import com.sjw.ShiroTest.Pojo.JWTTokenPojo;
+import com.sjw.ShiroTest.Pojo.ResponsePojo;
 import com.sjw.ShiroTest.Service.MainService;
+import com.sjw.ShiroTest.Utils.JWTUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.codec.Base64;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,54 +26,21 @@ import com.sjw.ShiroTest.Pojo.UserPojo;
 import com.sjw.ShiroTest.Service.AuthService;
 import com.sjw.ShiroTest.Service.ProductService;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 @CrossOrigin("http://localhost:8082")
 @RestController
 @RequestMapping("/ShiroTest/auth")
 public class AuthController{
 	@Autowired
 	AuthService authService;
-	
-	@Autowired
-	ProductService productService;
-
-	@Autowired
-	MainService mainService;
 
 	private Logger log = LoggerFactory.getLogger(AuthController.class);
 
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Map<String,Object> loginUserForm(@ModelAttribute UserPojo user){
-		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
-		if(user.getRememberMe()!=null && user.getRememberMe())
-			token.setRememberMe(true);
-		else
-			token.setRememberMe(false);
-		Subject subject = SecurityUtils.getSubject();
-		try {
-			subject.login(token);
-			if(subject.isAuthenticated()) {
-				Session session = subject.getSession();
-				session.setAttribute("username", user.getUsername());
-//				HttpSession session = request.getSession();
-//				session.setAttribute("username", user.getUsername());
-				log.info("*********Session id: "+session.getId());
-				log.info(user.getUsername()+" has logged in");
-				Map<String, Object> result = new HashMap<>();
-				result.put("token",token);
-				result.put("jSessionId",session.getId());
-				return result;
-			}
-		}
-		catch (AuthenticationException e) {
-			log.error("Login Error", e);
-		}
-		throw new RuntimeException("Error");
+	public ResponsePojo loginUserForm(@ModelAttribute UserPojo user){
+		user.setPassword(new Md5Hash(user.getPassword().getBytes()).toString());
+		ResponsePojo response = authService.loginUserFormService(user);
+		return response;
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)

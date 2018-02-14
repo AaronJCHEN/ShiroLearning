@@ -11,6 +11,7 @@ public interface AuthDao {
 	void registerRoles(UserPojo user);
 	List<String> getRoleList(String username);
 	List<String> getPermissionList(String roleName);
-	List<String> getPassword(String username);
 	UserPojo getUserByName(String username);
+	String getJWTPassword(String username);
+	UserPojo verifyUser(UserPojo user);
 }

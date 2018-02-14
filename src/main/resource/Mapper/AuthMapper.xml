@@ -20,4 +20,34 @@
 	<select id="getUserByName" parameterType="string" resultType="User">
 		SELECT * FROM USER WHERE USERNAME = #{username, jdbcType=VARCHAR}
 	</select>
+
+	<select id="getRoleList" parameterType = "string" resultType = "string">
+		SELECT
+		R.NAME
+		FROM
+		USER AS U LEFT JOIN USER_ROLE AS UR
+		ON
+		U.ID = UR.USER_ID LEFT JOIN ROLE AS R
+		ON
+		UR.ROLE_ID = R.ID
+		WHERE
+		U.USERNAME= #{username }
+	</select>
+
+	<select id="getPermissionList" parameterType = "string" resultType = "string">
+		SELECT
+		P.PERMISSION
+		FROM
+		PERMISSION AS P
+		WHERE
+		P.ACCESS_LEVEL &lt;= (SELECT R.ACCESS_LEVEL FROM ROLE AS R WHERE R.NAME=#{roleName})
+	</select>
+
+	<select id="getJWTPassword" parameterType = "string" resultType = "string">
+		SELECT PASSWORD FROM USER WHERE USERNAME = #{username}
+	</select>
+
+	<select id="verifyUser" parameterType="User" resultType="User">
+		SELECT * FROM USER WHERE USERNAME= #{username,jdbcType=VARCHAR} AND PASSWORD = #{password,jdbcType=VARCHAR}
+	</select>
 </mapper>

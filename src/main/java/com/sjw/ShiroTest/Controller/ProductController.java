@@ -2,15 +2,13 @@ package com.sjw.ShiroTest.Controller;
 
 import java.util.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sjw.ShiroTest.Enhance.BrowseNumEnhance;
 import com.sjw.ShiroTest.Pojo.BrowsePojo;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,9 +21,6 @@ import com.sjw.ShiroTest.Service.ProductService;
 public class ProductController {
 	@Autowired
 	ProductService productService;
-	
-	@Resource(name="redisTemplate")
-    private HashOperations<String,String,List> hashOps;
 
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	public Map getProductDetail(@PathVariable int id,
