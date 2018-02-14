@@ -7,12 +7,12 @@
 3. Use log4j2 instead of logback as the default logging system.
 4. Create two Branches. One is using Spring session and redis to control authentication. Another is using JWT.
    </br>All of them can be used in Cloud environment. Haven't decided to use which version.
+5. Separate front end part to vue-based node.js project. Detail can be found in ShiroLearning-vue project.
 
 ## Future features
 1. Change authentication from username, password to JWT. In order to the next phrase.(Merge to SpringCloud).
 2. Use WebSocket to notify token expired.
-3. Split current Jar to certain SpringCloud micro-services(With business requirement). And use rest method to communicate with each parts.
-   </br>(Haven't decided using restTemplate or Feign).
+3. Split current Jar to certain SpringCloud micro-services(With business requirement). And use rest method to communicate with each parts.(Haven't decided using restTemplate or Feign).
 
 ## Related links to develop
 1. Nginx:
