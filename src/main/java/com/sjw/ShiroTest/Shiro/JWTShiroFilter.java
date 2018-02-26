@@ -40,13 +40,17 @@ public class JWTShiroFilter extends BasicHttpAuthenticationFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         boolean loggedIn = false;
         if (this.isLoginAttempt(request, response)) {
-            loggedIn = this.executeLogin(request, response);
+            try {
+                loggedIn = this.executeLogin(request, response);
+                if (!loggedIn) {
+                    this.sendChallenge(request, response);
+                }
+            }
+            catch (Exception e){
+                logger.error("In OnAccessDenied method. It occurs error on executeLogin: "+e.getMessage());
+                this.sendChallenge(request, response);
+            }
         }
-
-        if (!loggedIn) {
-            this.sendChallenge(request, response);
-        }
-
         return loggedIn;
     }
 

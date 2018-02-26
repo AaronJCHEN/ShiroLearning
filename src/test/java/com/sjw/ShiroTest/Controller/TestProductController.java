@@ -3,7 +3,6 @@ package com.sjw.ShiroTest.Controller;
 import com.sjw.ShiroTest.Config.TestEhCacheConfig;
 import com.sjw.ShiroTest.Config.TestShiroConfig;
 import com.sjw.ShiroTest.Config.TestSpringConfig;
-import com.sjw.ShiroTest.Config.TestSpringSessionConfig;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.SecurityManager;
 import org.junit.Assert;
@@ -22,10 +21,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
 /**
  * Created by Watson on 01/17/2017.
  */
@@ -33,8 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestEhCacheConfig.class,
         TestShiroConfig.class,
-        TestSpringConfig.class,
-        TestSpringSessionConfig.class})
+        TestSpringConfig.class})
 @WebAppConfiguration
 public class TestProductController {
 
