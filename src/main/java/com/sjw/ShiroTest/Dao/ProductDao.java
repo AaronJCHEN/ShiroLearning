@@ -1,8 +1,10 @@
 package com.sjw.ShiroTest.Dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sjw.ShiroTest.Pojo.BrowsePojo;
+import com.sjw.ShiroTest.Pojo.CommentPojo;
 import com.sjw.ShiroTest.Pojo.ProductPojo;
 import org.mybatis.spring.annotation.MapperScan;
 
@@ -18,4 +20,5 @@ public interface ProductDao {
 	void updateBrowseTimes(BrowsePojo browse);
 	void updateRemainCount(int productId);
 	void createNewProduct(ProductPojo product);
+	List<CommentPojo> getCommentsByProduct(Map params);
 }

@@ -55,9 +55,7 @@ public class AuthController{
 			if(subject.isAuthenticated()) {
 				Session session = subject.getSession();
 				session.setAttribute("username", user.getUsername());
-//				HttpSession session = request.getSession();
-//				session.setAttribute("username", user.getUsername());
-				log.info("*********Session id: "+session.getId());
+				session.setAttribute("userId",user.getId());
 				log.info(user.getUsername()+" has logged in");
 				Map<String, Object> result = new HashMap<>();
 				result.put("token",token);

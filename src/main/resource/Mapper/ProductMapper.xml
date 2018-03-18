@@ -20,7 +20,7 @@
 	</select>
 
 	<update id="updateRemainCount" parameterType="Product">
-		UPDATE PRODUCT SET REMAINS = #{remains,jdbcType=FLOAT} WHERE ID = #{id, jdbcType=INTEGER}
+		UPDATE PRODUCT SET REMAINS = REMAINS - #{productAmount, jdbcType=FLOAT} WHERE ID = #{id, jdbcType=INTEGER}
 	</update>
 
 	<insert id="createNewProduct" parameterType="Product">
@@ -38,4 +38,9 @@
 		<if test="remains != null and remains != ''">,#{remains,jdbcType=FLOAT}</if>
 		)
 	</insert>
+
+	<select id="getCommentsByProduct" parameterType="map" resultType="Comment">
+		SELECT U.USERNAME,C.COMMENTS,C.USERID,C.COMMENTDATE FROM PRODUCT_COMMENTS AS C LEFT JOIN USER AS U ON C.USERID = U.ID
+		WHERE PRODUCTID = #{productId, jdbcType=INTEGER} LIMIT 10 OFFSET #{offset, jdbcType=INTEGER}
+	</select>
 </mapper>

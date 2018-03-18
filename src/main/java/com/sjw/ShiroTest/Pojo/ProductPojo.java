@@ -13,7 +13,7 @@ public class ProductPojo implements Serializable {
     private int id;
     private String name;
     private float price;
-    private float accountPrice;
+    private float productAmount;
     private String category;
     private String tags;
     private String description;
@@ -93,12 +93,11 @@ public class ProductPojo implements Serializable {
         this.recommended = recommended;
     }
 
-    public float getAccountPrice() {
-        return accountPrice;
+    public float getProductAmount() {
+        return productAmount;
     }
 
-    public void setAccountPrice(float accountPrice) {
-        this.accountPrice = accountPrice;
+    public void setProductAmount(float productAmount) {
+        this.productAmount = productAmount;
     }
-
 }

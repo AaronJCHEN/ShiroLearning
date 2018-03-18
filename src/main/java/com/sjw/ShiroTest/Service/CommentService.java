@@ -9,5 +9,5 @@ import java.util.Map;
  * Created by Watson on 01/24/2017.
  */
 public interface CommentService {
-    List<CommentPojo> getCommentsByProductService(Map params);
+
 }

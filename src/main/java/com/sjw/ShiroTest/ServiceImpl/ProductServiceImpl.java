@@ -14,24 +14,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.sjw.ShiroTest.Msg.RedisMsgSender;
-import com.sjw.ShiroTest.Pojo.BrowsePojo;
-import com.sjw.ShiroTest.Pojo.MsgWrapperPojo;
+import com.sjw.ShiroTest.Pojo.*;
+import com.sjw.ShiroTest.Service.AuthService;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sjw.ShiroTest.Dao.ProductDao;
-import com.sjw.ShiroTest.Pojo.ProductPojo;
 import com.sjw.ShiroTest.Service.ProductService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
 	@Autowired
 	ProductDao productDao;
 
@@ -158,6 +161,11 @@ public class ProductServiceImpl implements ProductService {
 			returnHis.add(tmpMap);
 		}
 		return returnHis;
+	}
+
+	@Override
+	public List<CommentPojo> getCommentsByProductService(Map params) {
+		return productDao.getCommentsByProduct(params);
 	}
 
 	@Override

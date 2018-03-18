@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sjw.ShiroTest.Dao.CommentDao">
-    <select id="getCommentsByProduct" parameterType="map" resultType="Comment">
-        SELECT U.USERNAME,C.COMMENTS,C.USERID,C.COMMENTDATE FROM PRODUCT_COMMENTS AS C LEFT JOIN USER AS U ON C.USERID = U.ID
-        WHERE PRODUCTID = #{productId, jdbcType=INTEGER} LIMIT 10 OFFSET #{offset, jdbcType=INTEGER}
-    </select>
-</mapper>
