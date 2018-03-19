@@ -115,8 +115,8 @@ public class JWTRealm extends AuthorizingRealm {
             throws SQLException {
         Set<String> permissions = new LinkedHashSet<String>();
         for (String roleName : roleNames) {
-            List<String> permisson_list = authService.getPermissionListService(roleName);
-            Iterator<String> i = permisson_list.iterator();
+            List<String> permission_list = authService.getPermissionListService(roleName);
+            Iterator<String> i = permission_list.iterator();
             while(i.hasNext()){
                 permissions.add(i.next());
             }
