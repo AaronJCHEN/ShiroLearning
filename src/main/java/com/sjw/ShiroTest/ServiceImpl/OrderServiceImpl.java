@@ -25,13 +25,14 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(rollbackFor = Exception.class)
     public ResponsePojo addOrderInfoService(OrderPojo orderPojo) {
         // Verify account
-        double sum = 0;
+        /*double sum = 0;
         for(ProductPojo p : orderPojo.getOrderList())
-            sum = sum + p.getPrice() * p.getProductAmount();
+            sum = sum + p.getPrice() * p.getProductAmount();*/
 
-        if (sum == orderPojo.getPrice()){
+        if (true){
             Session session = SecurityUtils.getSubject().getSession();
-            orderPojo.setUserId(Integer.parseInt(session.getAttribute("userId").toString()));
+            //orderPojo.setUserId(Integer.parseInt(session.getAttribute("userId").toString()));
+            //orderPojo.setUserId(1);
             orderDao.addOrderInfo(orderPojo);
             // remove remains
             for (ProductPojo p : orderPojo.getOrderList())

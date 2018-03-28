@@ -47,8 +47,13 @@ public class OrderPojo {
 
     public String getProductIdList(){
         String list = "";
-        for (ProductPojo p : this.orderList)
-            list = list+String.valueOf(p.getId());
+        for (ProductPojo p : this.orderList) {
+            if (list.equals(""))
+                list = String.valueOf(p.getId());
+            else
+                list = list+","+String.valueOf(p.getId());
+        }
+
         return list;
     }
 }

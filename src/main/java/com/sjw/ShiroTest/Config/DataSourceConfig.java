@@ -19,14 +19,25 @@ import java.util.Map;
 @PropertySource("classpath:database.properties")
 public class DataSourceConfig {
 
-    @Value("jdbc.location")
+    @Value("${jdbc.location}")
     String url;
+
+    @Value("${jdbc.drivername}")
+    String drivername;
+
+    @Value("${jdbc.username}")
+    String username;
+
+    @Value("${jdbc.password}")
+    String password;
 
     @Bean
     public DruidDataSource druidDataSource () throws SQLException {
         DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setDriverClassName(drivername);
         dataSource.setUrl(url);
-        dataSource.setDriverClassName("org.sqlite.JDBC");
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
         dataSource.setFilters("stat,log4j2");
         dataSource.setMaxActive(20);
         dataSource.setInitialSize(1);
