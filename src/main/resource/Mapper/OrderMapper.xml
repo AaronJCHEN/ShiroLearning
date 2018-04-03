@@ -3,13 +3,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjw.ShiroTest.Dao.OrderDao">
     <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
-    <insert id="addOrderInfo" parameterType="Order">
-        INSERT INTO ORDER_LIST(USER_ID, PRODUCT_ID, BUY_DATE, SUM)
+    <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO ORDER_LIST(USER_ID, ORDER_NUM, BUY_DATE, SUM)
         VALUES(
             #{userId, jdbcType = INTEGER},
-            #{productIdList, jdbcType = VARCHAR},
+            #{orderNum, jdbcType = VARCHAR},
             CURRENT_TIMESTAMP,
             #{price, jdbcType = DOUBLE}
         )
+    </insert>
+    <insert id="addOrderDetail" parameterType="Order">
+        INSERT INTO ORDER_DETAIL(LIST_ID,PRODUCT_ID,AMOUNT,PRICE) VALUES
+        <foreach collection="productList" item="p" separator=",">
+            (#{id, jdbcType = INTEGER}
+            , #{p.id, jdbcType=INTEGER}
+            , #{p.productAmount, jdbcType=INTEGER}
+            , #{p.price, jdbcType=FLOAT})
+        </foreach>
     </insert>
 </mapper>

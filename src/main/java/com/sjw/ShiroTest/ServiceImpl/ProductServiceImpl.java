@@ -61,6 +61,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public double getRemainCountService(ProductPojo product) {
+		return productDao.getRemainCount(product);
+	}
+
+	@Override
 	public BrowsePojo getBrowseDetailService(BrowsePojo browse) {
 		return productDao.getBrowseDetail(browse);
 	}

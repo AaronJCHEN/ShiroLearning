@@ -14,6 +14,7 @@ public interface ProductService {
 	ProductPojo getProductDetailService(int id);
 	ProductPojo getProductDetailService(String name);
 	void updateRemainCountService(ProductPojo product);
+	double getRemainCountService(ProductPojo product);
 	BrowsePojo getBrowseDetailService(BrowsePojo browse);
 	void createBrowseRecordService(BrowsePojo browse);
 	void updateBrowseTimesService(BrowsePojo browse);

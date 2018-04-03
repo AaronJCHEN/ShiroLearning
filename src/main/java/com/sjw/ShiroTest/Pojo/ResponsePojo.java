@@ -18,6 +18,13 @@ public class ResponsePojo {
         this.detail = detail;
     }
 
+    public ResponsePojo(int status, String msg, String detail, Object info) {
+        this.status = status;
+        this.msg = msg;
+        this.detail = detail;
+        this.info = info;
+    }
+
     public int getStatus() {
         return status;
     }

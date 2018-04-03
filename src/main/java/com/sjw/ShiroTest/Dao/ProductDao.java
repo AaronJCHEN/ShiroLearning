@@ -14,11 +14,11 @@ public interface ProductDao {
 	ProductPojo getProductDetail(int id);
 	ProductPojo getProductDetailByName(String name);
 	void updateRemainCount(ProductPojo product);
+	double getRemainCount(ProductPojo product);
 	BrowsePojo getBrowseDetail(BrowsePojo browse);
 	void createBrowseRecord(BrowsePojo browse);
 	int getBrowseTimes(int productId);
 	void updateBrowseTimes(BrowsePojo browse);
-	void updateRemainCount(int productId);
 	void createNewProduct(ProductPojo product);
 	List<CommentPojo> getCommentsByProduct(Map params);
 }

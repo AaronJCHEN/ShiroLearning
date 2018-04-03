@@ -1,17 +1,40 @@
 package com.sjw.ShiroTest.Pojo;
 
 import org.apache.ibatis.type.Alias;
+import org.springframework.format.datetime.DateFormatter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Alias(value = "Order")
 public class OrderPojo {
-    private int userId;
+    private int id;
+    private int userId = 0;
+    private String orderNum;
     private String username;
-    private List<ProductPojo> orderList;
+    private List<ProductPojo> productList;
     private double price;
     private String productIdList;
+
+    public OrderPojo() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat d = new SimpleDateFormat("yyyyMMddHHmmss");
+        if(userId != 0)
+            this.orderNum = "O"+d.format(date)+ String.format("%05d",this.userId);
+        else
+            this.orderNum = "O"+d.format(date);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getUserId() {
         return userId;
@@ -19,6 +42,7 @@ public class OrderPojo {
 
     public void setUserId(int userId) {
         this.userId = userId;
+        this.orderNum = this.orderNum + String.format("%05d",this.userId);
     }
 
     public String getUsername() {
@@ -29,12 +53,12 @@ public class OrderPojo {
         this.username = username;
     }
 
-    public List<ProductPojo> getOrderList() {
-        return orderList;
+    public List<ProductPojo> getProductList() {
+        return productList;
     }
 
-    public void setOrderList(List<ProductPojo> orderList) {
-        this.orderList = orderList;
+    public void setProductList(List<ProductPojo> productList) {
+        this.productList = productList;
     }
 
     public double getPrice() {
@@ -45,9 +69,17 @@ public class OrderPojo {
         this.price = price;
     }
 
+    public String getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(String orderNum) {
+        this.orderNum = orderNum;
+    }
+
     public String getProductIdList(){
         String list = "";
-        for (ProductPojo p : this.orderList) {
+        for (ProductPojo p : this.productList) {
             if (list.equals(""))
                 list = String.valueOf(p.getId());
             else
@@ -55,5 +87,12 @@ public class OrderPojo {
         }
 
         return list;
+    }
+
+    //Method
+    public void removeSoldOutProduct(List<ProductPojo> soldOutList){
+       for (ProductPojo p : soldOutList){
+           this.productList.remove(p);
+       }
     }
 }

@@ -81,6 +81,23 @@ CREATE TABLE `menu_sub` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `order_detail`
+--
+
+DROP TABLE IF EXISTS `order_detail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `order_detail` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `LIST_ID` int(11) NOT NULL,
+  `PRODUCT_ID` int(11) NOT NULL,
+  `AMOUNT` float NOT NULL,
+  `PRICE` float NOT NULL,
+  PRIMARY KEY (`ID`,`LIST_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `order_list`
 --
 
@@ -89,12 +106,12 @@ DROP TABLE IF EXISTS `order_list`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `order_list` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ORDER_NUM` varchar(45) NOT NULL,
   `USER_ID` int(11) NOT NULL,
-  `PRODUCT_ID` varchar(100) NOT NULL,
   `BUY_DATE` datetime NOT NULL,
   `SUM` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=601 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -209,4 +226,4 @@ CREATE TABLE `user_role` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-28 17:10:21
+-- Dump completed on 2018-04-03 16:23:30

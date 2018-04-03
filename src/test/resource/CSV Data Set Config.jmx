@@ -33,7 +33,7 @@
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
 	&quot;userId&quot;: &quot;${id}&quot;,&#xd;
-	&quot;orderList&quot;: [&#xd;
+	&quot;productList&quot;: [&#xd;
 		{&quot;id&quot;:${pid1}, &quot;price&quot;:${price1}, &quot;productAmount&quot;:${productAmount1}},&#xd;
 		{&quot;id&quot;:${pid2}, &quot;price&quot;:${price2}, &quot;productAmount&quot;:${productAmount2}},&#xd;
 		{&quot;id&quot;:${pid3}, &quot;price&quot;:${price3}, &quot;productAmount&quot;:${productAmount3}}&#xd;

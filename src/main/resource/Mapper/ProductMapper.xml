@@ -19,6 +19,10 @@
 		SELECT * FROM PRODUCT WHERE NAME = #{name, jdbcType=VARCHAR}
 	</select>
 
+	<select id="getRemainCount" parameterType="Product" resultType="double">
+		SELECT REMAINS FROM PRODUCT WHERE ID = #{id, jdbcType=INTEGER}
+	</select>
+
 	<update id="updateRemainCount" parameterType="Product">
 		UPDATE PRODUCT SET REMAINS = REMAINS - #{productAmount, jdbcType=FLOAT} WHERE ID = #{id, jdbcType=INTEGER}
 	</update>
