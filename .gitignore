@@ -2,4 +2,5 @@
 .idea/
 ShiroTest.iml
 .DS_Store
-src/main/resource/database.properties
+src/main/resources/database.properties
+src/main/resources/log4j2-test.xml
