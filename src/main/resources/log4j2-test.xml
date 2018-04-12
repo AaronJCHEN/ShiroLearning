@@ -6,7 +6,7 @@
     <Appenders>
         <Console name="STDOUT" target="SYSTEM_OUT">
             <PatternLayout>
-                <Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Pattern>
+                <Pattern>%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n}</Pattern>
             </PatternLayout>
         </Console>
         <RollingFile name="RollingFile" fileName="C:/log/ShiroTest.log"

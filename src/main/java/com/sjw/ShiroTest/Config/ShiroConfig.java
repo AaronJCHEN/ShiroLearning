@@ -97,11 +97,11 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> filterChain = new HashMap<>();
-        filterChain.put("/ShiroTest/auth/*","anon");
-        filterChain.put("/ShiroTest/druid/*","authc,roles[MANAGER]");
-        filterChain.put("/ShiroTest/admin/*","authc,roles[MANAGER]");
-        filterChain.put("/ShiroTest/index/*","authc");
-        filterChain.put("/ShiroTest/product/*","authc");
+        filterChain.put("ShiroTest/auth/*","anon");
+        filterChain.put("ShiroTest/druid/*","authc,roles[MANAGER]");
+        filterChain.put("ShiroTest/admin/*","authc,roles[MANAGER]");
+        filterChain.put("ShiroTest/index/*","authc");
+        filterChain.put("ShiroTest/product/*","authc");
         //Need to add order to authc after test
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChain);
         return shiroFilterFactoryBean;
