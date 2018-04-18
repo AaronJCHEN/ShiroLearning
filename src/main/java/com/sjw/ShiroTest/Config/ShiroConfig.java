@@ -2,6 +2,7 @@ package com.sjw.ShiroTest.Config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.sjw.ShiroTest.Shiro.*;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
@@ -20,6 +21,7 @@ import org.apache.shiro.web.session.mgt.ServletContainerSessionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,15 +98,20 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean (DefaultSecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+        Map<String,Filter> filterMaps = new HashedMap();
+        filterMaps.put("AccessFilterForVue",new AccessFilterForVue());
+        shiroFilterFactoryBean.setFilters(filterMaps);
         Map<String, String> filterChain = new HashMap<>();
-        filterChain.put("ShiroTest/auth/*","anon");
-        filterChain.put("ShiroTest/druid/*","authc,roles[MANAGER]");
-        filterChain.put("ShiroTest/admin/*","authc,roles[MANAGER]");
-        filterChain.put("ShiroTest/index/*","authc");
-        filterChain.put("ShiroTest/product/*","authc");
+        filterChain.put("/ShiroTest/auth/*","anon");
+        filterChain.put("/ShiroTest/druid/*","AccessFilterForVue,roles[MANAGER]");
+        filterChain.put("/ShiroTest/admin/*","AccessFilterForVue,roles[MANAGER]");
+        filterChain.put("/ShiroTest/index/*","AccessFilterForVue");
+        filterChain.put("/ShiroTest/product/*","AccessFilterForVue");
         //Need to add order to authc after test
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChain);
         return shiroFilterFactoryBean;
     }
+
+
 
 }
