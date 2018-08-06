@@ -1,8 +1,5 @@
 package com.sjw.ShiroTest.Controller;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sjw.ShiroTest.Service.AuthService;
 import com.sjw.ShiroTest.Service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +32,7 @@ public class MainController {
 	}
 
 	@RequestMapping(value="/profile")
-	public List<Map> manageRoles(HttpServletRequest request) throws JsonProcessingException{
+	public List<Map> manageRoles(HttpServletRequest request){
 		HttpSession session = request.getSession();
 		List<String> role_list = authService.getRoleListService(session.getAttribute("username").toString());
 		List<Map> roleList = new ArrayList<>();
@@ -60,7 +57,7 @@ public class MainController {
 	}
 
 	@RequestMapping(value="/getSubMenu",method = RequestMethod.POST)
-	public List<Map> getSubMenu(HttpServletRequest request) throws JsonProcessingException {
+	public List<Map> getSubMenu(HttpServletRequest request){
 		int id_int = Integer.parseInt(request.getParameter("mainMenu"));
 		List<Map> subMenu= mainService.getSubMenuService(id_int);
 		return subMenu;

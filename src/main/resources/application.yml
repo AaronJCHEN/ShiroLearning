@@ -5,3 +5,11 @@ mybatis:
 server:
   session:
     timeout: 1800
+
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  rabbitmq:
+    username: guest
+    password: guest

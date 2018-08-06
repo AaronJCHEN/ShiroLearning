@@ -2,17 +2,12 @@ package com.sjw.ShiroTest.Controller;
 
 import java.util.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sjw.ShiroTest.Enhance.BrowseNumEnhance;
 import com.sjw.ShiroTest.Pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -51,7 +46,7 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/comments", method = RequestMethod.POST)
-	public List getCommentsByProduct(HttpServletRequest request) throws JsonProcessingException {
+	public List getCommentsByProduct(HttpServletRequest request){
 		int productId = Integer.parseInt(request.getParameter("productId"));
 		int pageNum = 1;
 		if(request.getParameter("pageNum") != null)

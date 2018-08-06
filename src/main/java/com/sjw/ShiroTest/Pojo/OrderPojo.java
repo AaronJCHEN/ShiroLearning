@@ -3,6 +3,7 @@ package com.sjw.ShiroTest.Pojo;
 import org.apache.ibatis.type.Alias;
 import org.springframework.format.datetime.DateFormatter;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +11,8 @@ import java.util.Locale;
 import java.util.Map;
 
 @Alias(value = "Order")
-public class OrderPojo {
+public class OrderPojo implements Serializable {
+    private static final long serialVersionUID = -333488318903459738L;
     private int id;
     private int userId = 0;
     private String orderNum;
@@ -18,6 +20,7 @@ public class OrderPojo {
     private List<ProductPojo> productList;
     private double price;
     private String productIdList;
+    private boolean isSale;
 
     public OrderPojo() {
         Date date = new Date(System.currentTimeMillis());
@@ -75,6 +78,14 @@ public class OrderPojo {
 
     public void setOrderNum(String orderNum) {
         this.orderNum = orderNum;
+    }
+
+    public boolean isSale() {
+        return isSale;
+    }
+
+    public void setSale(boolean sale) {
+        isSale = sale;
     }
 
     public String getProductIdList(){

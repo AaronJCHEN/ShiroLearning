@@ -19,4 +19,10 @@ public class OrderController {
         ResponsePojo response = orderService.addOrderInfoService(orderPojo);
         return response;
     }
+
+    @RequestMapping(value = "/onsale",method = RequestMethod.POST)
+    public ResponsePojo submitSalesInfo(@RequestBody OrderPojo orderPojo){
+        ResponsePojo response = orderService.addSaleInfoService(orderPojo);
+        return response;
+    }
 }

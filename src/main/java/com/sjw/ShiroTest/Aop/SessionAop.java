@@ -15,6 +15,6 @@ public class SessionAop {
 
     @Before(POINT_CUT)
     public void sessionSaveAop(JoinPoint joinPoint) {
-        logger.info("Before the RedisOperationsSessionRepository save method");
+        logger.debug("Before the RedisOperationsSessionRepository save method");
     }
 }
